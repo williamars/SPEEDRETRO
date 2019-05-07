@@ -9,7 +9,7 @@ from os import path
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
-banana 
+
 # Dados gerais do jogo.
 WIDTH = 480 # Largura da tela
 HEIGHT = 600 # Altura da tela
@@ -153,7 +153,6 @@ pygame.display.set_caption("Navinha")
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
-maça
 
 # Carrega o fundo do jogo
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
