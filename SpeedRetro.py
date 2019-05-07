@@ -9,15 +9,11 @@ from os import path
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> 4fb6051f7ff5e3f1284d4be67ac223ca495cbcf8
 # Dados gerais do jogo.
 WIDTH = 480 # Largura da tela
 HEIGHT = 600 # Altura da tela
-FPS = 60 # Frames por segundo
+FPS = 100 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -54,7 +50,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = HEIGHT - 10
         
         # Velocidade da nave
-        self.speedx = 0
+        self.speedx = 100000
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
