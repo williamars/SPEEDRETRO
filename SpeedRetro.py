@@ -13,7 +13,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 680 # Largura da tela
 HEIGHT = 600 # Altura da tela
-FPS = 60 # Frames por segundo
+FPS = 100 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -49,8 +49,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 100
         
+<<<<<<< HEAD
         # Velocidade do carrinho
         self.speedx = 0
+=======
+        # Velocidade da nave
+        self.speedx = 100000
+>>>>>>> 11b52e9d4803cd6dee1e072282daf974b8ba0da9
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
