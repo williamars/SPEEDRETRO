@@ -11,7 +11,7 @@ img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
 
 # Dados gerais do jogo.
-WIDTH = 480 # Largura da tela
+WIDTH = 680 # Largura da tela
 HEIGHT = 600 # Altura da tela
 FPS = 60 # Frames por segundo
 
@@ -23,7 +23,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-# Classe Jogador que representa a nave
+# Classe Jogador que representa o carrinho
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -33,33 +33,33 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "playerShip1_orange.png")).convert()
-        self.image = player_img
+        player_img = pygame.image.load(path.join(img_dir, "Black_viper.png")).convert()
+        self.image = player_img                        # Mudar a imagem (colocar o carrinho)
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image = pygame.transform.scale(player_img, (48, 68))
         
         # Deixando transparente.
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(WHITE)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
         
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 10
+        self.rect.bottom = HEIGHT - 100
         
-        # Velocidade da nave
+        # Velocidade do carrinho
         self.speedx = 0
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
     
-    # Metodo que atualiza a posição da navinha
+    # Metodo que atualiza a posição do carrinho
     def update(self):
         self.rect.x += self.speedx
         
-        # Mantem dentro da tela
+        # Mantém dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
@@ -91,7 +91,7 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
-        self.speedx = random.randrange(-3, 3)
+        self.speedx = 0
         self.speedy = random.randrange(2, 9)
         
         # Melhora a colisão estabelecendo um raio de um circulo
@@ -99,7 +99,7 @@ class Mob(pygame.sprite.Sprite):
         
     # Metodo que atualiza a posição da navinha
     def update(self):
-        self.rect.x += self.speedx
+        self.rect.x += 0
         self.rect.y += self.speedy
         
         # Se o meteoro passar do final da tela, volta para cima
@@ -149,13 +149,13 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
-pygame.display.set_caption("Navinha")
+pygame.display.set_caption("Speed Retro")
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
+background = pygame.image.load(path.join(img_dir, 'Background.jpeg')).convert()
 background_rect = background.get_rect()
 
 # Carrega os sons do jogo
