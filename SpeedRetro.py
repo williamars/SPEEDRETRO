@@ -153,6 +153,7 @@ pygame.display.set_caption("Navinha")
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
+maça
 
 # Carrega o fundo do jogo
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
