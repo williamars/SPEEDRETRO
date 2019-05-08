@@ -13,7 +13,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 680 # Largura da tela
 HEIGHT = 600 # Altura da tela
-FPS = 100 # Frames por segundo
+FPS = 70 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 100000
          
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 25
+        self.radius = 7
     
     # Metodo que atualiza a posição do carrinho
     def update(self):
@@ -68,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
                     
-# Classe Mob que representa os meteoros
+# Classe Mob que representa os carrinhos
 class Mob(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -78,13 +78,13 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
+        mob_img = pygame.image.load(path.join(img_dir, "Police.png")).convert()
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(mob_img, (50, 38))
         
         # Deixando transparente.
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(WHITE)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
