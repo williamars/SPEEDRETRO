@@ -11,7 +11,7 @@ img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
 
 # Dados gerais do jogo.
-WIDTH = 625 # Largura da tela
+WIDTH = 600 # Largura da tela
 HEIGHT = 600 # Altura da tela
 FPS = 80 # Frames por segundo
 
@@ -63,10 +63,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         
         # Mantém dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        if self.rect.right > 520:
+            self.rect.right = 520
+        if self.rect.left < 75:
+            self.rect.left = 75
                     
 # Classe Mob que representa os carrinhos
 class Mob(pygame.sprite.Sprite):
@@ -78,13 +78,13 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "Carrinho.png")).convert()
+        mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(mob_img, (50, 38))
         
         # Deixando transparente.
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(WHITE)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -104,6 +104,11 @@ class Mob(pygame.sprite.Sprite):
     def update(self):
         self.rect.x += 0
         self.rect.y += self.speedy
+        
+        if self.rect.right > 520:
+            self.rect.right = 520
+        if self.rect.left < 75:
+            self.rect.left = 75
         
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
