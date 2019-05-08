@@ -49,14 +49,12 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 100
         
-<<<<<<< HEAD
+
         # Velocidade do carrinho
         self.speedx = 0
-=======
         # Velocidade da nave
         self.speedx = 100000
->>>>>>> 11b52e9d4803cd6dee1e072282daf974b8ba0da9
-        
+         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
     
@@ -211,9 +209,9 @@ try:
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
-                    player.speedx = -8
+                    player.speedx = -5
                 if event.key == pygame.K_RIGHT:
-                    player.speedx = 8
+                    player.speedx = 5
                 # Se for um espaço atira!
                 if event.key == pygame.K_SPACE:
                     bullet = Bullet(player.rect.centerx, player.rect.top)
