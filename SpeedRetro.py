@@ -11,9 +11,9 @@ img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
 
 # Dados gerais do jogo.
-WIDTH = 680 # Largura da tela
+WIDTH = 625 # Largura da tela
 HEIGHT = 600 # Altura da tela
-FPS = 70 # Frames por segundo
+FPS = 80 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Black_viper.png")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "Police.png")).convert()
         self.image = player_img                        # Mudar a imagem (colocar o carrinho)
         
         # Diminuindo o tamanho da imagem.
@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 100000
          
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 7
+        self.radius = 15
     
     # Metodo que atualiza a posição do carrinho
     def update(self):
@@ -78,13 +78,13 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "Police.png")).convert()
+        mob_img = pygame.image.load(path.join(img_dir, "Carrinho.png")).convert()
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(mob_img, (50, 38))
         
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -152,13 +152,13 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
-pygame.display.set_caption("Speed Retro")
+pygame.display.set_caption("SpeedRetro")
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, 'Background.jpeg')).convert()
+background = pygame.image.load(path.join(img_dir, 'screen-3.jpg')).convert()
 background_rect = background.get_rect()
 
 # Carrega os sons do jogo
