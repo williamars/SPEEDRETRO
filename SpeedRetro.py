@@ -167,8 +167,8 @@ background = pygame.image.load(path.join(img_dir, 'screen-3.jpg')).convert()
 background_rect = background.get_rect()
 
 # Carrega os sons do jogo
-pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.load(path.join(snd_dir, 'Grandefamilia.mp3'))
+pygame.mixer.music.set_volume(2)
 boom_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
 destroy_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl6.wav'))
 pew_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
