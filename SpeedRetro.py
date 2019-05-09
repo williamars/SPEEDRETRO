@@ -163,7 +163,7 @@ pygame.display.set_caption("SpeedRetro")
 clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, 'screen-3.jpg')).convert()
+background = pygame.image.load(path.join(img_dir, 'screen-3.png')).convert()
 background_rect = background.get_rect()
 
 # Carrega os sons do jogo
