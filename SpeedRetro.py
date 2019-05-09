@@ -175,6 +175,7 @@ class Background():
     def render(self):
         pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
         pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2))        
+
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -212,7 +213,7 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
-background=pygame.sprite.Group()
+background=pygame.Surface((600, 600))
 
 # Cria 8 meteoros e adiciona no grupo meteoros
 for i in range(10):
