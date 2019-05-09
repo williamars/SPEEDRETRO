@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Police.png")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
         self.image = player_img                        # Mudar a imagem (colocar o carrinho)
         
         # Diminuindo o tamanho da imagem.
@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 100000
          
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 15
+        self.radius = 9
     
     # Metodo que atualiza a posição do carrinho
     def update(self):
@@ -81,7 +81,7 @@ class Mob(pygame.sprite.Sprite):
         mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (50, 38))
+        self.image = pygame.transform.scale(mob_img, (48, 38))
         
         # Deixando transparente.
         self.image.set_colorkey(WHITE)
@@ -107,8 +107,8 @@ class Mob(pygame.sprite.Sprite):
         
         if self.rect.right > 520:
             self.rect.right = 520
-        if self.rect.left < 75:
-            self.rect.left = 75
+        if self.rect.left < 90:
+            self.rect.left = 90
         
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
@@ -168,7 +168,7 @@ background_rect = background.get_rect()
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'Grandefamilia.mp3'))
-pygame.mixer.music.set_volume(2)
+pygame.mixer.music.set_volume(0) #Som da música de cima
 boom_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
 destroy_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl6.wav'))
 pew_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
@@ -187,7 +187,7 @@ mobs = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 
 # Cria 8 meteoros e adiciona no grupo meteoros
-for i in range(8):
+for i in range(10):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
