@@ -150,33 +150,33 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
   
 # Classe que representa o cenário          
-class Background():
-    def __init__(self):
-        background_img= pygame.image.load(path.join(img_dir, "screen-3.png")).convert()
-        self.image = background_img
-        
-        self.rect=self.image.get.rect()
-        
-        self.image = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
-        
-        self.rect.y1 = 0
-        self.rect.x1 = 0
-
-        self.rect.y2 = self.rect.HEIGHT
-        self.rect.x2 = 0
-
-        self.movingUpSpeed = 5
-    def update(self):
-        self.rect.y1 -= self.movingUpSpeed
-        self.rect.y2 -= self.movingUpSpeed
-        if self.rect.y1 <= -self.rect.HEIGHT:
-            self.rect.y2 = self.rect.HEIGHT
-        if self.rect.y1 <= -self.rect.HEIGHT:
-            self.rect.y2 = self.rect.HEIGHT 
-    def render(self):
-        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
-        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2)) 
-        
+#class Background():
+ #   def __init__(self):
+  #      background_img= pygame.image.load(path.join(img_dir, "screen-3.png")).convert()
+   #     self.image = background_img
+    #    
+#        self.rect=self.image.get.rect()
+#        
+#        self.image = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
+#        
+#        self.rect.y1 = 0
+#        self.rect.x1 = 0
+#
+#        self.rect.y2 = self.rect.HEIGHT
+#        self.rect.x2 = 0
+#
+#        self.movingUpSpeed = 5
+#    def update(self):
+#        self.rect.y1 -= self.movingUpSpeed
+#        self.rect.y2 -= self.movingUpSpeed
+#        if self.rect.y1 <= -self.rect.HEIGHT:
+#            self.rect.y2 = self.rect.HEIGHT
+#        if self.rect.y1 <= -self.rect.HEIGHT:
+#            self.rect.y2 = self.rect.HEIGHT 
+#    def render(self):
+#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
+#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2)) 
+#        
 
 # Inicialização do Pygame.
 pygame.init()
@@ -215,8 +215,10 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
-background=pygame.Surface((600, 600))
+#background=pygame.Surface((600, 600))
 
+x = 0
+y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
 for i in range(10):
     m = Mob()
@@ -286,7 +288,8 @@ try:
             running = False
     
         # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
+        screen.fill(BLACK)        
+        background_rect.y += 10
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
         
