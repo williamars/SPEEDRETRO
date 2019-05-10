@@ -46,8 +46,13 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Centraliza embaixo da tela.
+<<<<<<< HEAD
         self.rect.centerx = 280
         self.rect.bottom = HEIGHT - 100
+=======
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = HEIGHT - 200
+>>>>>>> 033e2c1edd14059d070c9bd154b1095d2911d665
         
         # Velocidade do carrinho
         self.speedx = 0
@@ -262,6 +267,9 @@ try:
             time.sleep(1) # Precisa esperar senão fecha
             
             running = False
+            
+        #Verifica se encosta na parede
+        if 
     
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
@@ -281,3 +289,5 @@ try:
 finally:
     
     pygame.quit()
+    
+    
