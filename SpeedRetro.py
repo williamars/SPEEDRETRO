@@ -13,7 +13,11 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
+<<<<<<< HEAD
 FPS = 70 # Frames por segundo
+=======
+FPS = 80 # Frames por segundo
+>>>>>>> 6cc19987c416e8e8898cc40c2a558d507ba13591
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -89,7 +93,9 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        self.rect.x = random.randrange(WIDTH - self.rect.width)
+        posicao_inicial=[100,195,280,365,455]
+        i=random.randrange(0,4)
+        self.rect.x = posicao_inicial[i]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
@@ -108,6 +114,15 @@ class Mob(pygame.sprite.Sprite):
             self.rect.right = 520
         if self.rect.left < 90:
             self.rect.left = 90
+        
+        # Se o meteoro passar do final da tela, volta para cima
+        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
+            posicao_inicial=[100,195,280,365,455]
+            i=random.randrange(0,4)
+            self.rect.x = posicao_inicial[i]
+            self.rect.y = random.randrange(-100, -40)
+            self.speedx = random.randrange(-3, 3)
+            self.speedy = random.randrange(2, 9)
         
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
@@ -148,34 +163,6 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
   
-# Classe que representa o cenário          
-#class Background():
- #   def __init__(self):
-  #      background_img= pygame.image.load(path.join(img_dir, "screen-3.png")).convert()
-   #     self.image = background_img
-    #    
-#        self.rect=self.image.get.rect()
-#        
-#        self.image = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
-#        
-#        self.rect.y1 = 0
-#        self.rect.x1 = 0
-#
-#        self.rect.y2 = self.rect.HEIGHT
-#        self.rect.x2 = 0
-#
-#        self.movingUpSpeed = 5
-#    def update(self):
-#        self.rect.y1 -= self.movingUpSpeed
-#        self.rect.y2 -= self.movingUpSpeed
-#        if self.rect.y1 <= -self.rect.HEIGHT:
-#            self.rect.y2 = self.rect.HEIGHT
-#        if self.rect.y1 <= -self.rect.HEIGHT:
-#            self.rect.y2 = self.rect.HEIGHT 
-#    def render(self):
-#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
-#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2)) 
-#        
 
 # Inicialização do Pygame.
 pygame.init()
@@ -295,6 +282,14 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
+<<<<<<< HEAD
+        if background_rect.y>=HEIGHT:
+            background_rect.y=0
+            background_rect_cima.y=-HEIGHT
+        
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+=======
 
         if background_rect.y>=HEIGHT:
             background_rect.y=0
@@ -304,6 +299,7 @@ try:
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
 
+>>>>>>> 0364ff2cc7c0761c5e5df45648e57359b06e1788
         
 finally:
     
