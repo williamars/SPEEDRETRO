@@ -77,7 +77,7 @@ class Mob(pygame.sprite.Sprite):
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
-        # Carregando a imagem de fundo.
+        # Carregando a imagem.
         mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
         
         # Diminuindo o tamanho da imagem.
@@ -148,10 +148,11 @@ class Bullet(pygame.sprite.Sprite):
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.bottom < 0:
             self.kill()
-            
+  
+# Classe que representa o cenário          
 class Background():
     def __init__(self):
-        background_img= pygame.image.load(path.join(img_dir, "screen-3")).convert()
+        background_img= pygame.image.load(path.join(img_dir, "screen-3.png")).convert()
         self.image = background_img
         
         self.rect=self.image.get.rect()
@@ -174,7 +175,8 @@ class Background():
             self.rect.y2 = self.rect.HEIGHT 
     def render(self):
         pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
-        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2))        
+        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2)) 
+        
 
 # Inicialização do Pygame.
 pygame.init()
@@ -194,8 +196,8 @@ background = pygame.image.load(path.join(img_dir, 'screen-3.png')).convert()
 background_rect = background.get_rect()
 
 # Carrega os sons do jogo
-pygame.mixer.music.load(path.join(snd_dir, 'Grandefamilia.mp3'))
-pygame.mixer.music.set_volume(0) #Som da música de cima
+pygame.mixer.music.load(path.join(snd_dir, 'joguito.mp3'))
+pygame.mixer.music.set_volume(1) #Som da música de cima
 boom_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
 destroy_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl6.wav'))
 pew_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
