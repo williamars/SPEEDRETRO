@@ -13,11 +13,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
-<<<<<<< HEAD
 FPS = 70 # Frames por segundo
-=======
-FPS = 80 # Frames por segundo
->>>>>>> 6cc19987c416e8e8898cc40c2a558d507ba13591
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -84,7 +80,7 @@ class Mob(pygame.sprite.Sprite):
         mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (48, 38))
+        self.image = pygame.transform.scale(mob_img, (48, 68))
         
         # Deixando transparente.
         self.image.set_colorkey(WHITE)
@@ -282,24 +278,13 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
-<<<<<<< HEAD
+
         if background_rect.y>=HEIGHT:
             background_rect.y=0
             background_rect_cima.y=-HEIGHT
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
-=======
-
-        if background_rect.y>=HEIGHT:
-            background_rect.y=0
-            background_rect_cima.y=-HEIGHT
-
-        
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-
->>>>>>> 0364ff2cc7c0761c5e5df45648e57359b06e1788
         
 finally:
     
