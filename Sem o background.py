@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         
         # Carregando a imagem de fundo.
         player_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
-        self.image = player_img
+        self.image = player_img                        # Mudar a imagem (colocar o carrinho)
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (48, 68))
@@ -49,9 +49,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 100
         
+
         # Velocidade do carrinho
         self.speedx = 0
-        # Velocidade do carrinho
+        # Velocidade da nave
         self.speedx = 100000
          
         # Melhora a colisão estabelecendo um raio de um circulo
@@ -148,34 +149,50 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
   
-# Classe que representa o cenário          
-#class Background():
- #   def __init__(self):
-  #      background_img= pygame.image.load(path.join(img_dir, "screen-3.png")).convert()
-   #     self.image = background_img
-    #    
-#        self.rect=self.image.get.rect()
-#        
-#        self.image = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
-#        
-#        self.rect.y1 = 0
-#        self.rect.x1 = 0
-#
-#        self.rect.y2 = self.rect.HEIGHT
-#        self.rect.x2 = 0
-#
-#        self.movingUpSpeed = 5
-#    def update(self):
-#        self.rect.y1 -= self.movingUpSpeed
-#        self.rect.y2 -= self.movingUpSpeed
-#        if self.rect.y1 <= -self.rect.HEIGHT:
-#            self.rect.y2 = self.rect.HEIGHT
-#        if self.rect.y1 <= -self.rect.HEIGHT:
-#            self.rect.y2 = self.rect.HEIGHT 
-#    def render(self):
-#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
-#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2)) 
-#        
+#########################################################    
+class Background():
+    def __init__(self):
+        self.colour = pygame.Color("black")
+
+    def setTiles(self, tiles):
+        if type(tiles) is str:
+            self.tiles = [[loadImage(tiles)]]
+        elif type(tiles[0]) is str:
+            self.tiles = [[loadImage(i) for i in tiles]]
+        else:
+            self.tiles = [[loadImage(i) for i in row] for row in tiles]
+        self.stagePosX = 0
+        self.stagePosY = 0
+        self.tileWidth = self.tiles[0][0].get_width()
+        self.tileHeight = self.tiles[0][0].get_height()
+        screen.blit(self.tiles[0][0], [0, 0])
+        self.surface = screen.copy()
+
+    def scroll(self, x, y):
+        self.stagePosX -= x
+        self.stagePosY -= y
+        col = (self.stagePosX % (self.tileWidth * len(self.tiles[0]))) // self.tileWidth
+        xOff = (0 - self.stagePosX % self.tileWidth)
+        row = (self.stagePosY % (self.tileHeight * len(self.tiles))) // self.tileHeight
+        yOff = (0 - self.stagePosY % self.tileHeight)
+
+        col2 = ((self.stagePosX + self.tileWidth) % (self.tileWidth * len(self.tiles[0]))) // self.tileWidth
+        row2 = ((self.stagePosY + self.tileHeight) % (self.tileHeight * len(self.tiles))) // self.tileHeight
+        screen.blit(self.tiles[row][col], [xOff, yOff])
+        screen.blit(self.tiles[row][col2], [xOff + self.tileWidth, yOff])
+        screen.blit(self.tiles[row2][col], [xOff, yOff + self.tileHeight])
+        screen.blit(self.tiles[row2][col2], [xOff + self.tileWidth, yOff + self.tileHeight])
+
+        self.surface = screen.copy()
+
+            
+            
+            
+            
+            
+            
+#########################################################
+        
 
 # Inicialização do Pygame.
 pygame.init()
@@ -185,7 +202,7 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
-pygame.display.set_caption("SpeedRetro")
+pygame.display.set_caption("Speed    Retro")
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
@@ -214,10 +231,6 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
-#background=pygame.Surface((600, 600))
-
-x = 0
-y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
 for i in range(10):
     m = Mob()
@@ -268,16 +281,16 @@ try:
         # Atualiza a acao de cada sprite.
         all_sprites.update()
         
-        # Verifica se houve colisão entre tiro e carrinhos
+        # Verifica se houve colisão entre tiro e meteoro
         hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
         for hit in hits: # Pode haver mais de um
-            # O carrinho é destruido e precisa ser recriado
+            # O meteoro e destruido e precisa ser recriado
             destroy_sound.play()
             m = Mob() 
             all_sprites.add(m)
             mobs.add(m)
         
-        # Verifica se houve colisão entre os carrinhos
+        # Verifica se houve colisão entre nave e meteoro
         hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
         if hits:
             # Toca o som da colisão
@@ -287,8 +300,7 @@ try:
             running = False
     
         # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)        
-        background_rect.y += 10
+        screen.fill(BLACK)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
         
