@@ -2,141 +2,20 @@
 
 # Importando as bibliotecas necessárias.
 import pygame
-import random
 import time
 from os import path
 
-from init import img_dir, snd_dir, BLACK, WHITE, WIDTH, HEIGHT, FPS
+# Importando as informações iniciais
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS
 
-# Classe Jogador que representa o carrinho
-class Player(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
-        self.image = player_img
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (58, 75))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Centraliza embaixo da tela.
-        self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 200
-        
-        # Velocidade do carrinho
-        self.speedx = 0
-                 
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 11
-    
-    # Metodo que atualiza a posição do carrinho
-    def update(self):
-        self.rect.x += self.speedx
-#        
-#        # Mantém dentro da tela
-        if self.rect.right > 520:
-            self.rect.right = 520
-        if self.rect.left < 83:
-            self.rect.left = 83
-                    
-# Classe Mob que representa os carrinhos
-class Mob(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem.
-        mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (48, 68))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais dos carrinhos
-        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer carrinhos
-        self.rect.x = posicao_inicial[i]
-        # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-100, -40)
-        # Sorteia uma velocidade inicial
-        self.speedx = 0
-        self.speedy = 12
-        
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = int(self.rect.width * .85 / 2)
-        
-    # Metodo que atualiza a posição da navinha
-    def update(self):
-        self.rect.x += 0
-        self.rect.y += self.speedy
-        
-        if self.rect.right > 520:
-            self.rect.right = 520
-        if self.rect.left < 90:
-            self.rect.left = 90
-        
-        # Se o meteoro passar do final da tela, volta para cima
-        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            posicao_inicial=[100,195,280,365,455]
-            i=random.randrange(0,5)
-            self.rect.x = posicao_inicial[i]
-            self.rect.y = random.randrange(-100, -40)
-            self.speedx = random.randrange(-3, 3)
-            self.speedy = 12       
-      
+# Importando arquivo do carrinho
+from player import Player
+
+# Importando arquivo dos outros carrinhos
+from mob import Mob      
             
-# Classe Bullet que representa os tiros
-class Bullet(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self, x, y):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        bullet_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-        self.image = bullet_img
-        
-        # Deixando transparente.
-        self.image.set_colorkey(BLACK)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.bottom = y
-        self.rect.centerx = x
-        self.speedy = -10
-
-    # Metodo que atualiza a posição da navinha
-    def update(self):
-        self.rect.y += self.speedy
-        
-        # Se o tiro passar do inicio da tela, morre.
-        if self.rect.bottom < 0:
-            self.kill()
-  
-
+# Importando arquivo dos tiros
+from bullet import Bullet
 
 # Inicialização do Pygame.
 pygame.init()
