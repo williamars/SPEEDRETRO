@@ -12,7 +12,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
-HEIGHT = 600 # Altura da tela
+HEIGHT = 800 # Altura da tela
 FPS = 80 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -296,9 +296,15 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
+        if background_rect.y>HEIGHT*2:
+            background_rect.y=1000
+            background_rect_cima.y-=1000
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
+#        if background_rect.y>HEIGHT*2:
+#            background_rect.y=800
+#            background_rect_cima.y-=800
         
 finally:
     
