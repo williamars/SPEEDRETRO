@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (48, 68))
+        self.image = pygame.transform.scale(player_img, (58, 75))
         
         # Deixando transparente.
         self.image.set_colorkey(WHITE)
@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 100000
          
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 9
+        self.radius = 11
     
     # Metodo que atualiza a posição do carrinho
     def update(self):
@@ -64,8 +64,8 @@ class Player(pygame.sprite.Sprite):
         # Mantém dentro da tela
         if self.rect.right > 520:
             self.rect.right = 520
-        if self.rect.left < 75:
-            self.rect.left = 75
+        if self.rect.left < 83:
+            self.rect.left = 83
                     
 # Classe Mob que representa os carrinhos
 class Mob(pygame.sprite.Sprite):
@@ -89,14 +89,14 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455]
-        i=random.randrange(0,4)
+        posicao_inicial=[100,195,280,365,455] # Posições iniciais dos carrinhos
+        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer carrinhos
         self.rect.x = posicao_inicial[i]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-        self.speedy = random.randrange(2, 9)
+        self.speedy = 12
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -114,18 +114,13 @@ class Mob(pygame.sprite.Sprite):
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
             posicao_inicial=[100,195,280,365,455]
-            i=random.randrange(0,4)
+            i=random.randrange(0,5)
             self.rect.x = posicao_inicial[i]
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
-            self.speedy = random.randrange(2, 9)
+            self.speedy = 12
         
-        # Se o meteoro passar do final da tela, volta para cima
-        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            self.rect.x = random.randrange(WIDTH - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
-            self.speedx = random.randrange(-3, 3)
-            self.speedy = random.randrange(2, 9)
+      
             
 # Classe Bullet que representa os tiros
 class Bullet(pygame.sprite.Sprite):
@@ -199,12 +194,10 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
-#background=pygame.Surface((600, 600))
-
 x = 0
 y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
-for i in range(10):
+for i in range(6):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
