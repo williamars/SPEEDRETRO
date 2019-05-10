@@ -96,11 +96,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-<<<<<<< HEAD
-        self.speedy = 10
-=======
         self.speedy = 12
->>>>>>> 586b2f7fa8022cdb4e837bbdb721423b61e217fb
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -122,12 +118,7 @@ class Mob(pygame.sprite.Sprite):
             self.rect.x = posicao_inicial[i]
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
-<<<<<<< HEAD
-            self.speedy = 10
-=======
-            self.speedy = 12
->>>>>>> 586b2f7fa8022cdb4e837bbdb721423b61e217fb
-        
+            self.speedy = 12       
       
             
 # Classe Bullet que representa os tiros
@@ -279,10 +270,6 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
-<<<<<<< HEAD
-
-=======
->>>>>>> 586b2f7fa8022cdb4e837bbdb721423b61e217fb
 
         if background_rect.y>=HEIGHT:
             background_rect.y=0
@@ -290,10 +277,6 @@ try:
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
-<<<<<<< HEAD
-
-=======
->>>>>>> 586b2f7fa8022cdb4e837bbdb721423b61e217fb
         
 finally:
     
