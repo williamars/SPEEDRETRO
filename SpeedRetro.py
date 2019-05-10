@@ -12,13 +12,8 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
-<<<<<<< HEAD
-HEIGHT = 600 # Altura da tela
-FPS = 60 # Frames por segundo
-=======
 HEIGHT = 800 # Altura da tela
 FPS = 80 # Frames por segundo
->>>>>>> 5e43676a1566b8796f99315cf2a2438f547facc3
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -57,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         # Velocidade do carrinho
         self.speedx = 0
         # Velocidade do carrinho
-        self.speedx = 10000
+        self.speedx = 100000
          
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 9
@@ -152,7 +147,35 @@ class Bullet(pygame.sprite.Sprite):
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.bottom < 0:
             self.kill()
-        
+  
+# Classe que representa o cenário          
+#class Background():
+ #   def __init__(self):
+  #      background_img= pygame.image.load(path.join(img_dir, "screen-3.png")).convert()
+   #     self.image = background_img
+    #    
+#        self.rect=self.image.get.rect()
+#        
+#        self.image = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
+#        
+#        self.rect.y1 = 0
+#        self.rect.x1 = 0
+#
+#        self.rect.y2 = self.rect.HEIGHT
+#        self.rect.x2 = 0
+#
+#        self.movingUpSpeed = 5
+#    def update(self):
+#        self.rect.y1 -= self.movingUpSpeed
+#        self.rect.y2 -= self.movingUpSpeed
+#        if self.rect.y1 <= -self.rect.HEIGHT:
+#            self.rect.y2 = self.rect.HEIGHT
+#        if self.rect.y1 <= -self.rect.HEIGHT:
+#            self.rect.y2 = self.rect.HEIGHT 
+#    def render(self):
+#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
+#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2)) 
+#        
 
 # Inicialização do Pygame.
 pygame.init()
@@ -193,10 +216,12 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
+#background=pygame.Surface((600, 600))
+
 x = 0
 y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
-for i in range(100):
+for i in range(10):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
