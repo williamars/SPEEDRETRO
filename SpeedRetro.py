@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Centraliza embaixo da tela.
-        self.rect.centerx = WIDTH / 2
+        self.rect.centerx = 280
         self.rect.bottom = HEIGHT - 100
         
         # Velocidade do carrinho
