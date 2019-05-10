@@ -13,7 +13,11 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
+<<<<<<< HEAD
 FPS = 80 # Frames por segundo
+=======
+FPS = 70 # Frames por segundo
+>>>>>>> 64a1ed21da419dec77f8267c427b97e251ab6772
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -52,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         # Velocidade do carrinho
         self.speedx = 0
         # Velocidade do carrinho
-        self.speedx = 100000
+        self.speedx = 10000
          
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 9
@@ -147,35 +151,7 @@ class Bullet(pygame.sprite.Sprite):
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.bottom < 0:
             self.kill()
-  
-# Classe que representa o cenário          
-#class Background():
- #   def __init__(self):
-  #      background_img= pygame.image.load(path.join(img_dir, "screen-3.png")).convert()
-   #     self.image = background_img
-    #    
-#        self.rect=self.image.get.rect()
-#        
-#        self.image = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
-#        
-#        self.rect.y1 = 0
-#        self.rect.x1 = 0
-#
-#        self.rect.y2 = self.rect.HEIGHT
-#        self.rect.x2 = 0
-#
-#        self.movingUpSpeed = 5
-#    def update(self):
-#        self.rect.y1 -= self.movingUpSpeed
-#        self.rect.y2 -= self.movingUpSpeed
-#        if self.rect.y1 <= -self.rect.HEIGHT:
-#            self.rect.y2 = self.rect.HEIGHT
-#        if self.rect.y1 <= -self.rect.HEIGHT:
-#            self.rect.y2 = self.rect.HEIGHT 
-#    def render(self):
-#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x1, self.rect.y1))
-#        pygame.display.set_mode(WIDTH,HEIGHT).blit(self.image, (self.rect.x2, self.rect.y2)) 
-#        
+        
 
 # Inicialização do Pygame.
 pygame.init()
@@ -194,7 +170,7 @@ clock = pygame.time.Clock()
 background = pygame.image.load(path.join(img_dir, 'screen-3.png')).convert()
 background_rect = background.get_rect()
 background_rect_cima = background.get_rect()
-background_rect_cima.y -= HEIGHT
+background_rect_cima.y = -HEIGHT
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'joguito.mp3'))
@@ -216,12 +192,10 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
-#background=pygame.Surface((600, 600))
-
 x = 0
 y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
-for i in range(10):
+for i in range(100):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -295,9 +269,21 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
+<<<<<<< HEAD
+        if background_rect.y > HEIGHT*2:
+            background_rect.y = 800
+            background_rect_cima.y -= 800
+=======
+        if background_rect.y>=HEIGHT:
+            background_rect.y=0
+            background_rect_cima.y=-HEIGHT
+>>>>>>> 3a871d30780bd0ce3b3804f9f4395d43b6eb0a17
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
+#        if background_rect.y>HEIGHT*2:
+#            background_rect.y=800
+#            background_rect_cima.y-=800
         
 finally:
     
