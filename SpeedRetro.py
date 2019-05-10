@@ -166,7 +166,7 @@ clock = pygame.time.Clock()
 background = pygame.image.load(path.join(img_dir, 'screen-3.png')).convert()
 background_rect = background.get_rect()
 background_rect_cima = background.get_rect()
-background_rect_cima.y -= HEIGHT
+background_rect_cima.y = -HEIGHT
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'joguito.mp3'))
@@ -191,7 +191,7 @@ bullets = pygame.sprite.Group()
 x = 0
 y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
-for i in range(10):
+for i in range(100):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -265,9 +265,15 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
+<<<<<<< HEAD
         if background_rect.y > HEIGHT*2:
             background_rect.y = 800
             background_rect_cima.y -= 800
+=======
+        if background_rect.y>=HEIGHT:
+            background_rect.y=0
+            background_rect_cima.y=-HEIGHT
+>>>>>>> 3a871d30780bd0ce3b3804f9f4395d43b6eb0a17
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
