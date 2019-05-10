@@ -13,14 +13,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
-<<<<<<< HEAD
-FPS = 80 # Frames por segundo
-<<<<<<< HEAD
-=======
-=======
 FPS = 70 # Frames por segundo
->>>>>>> 64a1ed21da419dec77f8267c427b97e251ab6772
->>>>>>> 5bc501c9bf11c2f68186b33102705970baf56c74
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
