@@ -96,7 +96,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-        self.speedy = random.randrange(2, 9)
+        self.speedy = 10
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -118,7 +118,7 @@ class Mob(pygame.sprite.Sprite):
             self.rect.x = posicao_inicial[i]
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
-            self.speedy = random.randrange(2, 9)
+            self.speedy = 10
         
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
@@ -278,14 +278,7 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
-<<<<<<< HEAD
-        if background_rect.y>=HEIGHT:
-            background_rect.y=0
-            background_rect_cima.y=-HEIGHT
-        
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-=======
+
 
         if background_rect.y>=HEIGHT:
             background_rect.y=0
@@ -295,7 +288,6 @@ try:
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
 
->>>>>>> 0364ff2cc7c0761c5e5df45648e57359b06e1788
         
 finally:
     
