@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Importando as bibliotecas necessárias.
 import pygame
 import time
 from os import path
