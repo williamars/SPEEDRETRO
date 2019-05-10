@@ -13,11 +13,19 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
+<<<<<<< HEAD
 #<<<<<<< HEAD
 FPS = 80 # Frames por segundo
 #=======
 FPS = 70 # Frames por segundo
 #>>>>>>> 64a1ed21da419dec77f8267c427b97e251ab6772
+=======
+<<<<<<< HEAD
+FPS = 70 # Frames por segundo
+=======
+FPS = 80 # Frames por segundo
+>>>>>>> 6cc19987c416e8e8898cc40c2a558d507ba13591
+>>>>>>> db30e10e98c390f8da56940c8f73723a0bea8e32
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -56,7 +64,7 @@ class Player(pygame.sprite.Sprite):
         # Velocidade do carrinho
         self.speedx = 0
         # Velocidade do carrinho
-        self.speedx = 10000
+        self.speedx = 100000
          
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 9
@@ -93,7 +101,9 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        self.rect.x = random.randrange(WIDTH - self.rect.width)
+        posicao_inicial=[100,195,280,365,455]
+        i=random.randrange(0,4)
+        self.rect.x = posicao_inicial[i]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
@@ -112,6 +122,15 @@ class Mob(pygame.sprite.Sprite):
             self.rect.right = 520
         if self.rect.left < 90:
             self.rect.left = 90
+        
+        # Se o meteoro passar do final da tela, volta para cima
+        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
+            posicao_inicial=[100,195,280,365,455]
+            i=random.randrange(0,4)
+            self.rect.x = posicao_inicial[i]
+            self.rect.y = random.randrange(-100, -40)
+            self.speedx = random.randrange(-3, 3)
+            self.speedy = random.randrange(2, 9)
         
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
@@ -151,7 +170,7 @@ class Bullet(pygame.sprite.Sprite):
         # Se o tiro passar do inicio da tela, morre.
         if self.rect.bottom < 0:
             self.kill()
-        
+  
 
 # Inicialização do Pygame.
 pygame.init()
@@ -191,6 +210,8 @@ mobs = pygame.sprite.Group()
 
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
+
+#background=pygame.Surface((600, 600))
 
 x = 0
 y = 0
@@ -269,6 +290,7 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
+<<<<<<< HEAD
 #<<<<<<< HEAD
         if background_rect.y > HEIGHT*2:
             background_rect.y = 800
@@ -278,12 +300,26 @@ try:
             background_rect.y=0
             background_rect_cima.y=-HEIGHT
 #>>>>>>> 3a871d30780bd0ce3b3804f9f4395d43b6eb0a17
+=======
+<<<<<<< HEAD
+        if background_rect.y>=HEIGHT:
+            background_rect.y=0
+            background_rect_cima.y=-HEIGHT
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
-#        if background_rect.y>HEIGHT*2:
-#            background_rect.y=800
-#            background_rect_cima.y-=800
+=======
+
+        if background_rect.y>=HEIGHT:
+            background_rect.y=0
+            background_rect_cima.y=-HEIGHT
+
+>>>>>>> db30e10e98c390f8da56940c8f73723a0bea8e32
+        
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+
+>>>>>>> 0364ff2cc7c0761c5e5df45648e57359b06e1788
         
 finally:
     
