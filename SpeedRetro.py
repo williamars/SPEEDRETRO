@@ -278,12 +278,24 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
+<<<<<<< HEAD
         if background_rect.y>=HEIGHT:
             background_rect.y=0
             background_rect_cima.y=-HEIGHT
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
+=======
+
+        if background_rect.y>=HEIGHT:
+            background_rect.y=0
+            background_rect_cima.y=-HEIGHT
+
+        
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+
+>>>>>>> 0364ff2cc7c0761c5e5df45648e57359b06e1788
         
 finally:
     
