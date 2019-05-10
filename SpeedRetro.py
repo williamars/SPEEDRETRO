@@ -194,6 +194,8 @@ clock = pygame.time.Clock()
 # Carrega o fundo do jogo
 background = pygame.image.load(path.join(img_dir, 'screen-3.png')).convert()
 background_rect = background.get_rect()
+background_rect_cima = background.get_rect()
+background_rect_cima.y -= HEIGHT
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'joguito.mp3'))
@@ -288,8 +290,10 @@ try:
             running = False
     
         # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)        
+        screen.fill(BLACK)     
+        background_rect_cima.y += 10
         background_rect.y += 10
+        screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
         
