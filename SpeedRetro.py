@@ -13,11 +13,11 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
-<<<<<<< HEAD
+#<<<<<<< HEAD
 FPS = 80 # Frames por segundo
-=======
+#=======
 FPS = 70 # Frames por segundo
->>>>>>> 64a1ed21da419dec77f8267c427b97e251ab6772
+#>>>>>>> 64a1ed21da419dec77f8267c427b97e251ab6772
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
@@ -195,7 +195,7 @@ bullets = pygame.sprite.Group()
 x = 0
 y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
-for i in range(100):
+for i in range(10):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -269,15 +269,15 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
-<<<<<<< HEAD
+#<<<<<<< HEAD
         if background_rect.y > HEIGHT*2:
             background_rect.y = 800
             background_rect_cima.y -= 800
-=======
+#=======
         if background_rect.y>=HEIGHT:
             background_rect.y=0
             background_rect_cima.y=-HEIGHT
->>>>>>> 3a871d30780bd0ce3b3804f9f4395d43b6eb0a17
+#>>>>>>> 3a871d30780bd0ce3b3804f9f4395d43b6eb0a17
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
