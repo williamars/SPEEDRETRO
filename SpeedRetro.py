@@ -6,22 +6,7 @@ import random
 import time
 from os import path
 
-# Estabelece a pasta que contem as figuras e sons.
-img_dir = path.join(path.dirname(__file__), 'img')
-snd_dir = path.join(path.dirname(__file__), 'snd')
-
-# Dados gerais do jogo.
-WIDTH = 600 # Largura da tela
-HEIGHT = 800 # Altura da tela
-FPS = 70 # Frames por segundo
-
-# Define algumas variáveis com as cores básicas
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
+from init import img_dir, snd_dir, BLACK, WHITE, WIDTH, HEIGHT, FPS
 
 # Classe Jogador que representa o carrinho
 class Player(pygame.sprite.Sprite):
@@ -46,27 +31,20 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Centraliza embaixo da tela.
-<<<<<<< HEAD
-        self.rect.centerx = 280
-        self.rect.bottom = HEIGHT - 100
-=======
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 200
->>>>>>> 033e2c1edd14059d070c9bd154b1095d2911d665
         
         # Velocidade do carrinho
         self.speedx = 0
-        # Velocidade do carrinho
-        self.speedx = 100000
-         
+                 
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 11
     
     # Metodo que atualiza a posição do carrinho
     def update(self):
         self.rect.x += self.speedx
-        
-        # Mantém dentro da tela
+#        
+#        # Mantém dentro da tela
         if self.rect.right > 520:
             self.rect.right = 520
         if self.rect.left < 83:
@@ -158,6 +136,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
   
+
 
 # Inicialização do Pygame.
 pygame.init()
@@ -265,11 +244,8 @@ try:
             # Toca o som da colisão
             boom_sound.play()
             time.sleep(1) # Precisa esperar senão fecha
-            
+           
             running = False
-            
-        #Verifica se encosta na parede
-        if 
     
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
@@ -279,9 +255,9 @@ try:
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
 
-        if background_rect.y>=HEIGHT:
-            background_rect.y=0
-            background_rect_cima.y=-HEIGHT
+        if background_rect.y >= HEIGHT:
+            background_rect.y = 0
+            background_rect_cima.y = -HEIGHT
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
