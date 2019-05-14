@@ -50,7 +50,16 @@ class Mob(pygame.sprite.Sprite):
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
             posicao_inicial=[100,195,280,365,455]
             i=random.randrange(0,5)
-            self.rect.x = posicao_inicial[i]
+            z=0
+            while z<5:
+                posicoes_iniciais_sorteadas=[]
+                posicoes_iniciais_sorteadas.append(posicao_inicial[i])
+                z+=1
+            z=0
+            while z<6:
+                if posicoes_iniciais_sorteadas[i] != posicoes_iniciais_sorteadas[i-1]:
+                    self.rect.x = posicao_inicial[i]
+                    z+=1
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 13)
