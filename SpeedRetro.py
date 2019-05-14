@@ -10,11 +10,6 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
 FPS = 80 # Frames por segundo
-#=======
-FPS = 70 # Frames por segundo
-FPS = 70 # Frames por segundo
-
-FPS = 80 # Frames por segundo
 # Importando as informações iniciais
 from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
@@ -34,7 +29,7 @@ from bullet2 import Bullet2
 from coin import Coin
 
 # Inicialização do Pygame.
-pygame.init()
+pygame.init() 
 pygame.mixer.init()
 
 # Tamanho da tela.
@@ -137,7 +132,7 @@ try:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
                     player.speedx = 0
-                if event.key == pygame.K_RIGHT:
+                if event.key  == pygame.K_RIGHT:
                     player.speedx = 0
         if player.rect.right > 519:
             running = False
@@ -172,23 +167,6 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
-        if background_rect.y > HEIGHT*2:
-            background_rect.y = 800
-            background_rect_cima.y -= 800
-        if background_rect.y>=HEIGHT:
-            background_rect.y=0
-            background_rect_cima.y=-HEIGHT
-        if background_rect.y>=HEIGHT:
-            background_rect.y=0
-            background_rect_cima.y=-HEIGHT
-        
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-
-        if background_rect.y>=HEIGHT:
-            background_rect.y=0
-            background_rect_cima.y=-HEIGHT
-
 
         if background_rect.y >= HEIGHT:
             background_rect.y = 0
