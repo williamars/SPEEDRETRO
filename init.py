@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri May 10 11:19:25 2019
-
-@author: User
-"""
 from os import path
 
 # Estabelece a pasta que contem as figuras e sons.
