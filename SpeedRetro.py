@@ -63,7 +63,7 @@ bullets.add(bullet2)
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(0):
+for i in range(6):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -99,10 +99,6 @@ try:
                     all_sprites.add(bullet)
                     bullets.add(bullet)
                     pew_sound.play()
-                if player.rect.right > 519:
-                    running = False
-                if player.rect.left < 85:
-                    running = False
                     
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -111,10 +107,10 @@ try:
                     player.speedx = 0
                 if event.key == pygame.K_RIGHT:
                     player.speedx = 0
-                if player.rect.right > 519:
-                    running = False
-                if player.rect.left < 85:
-                    running = False        
+        if player.rect.right > 519:
+            running = False
+        if player.rect.left < 85:
+            running = False        
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
@@ -126,7 +122,7 @@ try:
             destroy_sound.play()
             m = Mob() 
             all_sprites.add(m)
-            mobs.add(m)
+            mobs.add(m) 
         
         # Verifica se houve colisão entre os carrinhos
         hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)

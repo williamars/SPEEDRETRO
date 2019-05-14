@@ -31,7 +31,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-        self.speedy = 12
+        self.speedy = random.randrange(10, 13)
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -53,4 +53,4 @@ class Mob(pygame.sprite.Sprite):
             self.rect.x = posicao_inicial[i]
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
-            self.speedy = 12
+            self.speedy = random.randrange(10, 13)
