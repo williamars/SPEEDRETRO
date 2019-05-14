@@ -79,7 +79,7 @@ bullets.add(bullet2)
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(6):
+for i in range(5):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -142,7 +142,7 @@ try:
         if player.rect.right > 519:
             running = False
         if player.rect.left < 85:
-            running = False        
+            running = False    
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
