@@ -53,6 +53,8 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
+road= pygame.sprite.Group()
+
 x = 0
 y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
@@ -122,7 +124,12 @@ try:
             time.sleep(1) # Precisa esperar senão fecha
            
             running = False
-    
+            
+        # Verifica se houve colisao na parede
+        hit_wall=pygame.sprite.spritecollide(player,road, False, pygame.sprite.collide_circle)
+        if hit_wall:
+            running=False
+            
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
@@ -142,4 +149,4 @@ finally:
     
     pygame.quit()
     
-    
+
