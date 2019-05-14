@@ -27,6 +27,9 @@ from mob import Mob
 # Importando arquivo dos tiros
 from bullet import Bullet
 
+# Importanto arquivo do outro tiro
+from bullet2 import Bullet2
+
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -48,7 +51,7 @@ background_rect_cima.y = -HEIGHT
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'joguito.mp3'))
-pygame.mixer.music.set_volume(1) #Som da música de cima
+pygame.mixer.music.set_volume(0) #Som da música de cima
 boom_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
 destroy_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl6.wav'))
 pew_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
@@ -63,12 +66,16 @@ all_sprites.add(player)
 # Cria um grupo só dos meteoros
 mobs = pygame.sprite.Group()
 
-# Cria um grupo para tiros
+# Cria um grupo para tiros (vermelho)
 bullets = pygame.sprite.Group()
+
+# Grupo para o segundo tiro (azul)
+bullet2 = pygame.sprite.Group()
+bullets.add(bullet2)
 
 x = 0
 y = 0
-# Cria 8 meteoros e adiciona no grupo meteoros
+# Cria carrinhos e adiciona no grupo mobs
 for i in range(6):
     m = Mob()
     all_sprites.add(m)
@@ -101,7 +108,7 @@ try:
                     player.speedx = 5
                 # Se for um espaço atira!
                 if event.key == pygame.K_SPACE:
-                    bullet = Bullet(player.rect.centerx, player.rect.top)
+                    bullet = Bullet2(player.rect.centerx, player.rect.top)
                     all_sprites.add(bullet)
                     bullets.add(bullet)
                     pew_sound.play()
@@ -113,7 +120,10 @@ try:
                     player.speedx = 0
                 if event.key == pygame.K_RIGHT:
                     player.speedx = 0
-                    
+        if player.rect.right > 519:
+            running = False
+        if player.rect.left < 85:
+            running = False        
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
@@ -125,7 +135,7 @@ try:
             destroy_sound.play()
             m = Mob() 
             all_sprites.add(m)
-            mobs.add(m)
+            mobs.add(m) 
         
         # Verifica se houve colisão entre os carrinhos
         hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
@@ -135,7 +145,7 @@ try:
             time.sleep(1) # Precisa esperar senão fecha
            
             running = False
-    
+
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
@@ -172,4 +182,4 @@ finally:
     
     pygame.quit()
     
-    
+
