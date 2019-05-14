@@ -56,13 +56,9 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros (vermelho)
 bullets = pygame.sprite.Group()
 
-<<<<<<< HEAD
-road= pygame.sprite.Group()
-=======
 # Grupo para o segundo tiro (azul)
 bullet2 = pygame.sprite.Group()
 bullets.add(bullet2)
->>>>>>> d4dab2633cdcec3700431f62fa66b620011d927f
 
 x = 0
 y = 0
@@ -140,17 +136,7 @@ try:
             time.sleep(1) # Precisa esperar senão fecha
            
             running = False
-<<<<<<< HEAD
-            
-        # Verifica se houve colisao na parede
-        hit_wall=pygame.sprite.spritecollide(player,road, False, pygame.sprite.collide_circle)
-        if hit_wall:
-            running=False
-            
-=======
-        
-        
->>>>>>> d4dab2633cdcec3700431f62fa66b620011d927f
+
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
