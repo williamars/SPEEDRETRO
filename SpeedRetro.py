@@ -16,7 +16,7 @@ FPS = 70 # Frames por segundo
 
 FPS = 80 # Frames por segundo
 # Importando as informações iniciais
-from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando arquivo do carrinho
 from player import Player
@@ -29,6 +29,9 @@ from bullet import Bullet
 
 # Importanto arquivo do outro tiro
 from bullet2 import Bullet2
+
+#Importando arquivo da classe
+from coin import Coin
 
 # Inicialização do Pygame.
 pygame.init()
@@ -80,7 +83,23 @@ for i in range(6):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
+#Cria grupo das moedas
+imagem_coin=[]
+for i in range(9):
+    filename = 'Gold_0{}.png'.format(i)
+    Coin_img = pygame.image.load(path.join(img_dir, filename)).convert()
+    Coin_img = pygame.transform.scale(Coin_img, (25, 35))        
+    Coin_img.set_colorkey(WHITE)
+    imagem_coin.append(Coin_img)
 
+coin = pygame.sprite.Group()
+
+#Cria 2 moedas
+for i in range(1):
+    c = Coin(imagem_coin)
+    all_sprites.add(c)
+    coin.add(c)
+    
 # Comando para evitar travamentos.
 try:
     
