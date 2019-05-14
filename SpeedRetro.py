@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Importando as bibliotecas necessárias.
 import pygame
-import random
 import time
 from os import path
 
@@ -13,164 +9,23 @@ snd_dir = path.join(path.dirname(__file__), 'snd')
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
-<<<<<<< HEAD
-#<<<<<<< HEAD
 FPS = 80 # Frames por segundo
 #=======
 FPS = 70 # Frames por segundo
-#>>>>>>> 64a1ed21da419dec77f8267c427b97e251ab6772
-=======
-<<<<<<< HEAD
 FPS = 70 # Frames por segundo
-=======
+
 FPS = 80 # Frames por segundo
->>>>>>> 6cc19987c416e8e8898cc40c2a558d507ba13591
->>>>>>> db30e10e98c390f8da56940c8f73723a0bea8e32
+# Importando as informações iniciais
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS
 
-# Define algumas variáveis com as cores básicas
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
+# Importando arquivo do carrinho
+from player import Player
 
-# Classe Jogador que representa o carrinho
-class Player(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
-        self.image = player_img
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (48, 68))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Centraliza embaixo da tela.
-        self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 100
-        
-        # Velocidade do carrinho
-        self.speedx = 0
-        # Velocidade do carrinho
-        self.speedx = 100000
-         
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 9
-    
-    # Metodo que atualiza a posição do carrinho
-    def update(self):
-        self.rect.x += self.speedx
-        
-        # Mantém dentro da tela
-        if self.rect.right > 520:
-            self.rect.right = 520
-        if self.rect.left < 75:
-            self.rect.left = 75
-                    
-# Classe Mob que representa os carrinhos
-class Mob(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem.
-        mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (48, 38))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455]
-        i=random.randrange(0,4)
-        self.rect.x = posicao_inicial[i]
-        # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-100, -40)
-        # Sorteia uma velocidade inicial
-        self.speedx = 0
-        self.speedy = random.randrange(2, 9)
-        
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = int(self.rect.width * .85 / 2)
-        
-    # Metodo que atualiza a posição da navinha
-    def update(self):
-        self.rect.x += 0
-        self.rect.y += self.speedy
-        
-        if self.rect.right > 520:
-            self.rect.right = 520
-        if self.rect.left < 90:
-            self.rect.left = 90
-        
-        # Se o meteoro passar do final da tela, volta para cima
-        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            posicao_inicial=[100,195,280,365,455]
-            i=random.randrange(0,4)
-            self.rect.x = posicao_inicial[i]
-            self.rect.y = random.randrange(-100, -40)
-            self.speedx = random.randrange(-3, 3)
-            self.speedy = random.randrange(2, 9)
-        
-        # Se o meteoro passar do final da tela, volta para cima
-        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            self.rect.x = random.randrange(WIDTH - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
-            self.speedx = random.randrange(-3, 3)
-            self.speedy = random.randrange(2, 9)
+# Importando arquivo dos outros carrinhos
+from mob import Mob      
             
-# Classe Bullet que representa os tiros
-class Bullet(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self, x, y):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        bullet_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-        self.image = bullet_img
-        
-        # Deixando transparente.
-        self.image.set_colorkey(BLACK)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.bottom = y
-        self.rect.centerx = x
-        self.speedy = -10
-
-    # Metodo que atualiza a posição da navinha
-    def update(self):
-        self.rect.y += self.speedy
-        
-        # Se o tiro passar do inicio da tela, morre.
-        if self.rect.bottom < 0:
-            self.kill()
-  
+# Importando arquivo dos tiros
+from bullet import Bullet
 
 # Inicialização do Pygame.
 pygame.init()
@@ -211,12 +66,10 @@ mobs = pygame.sprite.Group()
 # Cria um grupo para tiros
 bullets = pygame.sprite.Group()
 
-#background=pygame.Surface((600, 600))
-
 x = 0
 y = 0
 # Cria 8 meteoros e adiciona no grupo meteoros
-for i in range(10):
+for i in range(6):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -280,7 +133,7 @@ try:
             # Toca o som da colisão
             boom_sound.play()
             time.sleep(1) # Precisa esperar senão fecha
-            
+           
             running = False
     
         # A cada loop, redesenha o fundo e os sprites
@@ -290,37 +143,33 @@ try:
         screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
-<<<<<<< HEAD
-#<<<<<<< HEAD
         if background_rect.y > HEIGHT*2:
             background_rect.y = 800
             background_rect_cima.y -= 800
-#=======
         if background_rect.y>=HEIGHT:
             background_rect.y=0
             background_rect_cima.y=-HEIGHT
-#>>>>>>> 3a871d30780bd0ce3b3804f9f4395d43b6eb0a17
-=======
-<<<<<<< HEAD
         if background_rect.y>=HEIGHT:
             background_rect.y=0
             background_rect_cima.y=-HEIGHT
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
-=======
 
         if background_rect.y>=HEIGHT:
             background_rect.y=0
             background_rect_cima.y=-HEIGHT
 
->>>>>>> db30e10e98c390f8da56940c8f73723a0bea8e32
+
+        if background_rect.y >= HEIGHT:
+            background_rect.y = 0
+            background_rect_cima.y = -HEIGHT
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
-
->>>>>>> 0364ff2cc7c0761c5e5df45648e57359b06e1788
         
 finally:
     
     pygame.quit()
+    
+    
