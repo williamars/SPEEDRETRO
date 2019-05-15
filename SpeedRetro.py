@@ -55,6 +55,7 @@ pygame.mixer.music.set_volume(0) #Som da música de cima
 boom_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
 destroy_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl6.wav'))
 pew_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
+Ta_Da = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
 
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Player()
@@ -176,7 +177,18 @@ try:
 #            c= Coin()
 #            all_sprites.add(c)
 #            coin.add(c)
-
+        
+        
+#          Verifica se houve colisão com o misterybox
+        hits = pygame.sprite.spritecollide(player, misterybox, False, False)
+        for hit in hits:
+            # Toca o som da colisão
+            Ta_Da.play()
+            time.sleep(0) # Precisa esperar senão fecha
+            all_sprites.add(b)
+            misterybox.add(b)
+            running = True
+        
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
