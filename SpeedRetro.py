@@ -27,6 +27,8 @@ from bullet2 import Bullet2
 
 #Importando arquivo da classe
 from coin import Coin
+#Importando arquivo da classe box
+from misterybox import Box
 
 # Inicialização do Pygame.
 pygame.init() 
@@ -95,6 +97,13 @@ for i in range(1):
     all_sprites.add(c)
     coin.add(c)
     
+#Cria a box
+misterybox = pygame.sprite.Group()
+
+for i in range(1):
+    b = Box()
+    all_sprites.add(b)
+    misterybox.add(b)
 # Comando para evitar travamentos.
 try:
     
