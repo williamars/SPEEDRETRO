@@ -159,6 +159,14 @@ try:
             time.sleep(1) # Precisa esperar senão fecha
            
             running = False
+        
+
+        #        Verifica se houve colisão com a moeda
+#        hits = pygame.sprite.spritecollide(player, coin, True, pygame.sprite.collide_circle)
+#        if hits:
+#            c= Coin()
+#            all_sprites.add(c)
+#            coin.add(c)
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
