@@ -162,8 +162,8 @@ try:
         
 
         #        Verifica se houve colisão com a moeda
-#        hits = pygame.sprite.spritecollide(player, coin, True, pygame.sprite.collide_circle)
-#        if hits:
+#        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
+#        for hit in hits:
 #            c= Coin()
 #            all_sprites.add(c)
 #            coin.add(c)
