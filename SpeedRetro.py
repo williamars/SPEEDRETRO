@@ -2,8 +2,16 @@ import pygame
 import time
 from os import path
 
+# Estabelece a pasta que contem as figuras e sons.
+img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'snd')
+
+# Dados gerais do jogo.
+WIDTH = 600 # Largura da tela
+HEIGHT = 800 # Altura da tela
+FPS = 80 # Frames por segundo
 # Importando as informações iniciais
-from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando arquivo do carrinho
 from player import Player
@@ -17,8 +25,13 @@ from bullet import Bullet
 # Importanto arquivo do outro tiro
 from bullet2 import Bullet2
 
+#Importando arquivo da classe
+from coin import Coin
+#Importando arquivo da classe box
+from misterybox import Box
+
 # Inicialização do Pygame.
-pygame.init()
+pygame.init() 
 pygame.mixer.init()
 
 # Tamanho da tela.
@@ -42,6 +55,7 @@ pygame.mixer.music.set_volume(0) #Som da música de cima
 boom_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
 destroy_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl6.wav'))
 pew_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
+Ta_Da = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
 
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Player()
@@ -67,7 +81,31 @@ for i in range(5):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
+    
+#Cria grupo das moedas
+imagem_coin=[]
+for i in range(9):
+    filename = 'Gold_0{}.png'.format(i)
+    Coin_img = pygame.image.load(path.join(img_dir, filename)).convert()
+    Coin_img = pygame.transform.scale(Coin_img, (25, 35))        
+    Coin_img.set_colorkey(WHITE)
+    imagem_coin.append(Coin_img)
 
+coin = pygame.sprite.Group()
+
+#Cria 2 moedas
+for i in range(1):
+    c = Coin(imagem_coin)
+    all_sprites.add(c)
+    coin.add(c)
+    
+#Cria a box
+misterybox = pygame.sprite.Group()
+
+for i in range(1):
+    b = Box()
+    all_sprites.add(b)
+    misterybox.add(b)
 # Comando para evitar travamentos.
 try:
     
@@ -105,12 +143,12 @@ try:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
                     player.speedx = 0
-                if event.key == pygame.K_RIGHT:
+                if event.key  == pygame.K_RIGHT:
                     player.speedx = 0
         if player.rect.right > 519:
             running = False
         if player.rect.left < 85:
-            running = False        
+            running = False    
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
@@ -130,9 +168,25 @@ try:
             # Toca o som da colisão
             boom_sound.play()
             time.sleep(1) # Precisa esperar senão fecha
-           
             running = False
-
+        
+        # Verifica se houve colisão com a moeda
+        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
+        for hit in hits:
+            c = Coin()
+            all_sprites.add(c)
+            coin.add(c)
+          
+        # Verifica se houve colisão com o misterybox
+        hits = pygame.sprite.spritecollide(player, misterybox, False, False)
+        for hit in hits:
+            # Toca o som da colisão
+            Ta_Da.play()
+            time.sleep(0) # Precisa esperar senão fecha
+            all_sprites.add(b)
+            misterybox.add(b)
+            running = True
+        
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
