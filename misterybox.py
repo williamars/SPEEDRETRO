@@ -1,6 +1,6 @@
 import pygame
 import random
-from init import path, img_dir, WHITE, HEIGHT, WIDTH
+from init import path, img_dir, WHITE, HEIGHT, WIDTH, BLACK
 
 # Classe Mob que representa os carrinhos
 class Box(pygame.sprite.Sprite):
@@ -12,13 +12,13 @@ class Box(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem.
-        box_img = pygame.image.load(path.join(img_dir, "misterybox.jpg")).convert()
+        box_img = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(box_img, (35, 50))
         
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
