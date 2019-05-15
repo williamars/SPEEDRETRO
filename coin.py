@@ -5,7 +5,7 @@ from init import path, img_dir, WHITE, HEIGHT, WIDTH
 # Classe Mob que representa os carrinhos
 class Coin(pygame.sprite.Sprite):
     # Construtor da classe.
-    def __init__(self,imagem_coin):
+    def __init__(self, imagem_coin):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)

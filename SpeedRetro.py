@@ -81,6 +81,7 @@ for i in range(5):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
+    
 #Cria grupo das moedas
 imagem_coin=[]
 for i in range(9):
@@ -167,19 +168,16 @@ try:
             # Toca o som da colisão
             boom_sound.play()
             time.sleep(1) # Precisa esperar senão fecha
-           
             running = False
         
-
-        #        Verifica se houve colisão com a moeda
-#        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
-#        for hit in hits:
-#            c= Coin()
-#            all_sprites.add(c)
-#            coin.add(c)
-        
-        
-#          Verifica se houve colisão com o misterybox
+        # Verifica se houve colisão com a moeda
+        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
+        for hit in hits:
+            c = Coin()
+            all_sprites.add(c)
+            coin.add(c)
+          
+        # Verifica se houve colisão com o misterybox
         hits = pygame.sprite.spritecollide(player, misterybox, False, False)
         for hit in hits:
             # Toca o som da colisão
