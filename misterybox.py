@@ -12,7 +12,7 @@ class Box(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem.
-        box_img = pygame.image.load(path.join(img_dir, "misterybox.jpg")).convert()
+        box_img = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(box_img, (35, 50))
