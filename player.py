@@ -5,13 +5,12 @@ from init import WIDTH, HEIGHT, img_dir, WHITE, path
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self):
+    def __init__(self, player_img):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
