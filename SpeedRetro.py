@@ -63,7 +63,7 @@ bullets.add(bullet2)
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(6):
+for i in range(5):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
