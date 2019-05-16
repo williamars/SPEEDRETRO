@@ -21,65 +21,22 @@ from player import Player
 from mob import Mob      
             
 # Importando arquivo dos tiros
-from bullet import Bullet
+# from bullet import Bullet
 
 # Importanto arquivo do outro tiro
 from bullet2 import Bullet2
 
-#Importando arquivo da classe
+# Importando arquivo da classe
 from coin import Coin
 
-#Importando arquivo da classe box
+# Importando arquivo da classe box
 from misterybox import Box
 
-class Floco(pygame.sprite.Sprite):
-    # Construtor da classe.
-    def __init__(self, floco_img):
-        
-        # Carregando a imagem.
-        flocos_img = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(flocos_img, (54, 70))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais dos flocos
-        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer os flocos
-        self.rect.x = posicao_inicial[i]
-        # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-100, -40)
-        # Sorteia uma velocidade inicial
-        self.speedx = 0
-        self.speedy = random.randrange(3,10)
-        
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = int(self.rect.width * 85 / 2)
-        
-        
-    def update(self):
-        
-        self.rect.x += 0
-        self.rect.y += self.speedy
-        
-        if self.rect.right > 520:
-            self.rect.right = 520
-        if self.rect.left < 90:
-            self.rect.left = 90
-        
-        # Se o floco passar do final da tela, volta para cima
-        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            posicao_inicial=[100,195,280,365,455]
-            i=random.randrange(0,5)
-            self.rect.x = posicao_inicial[i]
-            self.rect.y = random.randrange(-100, -40)
-            self.speedx = random.randrange(-3, 3)
-            self.speedy = 3
+# Importando arquivo dos flocos de neve
+from floco import Floco
+
+# Importando arquivo da nevasca
+from nevasca import Nevasca
 
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir):
@@ -88,6 +45,7 @@ def load_assets(img_dir, snd_dir):
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
     assets["bullet_img"] = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
     assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
+    assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
@@ -144,12 +102,12 @@ bullets.add(bullet2)
 box = pygame.sprite.Group()
 
 #Cria grupo para os flocos
-flocos= pygame.sprite.Group()
+flocos = pygame.sprite.Group()
     
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(5):
+for i in range(0):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -173,12 +131,17 @@ for i in range(1):
     
 #Cria a box
 misterybox = pygame.sprite.Group()
-
 for i in range(1):
     b = Box(assets["box_img"])
     all_sprites.add(b)
     misterybox.add(b)
 
+
+# Cria o floco de neve
+for i in range(1):
+    b = Floco(assets["flocos_img"])
+    all_sprites.add(b)
+    flocos.add(b)    
 
 # Comando para evitar travamentos.
 try:
@@ -186,7 +149,7 @@ try:
     # Loop principal.
     pygame.mixer.music.play(loops=-1)
     running = True
-    while running:
+    while running: 
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
@@ -264,6 +227,17 @@ try:
             all_sprites.add(b)
             misterybox.add(b)
             running = True
+            
+        # Verifica se houve colisão entre player e floco de neve
+        hits = pygame.sprite.spritecollide(player, flocos, False, False)
+        if hits:
+            nevasca=pygame.sprite.Group()
+            for i in range(2):
+                b = Nevasca(assets["flocos_img"])
+                all_sprites.add(b)
+                flocos.add(b)
+                player.speedx=1  
+        
         
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     

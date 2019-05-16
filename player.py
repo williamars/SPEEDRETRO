@@ -1,5 +1,5 @@
 import pygame
-from init import WIDTH, HEIGHT, img_dir, WHITE, path
+from init import WIDTH, HEIGHT, WHITE
 
 # Classe Jogador que representa o carrinho
 class Player(pygame.sprite.Sprite):
