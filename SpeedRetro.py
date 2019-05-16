@@ -12,7 +12,7 @@ WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
 FPS = 80 # Frames por segundo
 # Importando as informações iniciais
-from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, GREEN, RED, BLUE, YELLOW
 
 # Importando arquivo do carrinho
 from player import Player
@@ -34,13 +34,16 @@ from misterybox import Box
 
 class Floco(pygame.sprite.Sprite):
     # Construtor da classe.
-    def __init__(self, floco_img):
+    def __init__(self, flocos_img):
         
-        # Carregando a imagem.
-        flocos_img = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(flocos_img, (54, 70))
+        self.image = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
+        
+        # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(flocos_img, (35, 38))
         
         # Deixando transparente.
         self.image.set_colorkey(WHITE)
@@ -60,8 +63,7 @@ class Floco(pygame.sprite.Sprite):
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * 85 / 2)
-        
-        
+            
     def update(self):
         
         self.rect.x += 0
@@ -88,6 +90,7 @@ def load_assets(img_dir, snd_dir):
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
     assets["bullet_img"] = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
     assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
+    assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
@@ -144,7 +147,7 @@ bullets.add(bullet2)
 box = pygame.sprite.Group()
 
 #Cria grupo para os flocos
-flocos= pygame.sprite.Group()
+flocos = pygame.sprite.Group()
     
 x = 0
 y = 0
@@ -173,12 +176,17 @@ for i in range(1):
     
 #Cria a box
 misterybox = pygame.sprite.Group()
-
 for i in range(1):
     b = Box(assets["box_img"])
     all_sprites.add(b)
     misterybox.add(b)
 
+
+# Cria o floco de neve
+for i in range(1):
+    b = Floco(assets["flocos_img"])
+    all_sprites.add(b)
+    flocos.add(b)    
 
 # Comando para evitar travamentos.
 try:
@@ -186,7 +194,7 @@ try:
     # Loop principal.
     pygame.mixer.music.play(loops=-1)
     running = True
-    while running:
+    while running: 
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
