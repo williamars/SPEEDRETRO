@@ -235,7 +235,8 @@ try:
             for i in range(2):
                 b = Nevasca(assets["flocos_img"])
                 all_sprites.add(b)
-                flocos.add(b)    
+                flocos.add(b)
+                player.speedx=30
         
         
         # A cada loop, redesenha o fundo e os sprites
