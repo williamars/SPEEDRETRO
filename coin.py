@@ -1,19 +1,17 @@
 import pygame
 import random
-from init import path, img_dir, WHITE, HEIGHT, WIDTH
+from init import HEIGHT, WIDTH
 
 # Classe Mob que representa os carrinhos
 class Coin(pygame.sprite.Sprite):
     # Construtor da classe.
-    def __init__(self,imagem_coin):
+    def __init__(self, imagem_coin):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
-        # Carregando a imagem.
         # Carrega a animação da coin
-        self.imagem_coin = imagem_coin
-        
+        self.imagem_coin = imagem_coin        
         
         # Inicia o processo de animação colocando a primeira imagem na tela.
         self.frame = 0
@@ -23,8 +21,8 @@ class Coin(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais dos carrinhos
-        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer carrinhos
+        posicao_inicial=[100,195,280,365,455] # Posições iniciais das moedas
+        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer moedas
         self.rect.x = posicao_inicial[i]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
@@ -33,7 +31,7 @@ class Coin(pygame.sprite.Sprite):
         self.speedy = 3
         
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = int(self.rect.width * .85 / 2)
+        self.radius = int(self.rect.width * 85 / 2)
         
         # Guarda o tick da primeira imagem
         self.last_update = pygame.time.get_ticks()
@@ -73,7 +71,7 @@ class Coin(pygame.sprite.Sprite):
         if self.rect.left < 90:
             self.rect.left = 90
         
-        # Se o meteoro passar do final da tela, volta para cima
+        # Se a moeda passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
             posicao_inicial=[100,195,280,365,455]
             i=random.randrange(0,5)
