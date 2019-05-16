@@ -1,6 +1,6 @@
 import pygame
 import random
-from init import path, img_dir, WHITE, HEIGHT, WIDTH
+from init import path, img_dir, HEIGHT, WIDTH, BLACK
 
 
 class Nevasca(pygame.sprite.Sprite):
@@ -17,7 +17,7 @@ class Nevasca(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(flocos_img, (35, 38))
         
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
