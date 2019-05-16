@@ -22,8 +22,8 @@ class Floco(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais dos flocos
-        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer os flocos
+        posicao_inicial=[195,280,365] # Posições iniciais dos flocos
+        i=random.randrange(0,3)               # Sorteia uma faixa para aparecer os flocos
         self.rect.x = posicao_inicial[i]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)

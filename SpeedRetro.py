@@ -107,7 +107,7 @@ flocos = pygame.sprite.Group()
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(5):
+for i in range(0):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -236,7 +236,11 @@ try:
                 b = Nevasca(assets["flocos_img"])
                 all_sprites.add(b)
                 flocos.add(b)
+<<<<<<< HEAD
                 player.speedx=1.5
+=======
+                player.speedx=1  
+>>>>>>> 60de4b12459db8c4cf206af86b22f46c07a9dc92
         
         
         # A cada loop, redesenha o fundo e os sprites
