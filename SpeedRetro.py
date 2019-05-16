@@ -137,7 +137,7 @@ for i in range(1):
     misterybox.add(b)
 
 
-# Cria o floco de neve
+# Cria o floco de neve  
 for i in range(1):
     b = Floco(assets["flocos_img"])
     all_sprites.add(b)
@@ -236,7 +236,7 @@ try:
                 b = Nevasca(assets["flocos_img"])
                 all_sprites.add(b)
                 flocos.add(b)
-                player.speedx=30
+                player.speedx=1.5
         
         
         # A cada loop, redesenha o fundo e os sprites
