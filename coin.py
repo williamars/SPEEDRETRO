@@ -2,7 +2,7 @@ import pygame
 import random
 from init import HEIGHT, WIDTH
 
-# Classe Mob que representa os carrinhos
+# Classe Coin que representa as moedas
 class Coin(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self, imagem_coin):
