@@ -12,7 +12,7 @@ WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
 FPS = 80 # Frames por segundo
 # Importando as informações iniciais
-from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, GREEN, RED, BLUE, YELLOW
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando arquivo do carrinho
 from player import Player
@@ -21,7 +21,7 @@ from player import Player
 from mob import Mob      
             
 # Importando arquivo dos tiros
-from bullet import Bullet
+# from bullet import Bullet
 
 # Importanto arquivo do outro tiro
 from bullet2 import Bullet2
@@ -32,6 +32,7 @@ from coin import Coin
 #Importando arquivo da classe box
 from misterybox import Box
 
+<<<<<<< HEAD
 class Floco(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self, flocos_img):
@@ -125,6 +126,9 @@ class Nevasca(pygame.sprite.Sprite):
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(10,20)
             self.speedy = random.randrange(10,20)
+=======
+from floco import Floco
+>>>>>>> 53b84bb86dd1160fc5f7bcf5379e52978aa959d5
 
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir):
