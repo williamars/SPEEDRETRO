@@ -6,13 +6,13 @@ from init import path, img_dir, WHITE, HEIGHT, WIDTH, BLACK
 class Box(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self):
+    def __init__(self, box_img):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem.
-        box_img = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
+        self.image = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(box_img, (35, 50))
@@ -24,8 +24,8 @@ class Box(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais dos carrinhos
-        i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
+        posicao_inicial=[100,195,280,365,455] # Posições iniciais
+        i=random.randrange(0,10)               # Sorteia uma faixa para aparecer
         if i <= 2:
             self.rect.x = 100
         elif i <= 4:
@@ -46,7 +46,7 @@ class Box(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
         
-    # Metodo que atualiza a posição da navinha
+    # Metodo que atualiza a posição da caixa
     def update(self):
         self.rect.x += 0
         self.rect.y += self.speedy
@@ -56,7 +56,7 @@ class Box(pygame.sprite.Sprite):
         if self.rect.left < 90:
             self.rect.left = 90
         
-        # Se o meteoro passar do final da tela, volta para cima
+        # Se a caixa passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
            
             i=random.randrange(0,10)

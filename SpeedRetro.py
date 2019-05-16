@@ -27,8 +27,22 @@ from bullet2 import Bullet2
 
 #Importando arquivo da classe
 from coin import Coin
+
 #Importando arquivo da classe box
 from misterybox import Box
+
+# Carrega todos os assets de uma vez só
+def load_assets(img_dir, snd_dir):
+    assets = {}
+    assets["player_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
+    assets["mob_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
+    assets["bullet_img"] = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
+    assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
+    assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
+    assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
+    assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
+    assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
+    return assets
 
 # Inicialização do Pygame.
 pygame.init() 
@@ -39,6 +53,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
 pygame.display.set_caption("SpeedRetro")
+
+# Carrega todos os assets uma vez só e guarda em um dicionário
+assets = load_assets(img_dir, snd_dir)
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
@@ -51,14 +68,14 @@ background_rect_cima.y = -HEIGHT
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snd_dir, 'joguito.mp3'))
-pygame.mixer.music.set_volume(0) #Som da música de cima
-boom_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
-destroy_sound = pygame.mixer.Sound(path.join(snd_dir, 'expl6.wav'))
-pew_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
+pygame.mixer.music.set_volume(1) #Som da música de cima
+boom_sound = assets['boom_sound']
+destroy_sound = assets['destroy_sound']
+pew_sound = assets['pew_sound']
 Ta_Da = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
 
-# Cria uma nave. O construtor será chamado automaticamente.
-player = Player()
+# Cria um carrinho. O construtor será chamado automaticamente.
+player = Player(assets["player_img"])
 
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
@@ -69,11 +86,13 @@ mobs = pygame.sprite.Group()
 
 # Cria um grupo para tiros (vermelho)
 bullets = pygame.sprite.Group()
-
 # Grupo para o segundo tiro (azul)
 bullet2 = pygame.sprite.Group()
 bullets.add(bullet2)
 
+# Cria um grupo para as caixar
+box = pygame.sprite.Group()
+    
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
@@ -87,7 +106,7 @@ imagem_coin=[]
 for i in range(9):
     filename = 'Gold_0{}.png'.format(i)
     Coin_img = pygame.image.load(path.join(img_dir, filename)).convert()
-    Coin_img = pygame.transform.scale(Coin_img, (25, 35))        
+    Coin_img = pygame.transform.scale(Coin_img, (30, 35))        
     Coin_img.set_colorkey(WHITE)
     imagem_coin.append(Coin_img)
 
@@ -103,9 +122,11 @@ for i in range(1):
 misterybox = pygame.sprite.Group()
 
 for i in range(1):
-    b = Box()
+    b = Box(assets["box_img"])
     all_sprites.add(b)
     misterybox.add(b)
+
+
 # Comando para evitar travamentos.
 try:
     
@@ -171,11 +192,11 @@ try:
             running = False
         
         # Verifica se houve colisão com a moeda
-        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
-        for hit in hits:
-            c = Coin()
-            all_sprites.add(c)
-            coin.add(c)
+#        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
+#        for hit in hits:
+#            c = Coin(imagem_coin)
+#            all_sprites.add(c)
+#            coin.add(c)
           
         # Verifica se houve colisão com o misterybox
         hits = pygame.sprite.spritecollide(player, misterybox, False, False)
