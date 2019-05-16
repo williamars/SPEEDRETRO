@@ -1,7 +1,12 @@
+''' testeeeeeeeeeeeeeeeeeeee
+
+
+'''
+
+
 import pygame
 import time
 from os import path
-import random
 
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
@@ -31,55 +36,6 @@ from coin import Coin
 
 #Importando arquivo da classe box
 from misterybox import Box
-
-class Floco(pygame.sprite.Sprite):
-    # Construtor da classe.
-    def __init__(self, floco_img):
-        
-        # Carregando a imagem.
-        flocos_img = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(flocos_img, (54, 70))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais dos flocos
-        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer os flocos
-        self.rect.x = posicao_inicial[i]
-        # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-100, -40)
-        # Sorteia uma velocidade inicial
-        self.speedx = 0
-        self.speedy = random.randrange(3,10)
-        
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = int(self.rect.width * 85 / 2)
-        
-        
-    def update(self):
-        
-        self.rect.x += 0
-        self.rect.y += self.speedy
-        
-        if self.rect.right > 520:
-            self.rect.right = 520
-        if self.rect.left < 90:
-            self.rect.left = 90
-        
-        # Se o floco passar do final da tela, volta para cima
-        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            posicao_inicial=[100,195,280,365,455]
-            i=random.randrange(0,5)
-            self.rect.x = posicao_inicial[i]
-            self.rect.y = random.randrange(-100, -40)
-            self.speedx = random.randrange(-3, 3)
-            self.speedy = 3
 
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir):
@@ -142,9 +98,6 @@ bullets.add(bullet2)
 
 # Cria um grupo para as caixar
 box = pygame.sprite.Group()
-
-#Cria grupo para os flocos
-flocos= pygame.sprite.Group()
     
 x = 0
 y = 0
@@ -219,14 +172,10 @@ try:
                     player.speedx = 0
                 if event.key  == pygame.K_RIGHT:
                     player.speedx = 0
-                    
-        # Verifica se jogador encostou a parede
         if player.rect.right > 519:
             running = False
         if player.rect.left < 85:
             running = False    
-        
-        
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
@@ -283,5 +232,3 @@ try:
 finally:
     
     pygame.quit()
-    
-

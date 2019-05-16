@@ -41,7 +41,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-        self.speedy = random.randrange(10, 15)
+        self.speedy = random.randrange(12, 17)
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -58,7 +58,11 @@ class Mob(pygame.sprite.Sprite):
         
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 2d84a58bd8db24493533262b38d59863e3d2f2fb
             i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
             if i <=2:
                 self.rect.x = 100
@@ -70,6 +74,7 @@ class Mob(pygame.sprite.Sprite):
                 self.rect.x = 365
             elif i <=10:
                 self.rect.x = 455
+<<<<<<< HEAD
            
             i=random.randrange(0,10)
 
@@ -84,6 +89,9 @@ class Mob(pygame.sprite.Sprite):
             elif i <=10:
                 self.rect.x = 455
                 
+=======
+
+>>>>>>> 2d84a58bd8db24493533262b38d59863e3d2f2fb
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 15)
