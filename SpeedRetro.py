@@ -251,6 +251,7 @@ try:
             for i in range(30):
                 n = Nevasca(assets["flocos2_img"])
                 all_sprites.add(n)
+                
 #            contador=0
 #            if contador == 10:
 #                estanevando=False
