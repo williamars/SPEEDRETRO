@@ -52,7 +52,8 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
     assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
-    assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
+    assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "crash.wav"))
+    assets["moeda_sound"] = pygame.mixer.Sound(path.join(snd_dir, "m.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
     assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 35)
@@ -87,6 +88,7 @@ boom_sound = assets['boom_sound']
 destroy_sound = assets['destroy_sound']
 pew_sound = assets['pew_sound']
 Ta_Da = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
+moeda = assets['moeda_sound']
 
 # Cria um carrinho. O construtor será chamado automaticamente.
 player = Player(assets["player_img"])
@@ -129,7 +131,7 @@ imagem_coin=[]
 for i in range(9):
     filename = 'Gold_0{}.png'.format(i)
     Coin_img = pygame.image.load(path.join(img_dir, filename)).convert()
-    Coin_img = pygame.transform.scale(Coin_img, (30, 35))        
+    Coin_img = pygame.transform.scale(Coin_img, (35, 35))        
     Coin_img.set_colorkey(WHITE)
     imagem_coin.append(Coin_img)
 
@@ -151,9 +153,7 @@ for i in range(1):
 estanevando = False
 speedx = 0
 
-
 timee=0
-
 # Comando para evitar travamentos.
 try:
     
@@ -166,11 +166,16 @@ try:
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
 
-        if random.randrange(1,200) == 1:
+        if random.randrange(1, 900) == 1:
             b = Box(assets["box_img"])
             all_sprites.add(b)
             misterybox.add(b)
         
+        if random.randrange(1,500) == 5:
+            c = Coin(imagem_coin)
+            all_sprites.add(c)
+            coin.add(c)
+
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get():
             
@@ -214,7 +219,6 @@ try:
         if player.rect.left < 85:
             running = False    
         
-        
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
@@ -239,6 +243,7 @@ try:
         # Verifica se houve colisão com a moeda
         hits = pygame.sprite.spritecollide(player, coin, True, False)
         for hit in hits:
+            moeda.play()
             score += 1
           
         # Verifica se houve colisão com o misterybox
@@ -251,33 +256,12 @@ try:
         # Verifica se houve colisão entre player e floco de neve
         hits = pygame.sprite.spritecollide(player, flocos, False, False)
         if hits:
-
-
-            nevasca=pygame.sprite.Group()
-            for i in range(1):
-                b = Nevasca(assets["flocos_img"])
-                all_sprites.add(b)
-                flocos.add(b)
-                player.speedx=1  
-        
-        
-
-
             estanevando = True
             speedx = 1
             nevasca = pygame.sprite.Group()
             for i in range(30):
                 n = Nevasca(assets["flocos2_img"])
                 all_sprites.add(n)
-
-#            contador=0
-#            if contador == 10:
-#                estanevando=False
-#                player.speedx=0
-#            if contador < 10:
-#                contador += 1
-#        else:
-#            estanevando=False
             
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
@@ -296,19 +280,16 @@ try:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH-125,  10)
         screen.blit(text_surface, text_rect)
-
         
         # Desenha o score, por tempo
         timee+=1
          # Run game
         pont=timee//FPS
-        text_surface = score_font.render("{:04d}".format(pont), True, BLACK)
+        text_surface = score_font.render("{:01d}".format(pont), True, BLACK)
         
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH-300,  10)
         screen.blit(text_surface, text_rect)
-        
-
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
