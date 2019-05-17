@@ -245,6 +245,16 @@ try:
         # Verifica se houve colisão entre player e floco de neve
         hits = pygame.sprite.spritecollide(player, flocos, False, False)
         if hits:
+<<<<<<< HEAD
+            nevasca=pygame.sprite.Group()
+            for i in range(1):
+                b = Nevasca(assets["flocos_img"])
+                all_sprites.add(b)
+                flocos.add(b)
+                player.speedx=1  
+        
+        
+=======
             estanevando = True
             speedx = 1
             nevasca = pygame.sprite.Group()
@@ -262,6 +272,7 @@ try:
             
     
                                 
+>>>>>>> e584ac2081eb6d697a6941c00bb2643787fbf277
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
