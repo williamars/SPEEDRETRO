@@ -1,6 +1,6 @@
 import pygame
 import random
-from init import path, img_dir, BLACK, HEIGHT, WIDTH
+from init import BLACK
 
 
 class Nevasca(pygame.sprite.Sprite):
@@ -11,7 +11,7 @@ class Nevasca(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.image.load(path.join(img_dir, "neve.png")).convert()
+        self.image = flocos2_img
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(flocos2_img, (35, 38))

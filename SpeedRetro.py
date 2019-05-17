@@ -12,7 +12,7 @@ WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
 FPS = 80 # Frames por segundo
 # Importando as informações iniciais
-from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando arquivo do carrinho
 from player import Player
@@ -39,7 +39,7 @@ from floco import Floco
 from nevasca import Nevasca
 
 # Carrega todos os assets de uma vez só
-def load_assets(img_dir, snd_dir):
+def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
@@ -65,7 +65,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SpeedRetro")
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
-assets = load_assets(img_dir, snd_dir)
+assets = load_assets(img_dir, snd_dir, fnt_dir)
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
@@ -143,19 +143,12 @@ for i in range(1):
     misterybox.add(b)
 
 
+
 # Cria o floco de neve  
 for i in range(1):
-<<<<<<< HEAD
-    b = Floco(assets["flocos_img"])
-    all_sprites.add(b)
-    flocos.add(b)  
-    
-score=0
-=======
     f = Floco(assets["flocos_img"])
     all_sprites.add(f)
     flocos.add(f)
->>>>>>> 7ce8bf4ebdb82ae52919862d6760d92f86a09332
 
 # Comando para evitar travamentos.
 try:
@@ -163,6 +156,7 @@ try:
     # Loop principal.
     pygame.mixer.music.play(loops=-1)
     running = True
+    score = 0
     while running: 
         
         # Ajusta a velocidade do jogo.
@@ -226,48 +220,26 @@ try:
             running = False
         
         # Verifica se houve colisão com a moeda
-#        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
-#        for hit in hits:
-#            c = Coin(imagem_coin)
-#            all_sprites.add(c)
-#            coin.add(c)
+        hits = pygame.sprite.spritecollide(player, coin, False, False)
+        for hit in hits:
+            score += 1
           
         # Verifica se houve colisão com o misterybox
         hits = pygame.sprite.spritecollide(player, misterybox, False, False)
         for hit in hits:
             # Toca o som da colisão
             Ta_Da.play()
-            time.sleep(0) # Precisa esperar senão fecha
-            all_sprites.add(b)
-            misterybox.add(b)
-            running = True
-            score+=1
+            score += 1
             
         # Verifica se houve colisão entre player e floco de neve
         hits = pygame.sprite.spritecollide(player, flocos, False, False)
         if hits:
             nevasca = pygame.sprite.Group()
             for i in range(2):
-                b = Nevasca(assets["flocos2_img"])
-                all_sprites.add(b)
-                flocos.add(b)
-<<<<<<< HEAD
-                player.speedx=1  
-                
-        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
-        text_rect = text_surface.get_rect()
-        text_rect.midtop = (WIDTH / 2,  700)
-        screen.blit(text_surface, text_rect)
-        
-=======
-                player.speedx = 2
->>>>>>> 7ce8bf4ebdb82ae52919862d6760d92f86a09332
-        
-#        hits = pygame.sprite.spritecollide(player, nevasca, False, False)
-#        if hits:
-            
-            
-                    
+                n = Nevasca(assets["flocos2_img"])
+                all_sprites.add(n)
+                player.speedx = 1
+                                
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
@@ -279,6 +251,12 @@ try:
         if background_rect.y >= HEIGHT:
             background_rect.y = 0
             background_rect_cima.y = -HEIGHT
+            
+        # Desenha o score
+        text_surface = score_font.render("{:03d}".format(score), True, BLACK)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH/2,  10)
+        screen.blit(text_surface, text_rect)
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
