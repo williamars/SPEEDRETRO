@@ -232,7 +232,7 @@ try:
         hits = pygame.sprite.spritecollide(player, flocos, False, False)
         if hits:
             nevasca=pygame.sprite.Group()
-            for i in range(2):
+            for i in range(1):
                 b = Nevasca(assets["flocos_img"])
                 all_sprites.add(b)
                 flocos.add(b)
