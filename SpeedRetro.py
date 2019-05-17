@@ -148,6 +148,7 @@ for i in range(1):
 estanevando = False
 speedx = 0
 
+timee=0
 # Comando para evitar travamentos.
 try:
     
@@ -277,6 +278,16 @@ try:
         text_surface = score_font.render("{:01d}".format(score), True, WHITE)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH-125,  10)
+        screen.blit(text_surface, text_rect)
+        
+        # Desenha o score, por tempo
+        timee+=1
+         # Run game
+        pont=timee//FPS
+        text_surface = score_font.render("{:04d}".format(pont), True, BLACK)
+        
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH-300,  10)
         screen.blit(text_surface, text_rect)
         
         # Depois de desenhar tudo, inverte o display.
