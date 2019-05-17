@@ -46,6 +46,7 @@ def load_assets(img_dir, snd_dir):
     assets["bullet_img"] = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
     assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
+    assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
     assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
@@ -102,11 +103,14 @@ bullets = pygame.sprite.Group()
 bullet2 = pygame.sprite.Group()
 bullets.add(bullet2)
 
-# Cria um grupo para as caixar
+coin = pygame.sprite.Group()
+
+# Cria um grupo para as caixas
 box = pygame.sprite.Group()
 
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
+
     
 x = 0
 y = 0
@@ -125,9 +129,7 @@ for i in range(9):
     Coin_img.set_colorkey(WHITE)
     imagem_coin.append(Coin_img)
 
-coin = pygame.sprite.Group()
-
-#Cria 2 moedas
+#Cria moedas
 for i in range(1):
     c = Coin(imagem_coin)
     all_sprites.add(c)
@@ -141,13 +143,19 @@ for i in range(1):
     misterybox.add(b)
 
 
-# Cria o floco de neve
+# Cria o floco de neve  
 for i in range(1):
+<<<<<<< HEAD
     b = Floco(assets["flocos_img"])
     all_sprites.add(b)
     flocos.add(b)  
     
 score=0
+=======
+    f = Floco(assets["flocos_img"])
+    all_sprites.add(f)
+    flocos.add(f)
+>>>>>>> 7ce8bf4ebdb82ae52919862d6760d92f86a09332
 
 # Comando para evitar travamentos.
 try:
@@ -238,11 +246,12 @@ try:
         # Verifica se houve colisão entre player e floco de neve
         hits = pygame.sprite.spritecollide(player, flocos, False, False)
         if hits:
-            nevasca=pygame.sprite.Group()
+            nevasca = pygame.sprite.Group()
             for i in range(2):
-                b = Nevasca(assets["flocos_img"])
+                b = Nevasca(assets["flocos2_img"])
                 all_sprites.add(b)
                 flocos.add(b)
+<<<<<<< HEAD
                 player.speedx=1  
                 
         text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
@@ -250,7 +259,14 @@ try:
         text_rect.midtop = (WIDTH / 2,  700)
         screen.blit(text_surface, text_rect)
         
+=======
+                player.speedx = 2
+>>>>>>> 7ce8bf4ebdb82ae52919862d6760d92f86a09332
         
+#        hits = pygame.sprite.spritecollide(player, nevasca, False, False)
+#        if hits:
+            
+                    
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10

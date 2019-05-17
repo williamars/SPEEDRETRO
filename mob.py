@@ -71,6 +71,7 @@ class Mob(pygame.sprite.Sprite):
             elif i <=10:
                 self.rect.x = 455
 
+
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 15)
