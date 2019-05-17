@@ -148,6 +148,9 @@ for i in range(1):
 estanevando = False
 speedx = 0
 
+
+timee=0
+
 # Comando para evitar travamentos.
 try:
     
@@ -245,7 +248,7 @@ try:
         # Verifica se houve colisão entre player e floco de neve
         hits = pygame.sprite.spritecollide(player, flocos, False, False)
         if hits:
-<<<<<<< HEAD
+
 
             nevasca=pygame.sprite.Group()
             for i in range(1):
@@ -256,18 +259,14 @@ try:
         
         
 
-=======
->>>>>>> f5aace4079288c345e2d797a49e913c463bc25eb
+
             estanevando = True
             speedx = 1
             nevasca = pygame.sprite.Group()
             for i in range(30):
                 n = Nevasca(assets["flocos2_img"])
                 all_sprites.add(n)
-<<<<<<< HEAD
-                                
 
-=======
 #            contador=0
 #            if contador == 10:
 #                estanevando=False
@@ -277,7 +276,6 @@ try:
 #        else:
 #            estanevando=False
             
->>>>>>> f5aace4079288c345e2d797a49e913c463bc25eb
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
@@ -295,6 +293,19 @@ try:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH-125,  10)
         screen.blit(text_surface, text_rect)
+
+        
+        # Desenha o score, por tempo
+        timee+=1
+         # Run game
+        pont=timee//FPS
+        text_surface = score_font.render("{:04d}".format(pont), True, BLACK)
+        
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH-300,  10)
+        screen.blit(text_surface, text_rect)
+        
+
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
