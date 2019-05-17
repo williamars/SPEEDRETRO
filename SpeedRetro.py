@@ -116,7 +116,7 @@ box = pygame.sprite.Group()
 flocos = pygame.sprite.Group()
 
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(3):
+for i in range(5):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
