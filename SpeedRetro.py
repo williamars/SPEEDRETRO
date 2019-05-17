@@ -98,7 +98,7 @@ score_font = assets["score_font"]
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
-# Cria um grupo só dos meteoros
+# Cria um grupo só dos carrinhos inimigos
 mobs = pygame.sprite.Group()
 
 # Cria um grupo para tiros (vermelho)
@@ -116,10 +116,13 @@ box = pygame.sprite.Group()
 flocos = pygame.sprite.Group()
 
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(3):
+for i in range(5):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
+    z=random.randrange(0,10)
+    #
+
     
 #Cria grupo das moedas
 imagem_coin=[]
