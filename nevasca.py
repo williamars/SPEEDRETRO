@@ -25,7 +25,7 @@ class Nevasca(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em x                      
         self.rect.x = random.randrange(0,600)
         # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-100, -40)
+        self.rect.y = random.randrange(-700, -40)
         # Sorteia uma velocidade inicial
         self.speedx = random.randrange(0,5)
         self.speedy = random.randrange(10,20)
