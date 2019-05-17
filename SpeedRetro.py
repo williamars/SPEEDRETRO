@@ -243,6 +243,7 @@ try:
 #        hits = pygame.sprite.spritecollide(player, nevasca, False, False)
 #        if hits:
             
+            
                     
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     

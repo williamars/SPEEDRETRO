@@ -29,7 +29,7 @@ class Floco(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-        self.speedy = random.randrange(3,10)
+        self.speedy = 3
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * 85 / 2)
@@ -39,11 +39,10 @@ class Floco(pygame.sprite.Sprite):
         self.rect.x += 0
         self.rect.y += self.speedy
     
-        
         # Se o floco passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            posicao_inicial=[100,195,280,365,455]
-            i=random.randrange(0,5)
+            posicao_inicial=[195,280,365]
+            i=random.randrange(0,3)
             self.rect.x = posicao_inicial[i]
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
