@@ -1,10 +1,7 @@
 import pygame
 import time
 from os import path
-import os
 import random
-os.environ['SDL_VIDEO_CENTERED'] = '1'
-pygame.init()
 
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
@@ -115,8 +112,11 @@ box = pygame.sprite.Group()
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
 
+    
+x = 0
+y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(5):
+for i in range(0):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -146,10 +146,9 @@ for i in range(1):
     flocos.add(f)
     
 estanevando = False
-speedx = 0
-
 
 timee=0
+
 
 # Comando para evitar travamentos.
 try:
@@ -163,7 +162,7 @@ try:
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
 
-        if random.randrange(1,200) == 1:
+        if random.randrange(1,500) == 1:
             b = Box(assets["box_img"])
             all_sprites.add(b)
             misterybox.add(b)
@@ -180,11 +179,11 @@ try:
                 # Dependendo da tecla, altera a velocidade.
                 fator = 0
                 if estanevando:
-                    fator = 2
+                    fator = 3
                 if event.key == pygame.K_LEFT:
-                    speedx = -5 + fator
+                    player.speedx = -5 + fator
                 if event.key == pygame.K_RIGHT:
-                    speedx = 5 + fator
+                    player.speedx = 5 + fator
                 # Se for um espaço atira!
                 if event.key == pygame.K_SPACE:
                     bullet = Bullet2(player.rect.centerx, player.rect.top)
@@ -194,16 +193,11 @@ try:
                     
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
-                fator = 0
-                if estanevando:
-                    fator = 2
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
-                    speedx = fator
+                    player.speedx = 0
                 if event.key  == pygame.K_RIGHT:
-                    speedx = fator
-                    
-        player.speedx = speedx
+                    player.speedx = 0
                     
         # Verifica se jogador encostou a parede
         if player.rect.right > 519:
@@ -246,9 +240,8 @@ try:
             score += 1
             
         # Verifica se houve colisão entre player e floco de neve
-        hits = pygame.sprite.spritecollide(player, flocos, False, False)
+        hits = pygame.sprite.spritecollide(player, flocos, True, False)
         if hits:
-
 
             nevasca=pygame.sprite.Group()
             for i in range(1):
@@ -259,23 +252,14 @@ try:
         
         
 
-
             estanevando = True
-            speedx = 1
             nevasca = pygame.sprite.Group()
-            for i in range(30):
+            player.speedx = 1
+            for i in range(2):
                 n = Nevasca(assets["flocos2_img"])
                 all_sprites.add(n)
+                                
 
-#            contador=0
-#            if contador == 10:
-#                estanevando=False
-#                player.speedx=0
-#            if contador < 10:
-#                contador += 1
-#        else:
-#            estanevando=False
-            
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
@@ -293,7 +277,6 @@ try:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH-125,  10)
         screen.blit(text_surface, text_rect)
-
         
         # Desenha o score, por tempo
         timee+=1
@@ -304,8 +287,6 @@ try:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH-300,  10)
         screen.blit(text_surface, text_rect)
-        
-
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
