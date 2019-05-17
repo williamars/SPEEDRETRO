@@ -1,18 +1,18 @@
 import pygame
 import time
 from os import path
-import random
 
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
+fnt_dir = path.join(path.dirname(__file__), 'font')
 
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
 FPS = 80 # Frames por segundo
 # Importando as informações iniciais
-from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
+from init import img_dir, snd_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
 
 # Importando arquivo do carrinho
 from player import Player
@@ -51,6 +51,7 @@ def load_assets(img_dir, snd_dir):
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 28)
     return assets
 
 # Inicialização do Pygame.
@@ -86,6 +87,9 @@ Ta_Da = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
 # Cria um carrinho. O construtor será chamado automaticamente.
 player = Player(assets["player_img"])
 
+# Carrega a fonte para desenhar o score.
+score_font = assets["score_font"]
+
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
@@ -111,7 +115,7 @@ flocos = pygame.sprite.Group()
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(0):
+for i in range(0 ):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -141,9 +145,17 @@ for i in range(1):
 
 # Cria o floco de neve  
 for i in range(1):
+<<<<<<< HEAD
+    b = Floco(assets["flocos_img"])
+    all_sprites.add(b)
+    flocos.add(b)  
+    
+score=0
+=======
     f = Floco(assets["flocos_img"])
     all_sprites.add(f)
     flocos.add(f)
+>>>>>>> 7ce8bf4ebdb82ae52919862d6760d92f86a09332
 
 # Comando para evitar travamentos.
 try:
@@ -229,6 +241,7 @@ try:
             all_sprites.add(b)
             misterybox.add(b)
             running = True
+            score+=1
             
         # Verifica se houve colisão entre player e floco de neve
         hits = pygame.sprite.spritecollide(player, flocos, False, False)
@@ -238,7 +251,17 @@ try:
                 b = Nevasca(assets["flocos2_img"])
                 all_sprites.add(b)
                 flocos.add(b)
+<<<<<<< HEAD
+                player.speedx=1  
+                
+        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH / 2,  700)
+        screen.blit(text_surface, text_rect)
+        
+=======
                 player.speedx = 2
+>>>>>>> 7ce8bf4ebdb82ae52919862d6760d92f86a09332
         
 #        hits = pygame.sprite.spritecollide(player, nevasca, False, False)
 #        if hits:
