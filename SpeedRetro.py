@@ -6,6 +6,7 @@ import random
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
+fnt_dir = path.join(path.dirname(__file__), 'font')
 
 # Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
@@ -39,17 +40,19 @@ from floco import Floco
 from nevasca import Nevasca
 
 # Carrega todos os assets de uma vez só
-def load_assets(img_dir, snd_dir):
+def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
     assets["bullet_img"] = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
     assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
+    assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
     assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 35)
     return assets
 
 # Inicialização do Pygame.
@@ -63,7 +66,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SpeedRetro")
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
-assets = load_assets(img_dir, snd_dir)
+assets = load_assets(img_dir, snd_dir, fnt_dir)
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
@@ -85,6 +88,9 @@ Ta_Da = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
 # Cria um carrinho. O construtor será chamado automaticamente.
 player = Player(assets["player_img"])
 
+# Carrega a fonte para desenhar o score.
+score_font = assets["score_font"]
+
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
@@ -98,11 +104,14 @@ bullets = pygame.sprite.Group()
 bullet2 = pygame.sprite.Group()
 bullets.add(bullet2)
 
-# Cria um grupo para as caixar
+coin = pygame.sprite.Group()
+
+# Cria um grupo para as caixas
 box = pygame.sprite.Group()
 
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
+
     
 x = 0
 y = 0
@@ -121,9 +130,7 @@ for i in range(9):
     Coin_img.set_colorkey(WHITE)
     imagem_coin.append(Coin_img)
 
-coin = pygame.sprite.Group()
-
-#Cria 2 moedas
+#Cria moedas
 for i in range(1):
     c = Coin(imagem_coin)
     all_sprites.add(c)
@@ -131,17 +138,14 @@ for i in range(1):
     
 #Cria a box
 misterybox = pygame.sprite.Group()
-for i in range(1):
-    b = Box(assets["box_img"])
-    all_sprites.add(b)
-    misterybox.add(b)
 
-
-# Cria o floco de neve
+# Cria o floco de neve  
 for i in range(1):
-    b = Floco(assets["flocos_img"])
-    all_sprites.add(b)
-    flocos.add(b)    
+    f = Floco(assets["flocos_img"])
+    all_sprites.add(f)
+    flocos.add(f)
+    
+estanevando = False
 
 # Comando para evitar travamentos.
 try:
@@ -149,10 +153,16 @@ try:
     # Loop principal.
     pygame.mixer.music.play(loops=-1)
     running = True
+    score = 0
     while running: 
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
+
+        if random.randrange(1,500) == 1:
+            b = Box(assets["box_img"])
+            all_sprites.add(b)
+            misterybox.add(b)
         
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get():
@@ -164,10 +174,13 @@ try:
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
+                fator = 0
+                if estanevando:
+                    fator = 3
                 if event.key == pygame.K_LEFT:
-                    player.speedx = -5
+                    player.speedx = -5 + fator
                 if event.key == pygame.K_RIGHT:
-                    player.speedx = 5
+                    player.speedx = 5 + fator
                 # Se for um espaço atira!
                 if event.key == pygame.K_SPACE:
                     bullet = Bullet2(player.rect.centerx, player.rect.top)
@@ -212,25 +225,21 @@ try:
             running = False
         
         # Verifica se houve colisão com a moeda
-#        hits = pygame.sprite.spritecollide(player, coin, False, pygame.sprite.collide_circle)
-#        for hit in hits:
-#            c = Coin(imagem_coin)
-#            all_sprites.add(c)
-#            coin.add(c)
+        hits = pygame.sprite.spritecollide(player, coin, True, False)
+        for hit in hits:
+            score += 1
           
         # Verifica se houve colisão com o misterybox
-        hits = pygame.sprite.spritecollide(player, misterybox, False, False)
+        hits = pygame.sprite.spritecollide(player, misterybox, True, False)
         for hit in hits:
             # Toca o som da colisão
             Ta_Da.play()
-            time.sleep(0) # Precisa esperar senão fecha
-            all_sprites.add(b)
-            misterybox.add(b)
-            running = True
+            score += 1
             
         # Verifica se houve colisão entre player e floco de neve
-        hits = pygame.sprite.spritecollide(player, flocos, False, False)
+        hits = pygame.sprite.spritecollide(player, flocos, True, False)
         if hits:
+<<<<<<< HEAD
             nevasca=pygame.sprite.Group()
             for i in range(1):
                 b = Nevasca(assets["flocos_img"])
@@ -239,6 +248,15 @@ try:
                 player.speedx=1  
         
         
+=======
+            estanevando = True
+            nevasca = pygame.sprite.Group()
+            player.speedx = 1
+            for i in range(2):
+                n = Nevasca(assets["flocos2_img"])
+                all_sprites.add(n)
+                                
+>>>>>>> e584ac2081eb6d697a6941c00bb2643787fbf277
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
         background_rect_cima.y += 10
@@ -250,6 +268,12 @@ try:
         if background_rect.y >= HEIGHT:
             background_rect.y = 0
             background_rect_cima.y = -HEIGHT
+            
+        # Desenha o score
+        text_surface = score_font.render("{:01d}".format(score), True, WHITE)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH-125,  10)
+        screen.blit(text_surface, text_rect)
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()

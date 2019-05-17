@@ -61,15 +61,9 @@ class Coin(pygame.sprite.Sprite):
             self.image = self.imagem_coin[self.frame]
             self.rect = self.image.get_rect()
             self.rect.center = center
-        
-        
+              
         self.rect.x += 0
         self.rect.y += self.speedy
-        
-        if self.rect.right > 520:
-            self.rect.right = 520
-        if self.rect.left < 90:
-            self.rect.left = 90
         
         # Se a moeda passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
