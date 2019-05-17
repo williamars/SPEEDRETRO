@@ -1,6 +1,7 @@
 import pygame
 import time
 from os import path
+import random
 
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
@@ -137,16 +138,14 @@ for i in range(1):
     
 #Cria a box
 misterybox = pygame.sprite.Group()
-for i in range(1):
-    b = Box(assets["box_img"])
-    all_sprites.add(b)
-    misterybox.add(b)
 
 # Cria o floco de neve  
 for i in range(1):
     f = Floco(assets["flocos_img"])
     all_sprites.add(f)
     flocos.add(f)
+    
+estanevando = False
 
 # Comando para evitar travamentos.
 try:
@@ -159,6 +158,11 @@ try:
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
+
+        if random.randrange(1,500) == 1:
+            b = Box(assets["box_img"])
+            all_sprites.add(b)
+            misterybox.add(b)
         
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get():
@@ -170,10 +174,13 @@ try:
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
+                fator = 0
+                if estanevando:
+                    fator = 3
                 if event.key == pygame.K_LEFT:
-                    player.speedx = -5
+                    player.speedx = -5 + fator
                 if event.key == pygame.K_RIGHT:
-                    player.speedx = 5
+                    player.speedx = 5 + fator
                 # Se for um espaço atira!
                 if event.key == pygame.K_SPACE:
                     bullet = Bullet2(player.rect.centerx, player.rect.top)
@@ -218,25 +225,26 @@ try:
             running = False
         
         # Verifica se houve colisão com a moeda
-        hits = pygame.sprite.spritecollide(player, coin, False, False)
+        hits = pygame.sprite.spritecollide(player, coin, True, False)
         for hit in hits:
             score += 1
           
         # Verifica se houve colisão com o misterybox
-        hits = pygame.sprite.spritecollide(player, misterybox, False, False)
+        hits = pygame.sprite.spritecollide(player, misterybox, True, False)
         for hit in hits:
             # Toca o som da colisão
             Ta_Da.play()
             score += 1
             
         # Verifica se houve colisão entre player e floco de neve
-        hits = pygame.sprite.spritecollide(player, flocos, False, False)
+        hits = pygame.sprite.spritecollide(player, flocos, True, False)
         if hits:
+            estanevando = True
             nevasca = pygame.sprite.Group()
+            player.speedx = 1
             for i in range(2):
                 n = Nevasca(assets["flocos2_img"])
                 all_sprites.add(n)
-                player.speedx = 1
                                 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)     
