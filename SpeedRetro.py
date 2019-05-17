@@ -51,7 +51,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl3.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
-    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 28)
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 35)
     return assets
 
 # Inicialização do Pygame.
@@ -115,7 +115,7 @@ flocos = pygame.sprite.Group()
 x = 0
 y = 0
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(0 ):
+for i in range(0):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
@@ -141,8 +141,6 @@ for i in range(1):
     b = Box(assets["box_img"])
     all_sprites.add(b)
     misterybox.add(b)
-
-
 
 # Cria o floco de neve  
 for i in range(1):
@@ -253,9 +251,9 @@ try:
             background_rect_cima.y = -HEIGHT
             
         # Desenha o score
-        text_surface = score_font.render("{:03d}".format(score), True, BLACK)
+        text_surface = score_font.render("{:01d}".format(score), True, WHITE)
         text_rect = text_surface.get_rect()
-        text_rect.midtop = (WIDTH/2,  10)
+        text_rect.midtop = (WIDTH-125,  10)
         screen.blit(text_surface, text_rect)
         
         # Depois de desenhar tudo, inverte o display.
