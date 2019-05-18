@@ -9,32 +9,7 @@ pygame.init()
 # Importando as informações iniciais
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
-# Tamanho da tela
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# Importando arquivo do carrinho
-from player import Player
-
-# Importando arquivo dos outros carrinhos
-from mob import Mob      
-            
-# Importando arquivo dos tiros
-# from bullet import Bullet
-
-# Importanto arquivo do outro tiro
-from bullet2 import Bullet2
-
-# Importando arquivo da classe
-from coin import Coin
-
-# Importando arquivo da classe box
-from misterybox import Box
-
-# Importando arquivo dos flocos de neve
-from floco import Floco
-
-# Importando arquivo da nevasca
-from nevasca import Nevasca          
+from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco    
         
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
@@ -54,8 +29,6 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     return assets
 
 def init_screen(screen):
-    # Variável para o ajuste de velocidade
-    clock = pygame.time.Clock()
 
     # Carrega o fundo da tela inicial
     background = pygame.image.load(path.join(img_dir, 'inicio.png')).convert()

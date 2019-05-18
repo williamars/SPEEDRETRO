@@ -9,7 +9,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando a função do init screen
-from classes import Player, Mob, Box, Bullet, Bullet2, Coin, Nevasca, Floco
+from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco
 
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
