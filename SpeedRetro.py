@@ -7,7 +7,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 
 # Importando as informações iniciais
-from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, GREEN, RED, bright_red, bright_green
+from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Tamanho da tela
 game_display = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -34,37 +34,8 @@ from misterybox import Box
 from floco import Floco
 
 # Importando arquivo da nevasca
-from nevasca import Nevasca
-
-# 
-def text_object(text, font):
-    textSurface = font.render(text, True, RED)
-    return textSurface, textSurface.get_rect()
-
-# Tela inicial
-def game_intro():
-    
-    intro = True 
-    while intro:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-        game_display.fill(BLACK)         
-    
-        largeText = pygame.font.SysFont("comicsansms",80)
-        textSurf, textRect = text_object("TELA INICIAL", largeText)
-        textRect.center = ((WIDTH/2) , (HEIGHT/2))
-        game_display.blit(textSurf, textRect)
+from nevasca import Nevasca          
         
-        for event in pygame.event.get():
-            if event.type == pygame.K_SPACE:
-                pygame.display.update()
-                intro = False
-                
-        
-
-
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
@@ -177,7 +148,6 @@ timee=0
 # Comando para evitar travamentos.
 try:
     
-    game_intro()
     # Loop principal.
     pygame.mixer.music.play(loops=-1)
     running = True
