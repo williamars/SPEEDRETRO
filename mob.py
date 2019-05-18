@@ -1,6 +1,7 @@
 import pygame
 import random
 from init import path, img_dir, WHITE, HEIGHT, WIDTH
+import time
 
 # Classe Mob que representa os carrinhos
 class Mob(pygame.sprite.Sprite):
@@ -24,7 +25,6 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-
         i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
         if i <=2:
             self.rect.x = 100
