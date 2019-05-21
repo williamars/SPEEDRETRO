@@ -301,7 +301,7 @@ for i in range(1):
     
 # Comando para evitar travamentos.
 try:
-    
+     
         começar_na_tela_inicial = init_screen(screen)
         
 finally:
