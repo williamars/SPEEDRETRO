@@ -63,6 +63,7 @@ def init_screen(screen):
 def main():    
             
             estanevando = False
+            estanevando_tempo = 0
             speedx = 0
             timee=0
             clock.tick(FPS)
@@ -70,10 +71,16 @@ def main():
             pygame.mixer.music.play(loops=-1)
             running = True
             score = 0
-            while running: 
+            while running:
             
             # Ajusta a velocidade do jogo.
                 clock.tick(FPS)
+
+                estanevando_tempo -= 1
+                if estanevando_tempo == 1:
+                    estanevando_tempo = 0
+                    speedx = 0
+                    estanevando = False
         
                 if random.randrange(1, 900) == 1:
                     b = Box(assets["box_img"])
@@ -96,7 +103,7 @@ def main():
                     if event.type == pygame.KEYDOWN:
                         # Dependendo da tecla, altera a velocidade.
                         fator = 0
-                        if estanevando:
+                        if estanevando or estanevando_tempo > 0:
                             fator = 2
                         if event.key == pygame.K_LEFT:
                             speedx = -5 + fator
@@ -112,9 +119,9 @@ def main():
                     # Verifica se soltou alguma tecla.
                     if event.type == pygame.KEYUP:
                         fator = 0
-                        if estanevando:
+                        if estanevando or estanevando_tempo > 0:
                             fator = 2
-                        # Dependendo da tecla, altera a velocidade.
+                        # Dependendo da nevasca, altera a velocidade.
                         if event.key == pygame.K_LEFT:
                             speedx = fator
                         if event.key  == pygame.K_RIGHT:
@@ -166,8 +173,10 @@ def main():
                 hits = pygame.sprite.spritecollide(player, flocos, False, False)
                 if hits:
                     estanevando = True
+                    estanevando_tempo = 120
                     speedx = 1
-                    for i in range(30):
+                    contador=0
+                    for i in range(10):
                         n = Nevasca(assets["flocos2_img"])
                         all_sprites.add(n)
                     
@@ -243,7 +252,7 @@ score_font = assets["score_font"]
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
-# Cria um grupo só dos meteoros
+# Cria um grupo só dos carros inimigos
 mobs = pygame.sprite.Group()
 
 # Cria um grupo para tiros (vermelho)
