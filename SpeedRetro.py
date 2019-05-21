@@ -196,9 +196,15 @@ def main():
                     chama_floco()
                     
                 # A cada loop, redesenha o fundo e os sprites
+                contador = 0
+                contador += 1
+                aceleracao=2               
+                if contador == 340:
+                    aceleracao = 1
+
                 screen.fill(BLACK)     
-                background_rect_cima.y += 10
-                background_rect.y += 10
+                background_rect_cima.y += 5 * aceleracao
+                background_rect.y += 5 * aceleracao
                 screen.blit(background, background_rect_cima)
                 screen.blit(background, background_rect)
                 all_sprites.draw(screen)
