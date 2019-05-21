@@ -2,6 +2,8 @@ import pygame
 from init import BLACK, WIDTH, HEIGHT, img_dir, snd_dir, fnt_dir, WHITE, path
 import random
 
+lista_i = []
+
 # Classe Jogador que representa o carrinho
 class Player(pygame.sprite.Sprite):
     
@@ -18,7 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(player_img, (58, 75))
         
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -47,19 +49,19 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self):
+    def __init__(self, mob_img):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem.
-        mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
+        self.image = mob_img
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(mob_img, (54, 70))
         
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()

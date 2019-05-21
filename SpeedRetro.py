@@ -9,13 +9,13 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando todas as classes
-from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco, Laser 
+from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco, Laser, lista_i
         
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
-    assets["player_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
-    assets["mob_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
+    assets["player_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
+    assets["mob_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
     assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
@@ -150,7 +150,7 @@ def main():
                 for hit in hits: # Pode haver mais de um
                     # O carrinho é destruido e precisa ser recriado
                     destroy_sound.play()
-                    m = Mob() 
+                    m = Mob(assets['mob_img']) 
                     all_sprites.add(m)
                     mobs.add(m) 
                     
@@ -295,12 +295,14 @@ flocos = pygame.sprite.Group()
 
 #Cria um grupo para o laser
 laser = pygame.sprite.Group()
+
 # Cria um grupo para a nevasca
 nevasca = pygame.sprite.Group()
 
 # Cria carrinhos e adiciona no grupo mobs
+lista_i = []
 for i in range(5):
-    m = Mob()
+    m = Mob(assets['mob_img'])
     all_sprites.add(m)
     mobs.add(m)
     
