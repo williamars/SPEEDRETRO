@@ -31,7 +31,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
 def init_screen(screen):
 
     # Carrega o fundo da tela inicial
-    background = pygame.image.load(path.join(img_dir, 'inicio.png')).convert()
+    background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
     background_rect = background.get_rect()
 
     running = True
@@ -267,11 +267,9 @@ score_font = assets["score_font"]
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
-<<<<<<< HEAD
+
 # Cria um grupo só dos carrinhos
-=======
 # Cria um grupo só dos carros inimigos
->>>>>>> 3d1c7f3ef903a90a27bf5d511f2988392f0e6abf
 mobs = pygame.sprite.Group()
 
 # Cria um grupo para tiros (vermelho)
@@ -289,13 +287,10 @@ box = pygame.sprite.Group()
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
 
-<<<<<<< HEAD
 #Cria um grupo para o laser
 laser = pygame.sprite.Group()
-=======
 # Cria um grupo para a nevasca
 nevasca = pygame.sprite.Group()
->>>>>>> 3d1c7f3ef903a90a27bf5d511f2988392f0e6abf
 
 # Cria carrinhos e adiciona no grupo mobs
 for i in range(5):
