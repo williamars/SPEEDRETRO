@@ -62,6 +62,7 @@ def init_screen(screen):
 def main():    
             
             estanevando = False
+            estanevando_tempo = 0
             speedx = 0
             timee=0
             clock.tick(FPS)
@@ -69,10 +70,16 @@ def main():
             pygame.mixer.music.play(loops=-1)
             running = True
             score = 0
-            while running: 
+            while running:
             
             # Ajusta a velocidade do jogo.
                 clock.tick(FPS)
+
+                estanevando_tempo -= 1
+                if estanevando_tempo == 1:
+                    estanevando_tempo = 0
+                    speedx = 0
+                    estanevando = False
         
                 if random.randrange(1, 900) == 1:
                     b = Box(assets["box_img"])
@@ -95,7 +102,7 @@ def main():
                     if event.type == pygame.KEYDOWN:
                         # Dependendo da tecla, altera a velocidade.
                         fator = 0
-                        if estanevando:
+                        if estanevando or estanevando_tempo > 0:
                             fator = 2
                         if event.key == pygame.K_LEFT:
                             speedx = -5 + fator
@@ -118,9 +125,9 @@ def main():
                     # Verifica se soltou alguma tecla.
                     if event.type == pygame.KEYUP:
                         fator = 0
-                        if estanevando:
+                        if estanevando or estanevando_tempo > 0:
                             fator = 2
-                        # Dependendo da tecla, altera a velocidade.
+                        # Dependendo da nevasca, altera a velocidade.
                         if event.key == pygame.K_LEFT:
                             speedx = fator
                         if event.key  == pygame.K_RIGHT:
@@ -178,13 +185,15 @@ def main():
                     score += 1
                     
                 # Verifica se houve colisão entre player e floco de neve
-                hits = pygame.sprite.spritecollide(player, flocos, False, False)
+                hits = pygame.sprite.spritecollide(player, flocos, True, False)
                 if hits:
                     estanevando = True
+                    estanevando_tempo = 120
                     speedx = 1
                     for i in range(30):
                         n = Nevasca(assets["flocos2_img"])
                         all_sprites.add(n)
+                    chama_floco()
                     
                 # A cada loop, redesenha o fundo e os sprites
                 screen.fill(BLACK)     
@@ -258,7 +267,11 @@ score_font = assets["score_font"]
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
+<<<<<<< HEAD
 # Cria um grupo só dos carrinhos
+=======
+# Cria um grupo só dos carros inimigos
+>>>>>>> 3d1c7f3ef903a90a27bf5d511f2988392f0e6abf
 mobs = pygame.sprite.Group()
 
 # Cria um grupo para tiros (vermelho)
@@ -267,6 +280,7 @@ bullets = pygame.sprite.Group()
 bullet2 = pygame.sprite.Group()
 bullets.add(bullet2)
 
+# Cria grupo para as moedas
 coin = pygame.sprite.Group()
 
 # Cria um grupo para as caixas
@@ -275,8 +289,13 @@ box = pygame.sprite.Group()
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
 
+<<<<<<< HEAD
 #Cria um grupo para o laser
 laser = pygame.sprite.Group()
+=======
+# Cria um grupo para a nevasca
+nevasca = pygame.sprite.Group()
+>>>>>>> 3d1c7f3ef903a90a27bf5d511f2988392f0e6abf
 
 # Cria carrinhos e adiciona no grupo mobs
 for i in range(5):
@@ -293,7 +312,7 @@ for i in range(9):
     Coin_img.set_colorkey(WHITE)
     imagem_coin.append(Coin_img)
 
-#Cria moedas
+# #Cria moedas
 for i in range(1):
     c = Coin(imagem_coin)
     all_sprites.add(c)
@@ -303,15 +322,17 @@ for i in range(1):
 misterybox = pygame.sprite.Group()
 
 # Cria o floco de neve  
-for i in range(1):
-    f = Floco(assets["flocos_img"])
-    all_sprites.add(f)
-    flocos.add(f)
-    
+def chama_floco():
+    for i in range(1):
+        f = Floco(assets["flocos_img"])
+        all_sprites.add(f)
+        flocos.add(f)
+chama_floco()
+
 # Comando para evitar travamentos.
 try:
      
-        começar_na_tela_inicial = init_screen(screen)
+    começar_na_tela_inicial = init_screen(screen)
         
 finally:
     
