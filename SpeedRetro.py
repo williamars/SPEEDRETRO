@@ -170,15 +170,15 @@ def main():
                     score += 1
                     
                 # Verifica se houve colisão entre player e floco de neve
-                hits = pygame.sprite.spritecollide(player, flocos, False, False)
+                hits = pygame.sprite.spritecollide(player, flocos, True, False)
                 if hits:
                     estanevando = True
                     estanevando_tempo = 120
                     speedx = 1
-                    contador=0
-                    for i in range(10):
+                    for i in range(30):
                         n = Nevasca(assets["flocos2_img"])
                         all_sprites.add(n)
+                    chama_floco()
                     
                 # A cada loop, redesenha o fundo e os sprites
                 screen.fill(BLACK)     
@@ -261,6 +261,7 @@ bullets = pygame.sprite.Group()
 bullet2 = pygame.sprite.Group()
 bullets.add(bullet2)
 
+# Cria grupo para as moedas
 coin = pygame.sprite.Group()
 
 # Cria um grupo para as caixas
@@ -268,6 +269,9 @@ box = pygame.sprite.Group()
 
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
+
+# Cria um grupo para a nevasca
+nevasca = pygame.sprite.Group()
 
 # Cria carrinhos e adiciona no grupo mobs
 for i in range(5):
@@ -284,7 +288,7 @@ for i in range(9):
     Coin_img.set_colorkey(WHITE)
     imagem_coin.append(Coin_img)
 
-#Cria moedas
+# #Cria moedas
 for i in range(1):
     c = Coin(imagem_coin)
     all_sprites.add(c)
@@ -294,11 +298,13 @@ for i in range(1):
 misterybox = pygame.sprite.Group()
 
 # Cria o floco de neve  
-for i in range(1):
-    f = Floco(assets["flocos_img"])
-    all_sprites.add(f)
-    flocos.add(f)
-    
+def chama_floco():
+    for i in range(1):
+        f = Floco(assets["flocos_img"])
+        all_sprites.add(f)
+        flocos.add(f)
+chama_floco()
+
 # Comando para evitar travamentos.
 try:
      
