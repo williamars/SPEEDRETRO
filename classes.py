@@ -115,37 +115,7 @@ class Mob(pygame.sprite.Sprite):
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 15)
 
-# Classe Bullet que representa os tiros
-class Bullet(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self, x, y):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        bullet_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-        self.image = bullet_img
-        
-        # Deixando transparente.
-        self.image.set_colorkey(BLACK)
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Coloca no lugar inicial definido em x, y do constutor
-        self.rect.bottom = y
-        self.rect.centerx = x
-        self.speedy = -10
 
-    # Metodo que atualiza a posição da navinha
-    def update(self):
-        self.rect.y += self.speedy
-        
-        # Se o tiro passar do inicio da tela, morre.
-        if self.rect.bottom < 0:
-            self.kill()
 
 class Bullet2(pygame.sprite.Sprite):
     
@@ -404,3 +374,34 @@ class Nevasca(pygame.sprite.Sprite):
         
         self.rect.x += random.randrange(0,5)
         self.rect.y += random.randrange(10,20)
+        
+class Laser(pygame.sprite.Sprite):
+    
+    # Construtor da classe.
+    def __init__(self, x, y):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        laser_img = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
+        self.image = laser_img
+        
+        # Deixando transparente.
+        self.image.set_colorkey(WHITE)
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+        # Coloca no lugar inicial definido em x, y do constutor
+        self.rect.bottom = y
+        self.rect.centerx = x
+        self.speedy = -10
+
+    # Metodo que atualiza a posição da navinha
+    def update(self):
+        self.rect.y += self.speedy
+        
+        # Se o tiro passar do inicio da tela, morre.
+        if self.rect.bottom < 0:
+            self.kill()

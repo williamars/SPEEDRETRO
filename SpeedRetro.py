@@ -9,14 +9,13 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando todas as classes
-from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco    
+from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco, Laser 
         
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
-    assets["bullet_img"] = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
     assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
@@ -32,7 +31,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
 def init_screen(screen):
 
     # Carrega o fundo da tela inicial
-    background = pygame.image.load(path.join(img_dir, 'inicio.png')).convert()
+    background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
     background_rect = background.get_rect()
 
     running = True
@@ -116,6 +115,13 @@ def main():
                             bullets.add(bullet)
                             pew_sound.play()
                             
+                        if event.key == pygame.K_LCTRL:
+                            laserr = Laser(player.rect.centerx, player.rect.top)
+                            all_sprites.add(laserr)
+                            laser.add(laserr)
+                            pew_sound.play()
+                            
+                            
                     # Verifica se soltou alguma tecla.
                     if event.type == pygame.KEYUP:
                         fator = 0
@@ -141,6 +147,15 @@ def main():
                 
                 # Verifica se houve colisão entre tiro e carrinhos
                 hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
+                for hit in hits: # Pode haver mais de um
+                    # O carrinho é destruido e precisa ser recriado
+                    destroy_sound.play()
+                    m = Mob() 
+                    all_sprites.add(m)
+                    mobs.add(m) 
+                    
+                # Verifica se houve colisão entre Laser e carrinhos
+                hits = pygame.sprite.groupcollide(mobs, laser, True, True)
                 for hit in hits: # Pode haver mais de um
                     # O carrinho é destruido e precisa ser recriado
                     destroy_sound.play()
@@ -258,6 +273,8 @@ score_font = assets["score_font"]
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
+
+# Cria um grupo só dos carrinhos
 # Cria um grupo só dos carros inimigos
 mobs = pygame.sprite.Group()
 
@@ -276,6 +293,8 @@ box = pygame.sprite.Group()
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
 
+#Cria um grupo para o laser
+laser = pygame.sprite.Group()
 # Cria um grupo para a nevasca
 nevasca = pygame.sprite.Group()
 
