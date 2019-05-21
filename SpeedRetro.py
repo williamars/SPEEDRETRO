@@ -9,7 +9,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
 
 # Importando todas as classes
-from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco, Laser, lista_i
+from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco, Laser
         
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
@@ -301,8 +301,10 @@ nevasca = pygame.sprite.Group()
 
 # Cria carrinhos e adiciona no grupo mobs
 lista_i = []
+mobs.speedy = 15
 for i in range(5):
     m = Mob(assets['mob_img'])
+    mobs.speedy -= 1
     all_sprites.add(m)
     mobs.add(m)
     

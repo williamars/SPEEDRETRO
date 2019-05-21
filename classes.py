@@ -2,8 +2,6 @@ import pygame
 from init import BLACK, WIDTH, HEIGHT, img_dir, snd_dir, fnt_dir, WHITE, path
 import random
 
-lista_i = []
-
 # Classe Jogador que representa o carrinho
 class Player(pygame.sprite.Sprite):
     
