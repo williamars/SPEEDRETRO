@@ -70,6 +70,7 @@ def main():
             pygame.mixer.music.play(loops=-1)
             running = True
             score = 0
+            velocidade=0.1
             while running:
             
             # Ajusta a velocidade do jogo.
@@ -196,15 +197,17 @@ def main():
                     chama_floco()
                     
                 # A cada loop, redesenha o fundo e os sprites
-                contador = 0
-                contador += 1
-                aceleracao=2               
-                if contador == 340:
-                    aceleracao = 1
+                
+                #while velocidade <30:
+                velocidade+=0.5
+
+                #if velocidade == 30:
+                 #   velocidade == 30
+
 
                 screen.fill(BLACK)     
-                background_rect_cima.y += 5 * aceleracao
-                background_rect.y += 5 * aceleracao
+                background_rect_cima.y += velocidade
+                background_rect.y += velocidade
                 screen.blit(background, background_rect_cima)
                 screen.blit(background, background_rect)
                 all_sprites.draw(screen)
