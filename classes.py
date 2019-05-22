@@ -65,9 +65,6 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        a = [True, False]
-        random.randrange(a)
-        
         i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
         if i <=2:
             self.rect.x = 100
@@ -81,10 +78,10 @@ class Mob(pygame.sprite.Sprite):
             self.rect.x = 455
         
         # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-100, -40)
+        self.rect.y = random.randrange(-150, -100)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-        self.speedy = random.randrange(10, 15)
+        self.speedy = 9
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -114,7 +111,7 @@ class Mob(pygame.sprite.Sprite):
             elif i <=10:
                 self.rect.x = 455
 
-            self.rect.y = random.randrange(-100, -40)
+            self.rect.y = random.randrange(-150, -100)
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 15)
 
