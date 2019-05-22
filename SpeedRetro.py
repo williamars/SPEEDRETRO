@@ -17,6 +17,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["player_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
     assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
+    assets["laser_img"] = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
     assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
@@ -110,13 +111,13 @@ def main():
                             speedx = 5 + fator
                         # Se for um espaço atira!
                         if event.key == pygame.K_SPACE:
-                            bullet = Bullet2(player.rect.centerx, player.rect.top)
+                            bullet = Bullet2(assets['bullet2_img'], player.rect.centerx, player.rect.top)
                             all_sprites.add(bullet)
                             bullets.add(bullet)
                             pew_sound.play()
                             
                         if event.key == pygame.K_LCTRL:
-                            laserr = Laser(player.rect.centerx, player.rect.top)
+                            laserr = Laser(assets['laser_img'], player.rect.centerx, player.rect.top)
                             all_sprites.add(laserr)
                             laser.add(laserr)
                             pew_sound.play()

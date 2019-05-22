@@ -120,13 +120,12 @@ class Mob(pygame.sprite.Sprite):
 class Bullet2(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y):
+    def __init__(self, bullet2_img, x, y):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        bullet2_img = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
         self.image = bullet2_img
         
         # Deixando transparente.
@@ -378,13 +377,12 @@ class Nevasca(pygame.sprite.Sprite):
 class Laser(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y):
+    def __init__(self, laser_img, x, y):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        laser_img = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
         self.image = laser_img
         
         # Deixando transparente.
