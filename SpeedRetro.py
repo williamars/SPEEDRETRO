@@ -121,8 +121,7 @@ def main():
                             all_sprites.add(laserr)
                             laser.add(laserr)
                             pew_sound.play()
-                            
-                            
+                                          
                     # Verifica se soltou alguma tecla.
                     if event.type == pygame.KEYUP:
                         fator = 0
@@ -290,6 +289,8 @@ coin = pygame.sprite.Group()
 
 # Cria um grupo para as caixas
 box = pygame.sprite.Group()
+#Cria a box
+misterybox = pygame.sprite.Group()
 
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
@@ -323,9 +324,6 @@ for i in range(1):
     c = Coin(imagem_coin)
     all_sprites.add(c)
     coin.add(c)
-    
-#Cria a box
-misterybox = pygame.sprite.Group()
 
 # Cria o floco de neve  
 def chama_floco():
