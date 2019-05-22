@@ -159,7 +159,7 @@ def main():
                 for hit in hits: # Pode haver mais de um
                     # O carrinho é destruido e precisa ser recriado
                     destroy_sound.play()
-                    m = Mob() 
+                    m = Mob(assets['mob_img']) 
                     all_sprites.add(m)
                     mobs.add(m) 
                 
