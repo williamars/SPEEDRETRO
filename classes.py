@@ -18,7 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(player_img, (58, 75))
         
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -47,19 +47,19 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self):
+    def __init__(self, mob_img):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem.
-        mob_img = pygame.image.load(path.join(img_dir, "Carrinhonovo.png")).convert()
+        self.image = mob_img
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(mob_img, (54, 70))
         
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -81,7 +81,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         # Sorteia uma velocidade inicial
         self.speedx = 0
-        self.speedy = random.randrange(12, 17)
+        self.speedy = random.randrange(10, 15)
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -120,13 +120,12 @@ class Mob(pygame.sprite.Sprite):
 class Bullet2(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y):
+    def __init__(self, bullet2_img, x, y):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        bullet2_img = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
         self.image = bullet2_img
         
         # Deixando transparente.
@@ -276,7 +275,7 @@ class Box(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem.
-        self.image = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
+        self.image = box_img
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(box_img, (35, 50))
@@ -378,13 +377,12 @@ class Nevasca(pygame.sprite.Sprite):
 class Laser(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, x, y):
+    def __init__(self, laser_img, x, y):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        laser_img = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
         self.image = laser_img
         
         # Deixando transparente.
