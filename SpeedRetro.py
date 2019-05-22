@@ -71,13 +71,12 @@ def main():
             pygame.mixer.music.play(loops=-1)
             running = True
             score = 0
-<<<<<<< HEAD
             velocidade=0.1
-=======
+            aceleracao=0.09
             contagemdetiros = 0
 
              # Loop principal.
->>>>>>> 04ce0d9904075428eec8a24f7a442867196e5f68
+
             while running:
 
             # Ajusta a velocidade do jogo.
@@ -207,13 +206,15 @@ def main():
                     
                 # A cada loop, redesenha o fundo e os sprites
                 
-                #while velocidade <30:
-                velocidade+=0.5
+                #while velocidade < 10:
+                velocidade+=aceleracao
 
-                #if velocidade == 30:
-                 #   velocidade == 30
+                if velocidade <30:
+                    velocidade +=aceleracao
+                else:
+                    velocidade =30
 
-
+                print(velocidade)
                 screen.fill(BLACK)     
                 background_rect_cima.y += velocidade
                 background_rect.y += velocidade
@@ -317,7 +318,7 @@ laser = pygame.sprite.Group()
 nevasca = pygame.sprite.Group()
 
 # Cria carrinhos e adiciona no grupo mobs
-for i in range(6):
+for i in range(5):
     m = Mob(assets['mob_img'])
     all_sprites.add(m)
     mobs.add(m)
