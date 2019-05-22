@@ -6,7 +6,7 @@ import random
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 # Importando as informações iniciais
-from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE
+from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
 
 # Importando todas as classes
 from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco, Laser
@@ -21,6 +21,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
     assets["box_img"] = pygame.image.load(path.join(img_dir, "misterybox.png")).convert()
+    assets["coin_init"] = pygame.image.load(path.join(img_dir, "coin_init.png")).convert()
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "crash.wav"))
     assets["moeda_sound"] = pygame.mixer.Sound(path.join(snd_dir, "m.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
@@ -67,12 +68,14 @@ def main():
             speedx = 0
             timee=0
             clock.tick(FPS)
-            # Loop principal.
             pygame.mixer.music.play(loops=-1)
             running = True
             score = 0
+            contagemdetiros = 0
+
+             # Loop principal.
             while running:
-            
+
             # Ajusta a velocidade do jogo.
                 clock.tick(FPS)
 
@@ -85,7 +88,7 @@ def main():
                 if random.randrange(1, 900) == 1:
                     b = Box(assets["box_img"])
                     all_sprites.add(b)
-                    misterybox.add(b)
+                    box.add(b)
                 
                 if random.randrange(1,500) == 5:
                     c = Coin(imagem_coin)
@@ -115,12 +118,14 @@ def main():
                             all_sprites.add(bullet)
                             bullets.add(bullet)
                             pew_sound.play()
-                            
-                        if event.key == pygame.K_LCTRL:
-                            laserr = Laser(assets['laser_img'], player.rect.centerx, player.rect.top)
-                            all_sprites.add(laserr)
-                            laser.add(laserr)
-                            pew_sound.play()
+
+                        if contagemdetiros > 0:    
+                            if event.key == pygame.K_LCTRL:
+                                laserr = Laser(assets['laser_img'], player.rect.centerx, player.rect.top)
+                                all_sprites.add(laserr)
+                                laser.add(laserr)
+                                pew_sound.play()
+                                contagemdetiros -= 1
                                           
                     # Verifica se soltou alguma tecla.
                     if event.type == pygame.KEYUP:
@@ -178,11 +183,12 @@ def main():
                     score += 1
                   
                 # Verifica se houve colisão com o misterybox
-                hits = pygame.sprite.spritecollide(player, misterybox, True, False)
+                hits = pygame.sprite.spritecollide(player, box, True, False)
                 for hit in hits:
                     # Toca o som da colisão
                     Ta_Da.play()
                     score += 1
+                    contagemdetiros += 3
                     
                 # Verifica se houve colisão entre player e floco de neve
                 hits = pygame.sprite.spritecollide(player, flocos, True, False)
@@ -228,7 +234,13 @@ def main():
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (WIDTH-300,  10)
                 screen.blit(text_surface, text_rect)
-                
+
+                if contagemdetiros > 0:
+                    text_surface = score_font.render("CTRL:{:01d} especiais".format(contagemdetiros), True, YELLOW)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (WIDTH/2,  HEIGHT-130)
+                    screen.blit(text_surface, text_rect)
+                    
                 # Depois de desenhar tudo, inverte o display.
                 pygame.display.flip()
 
@@ -273,7 +285,6 @@ score_font = assets["score_font"]
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
-
 # Cria um grupo só dos carrinhos
 # Cria um grupo só dos carros inimigos
 mobs = pygame.sprite.Group()
@@ -289,8 +300,6 @@ coin = pygame.sprite.Group()
 
 # Cria um grupo para as caixas
 box = pygame.sprite.Group()
-#Cria a box
-misterybox = pygame.sprite.Group()
 
 #Cria grupo para os flocos
 flocos = pygame.sprite.Group()
@@ -302,11 +311,8 @@ laser = pygame.sprite.Group()
 nevasca = pygame.sprite.Group()
 
 # Cria carrinhos e adiciona no grupo mobs
-lista_i = []
-mobs.speedy = 15
-for i in range(5):
+for i in range(6):
     m = Mob(assets['mob_img'])
-    mobs.speedy -= 1
     all_sprites.add(m)
     mobs.add(m)
     
