@@ -188,7 +188,6 @@ def main():
                         all_sprites.add(n)
                     chama_floco()
                     
-                # A cada loop, redesenha o fundo e os sprites 
                 velocidade += aceleracao
 
                 if velocidade < 18.5:
@@ -196,6 +195,7 @@ def main():
                 else:
                     velocidade = 18.5
 
+                # A cada loop, redesenha o fundo e os sprites 
                 screen.fill(BLACK)    
                 background_rect_cima.y += velocidade
                 background_rect.y += velocidade
