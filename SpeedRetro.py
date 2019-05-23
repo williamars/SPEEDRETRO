@@ -70,10 +70,10 @@ def main():
             clock.tick(FPS)
             pygame.mixer.music.play(loops=-1)
             running = True
-            score = 0
-            velocidade=0.1
-            aceleracao=0.09
+            velocidade=0.75
+            aceleracao=0.045
             contagemdetiros = 0
+            score = 0
 
              # Loop principal.
 
@@ -88,7 +88,7 @@ def main():
                     speedx = 0
                     estanevando = False
         
-                if random.randrange(1, 900) == 1:
+                if random.randrange(1, 600) == 1:
                     b = Box(assets["box_img"])
                     all_sprites.add(b)
                     box.add(b)
@@ -110,7 +110,7 @@ def main():
                         # Dependendo da tecla, altera a velocidade.
                         fator = 0
                         if estanevando or estanevando_tempo > 0:
-                            fator = 2
+                            fator = 1.5
                         if event.key == pygame.K_LEFT:
                             speedx = -5 + fator
                         if event.key == pygame.K_RIGHT:
@@ -134,7 +134,7 @@ def main():
                     if event.type == pygame.KEYUP:
                         fator = 0
                         if estanevando or estanevando_tempo > 0:
-                            fator = 2
+                            fator = 1
                         # Dependendo da nevasca, altera a velocidade.
                         if event.key == pygame.K_LEFT:
                             speedx = fator
@@ -181,16 +181,15 @@ def main():
                 
                 # Verifica se houve colisão com a moeda
                 hits = pygame.sprite.spritecollide(player, coin, True, False)
-                for hit in hits:
+                if hits:
                     moeda.play()
-                    score += 1
-                  
+                    score += 10
+
                 # Verifica se houve colisão com o misterybox
                 hits = pygame.sprite.spritecollide(player, box, True, False)
                 for hit in hits:
                     # Toca o som da colisão
                     Ta_Da.play()
-                    score += 1
                     contagemdetiros += 3
                     
                 # Verifica se houve colisão entre player e floco de neve
@@ -206,17 +205,17 @@ def main():
                     
                 # A cada loop, redesenha o fundo e os sprites
                 
-                #while velocidade < 10:
-                velocidade+=aceleracao
+                velocidade += aceleracao
 
-                if velocidade <30:
-                    velocidade +=aceleracao
+                if velocidade < 18.5:
+                    velocidade += aceleracao
                 else:
-                    velocidade =30
+                    velocidade = 18.5
 
-                print(velocidade)
-                screen.fill(BLACK)     
+                screen.fill(BLACK)    
+
                 background_rect_cima.y += velocidade
+
                 background_rect.y += velocidade
                 screen.blit(background, background_rect_cima)
                 screen.blit(background, background_rect)
@@ -226,16 +225,9 @@ def main():
                     background_rect.y = 0
                     background_rect_cima.y = -HEIGHT
                     
-                # Desenha o score
-                text_surface = score_font.render("{:01d}".format(score), True, WHITE)
-                text_rect = text_surface.get_rect()
-                text_rect.midtop = (WIDTH-125,  10)
-                screen.blit(text_surface, text_rect)
-                
                 # Desenha o score, por tempo
                 timee+=1
-                 # Run game
-                pont=timee//FPS
+                pont=(timee//FPS)+score
                 text_surface = score_font.render("{:01d}".format(pont), True, BLACK)
                 
                 text_rect = text_surface.get_rect()
