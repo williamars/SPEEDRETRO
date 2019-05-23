@@ -70,11 +70,10 @@ def main():
             clock.tick(FPS)
             pygame.mixer.music.play(loops=-1)
             running = True
-            score = 0
             velocidade=0.75
             aceleracao=0.045
-            a = 0
             contagemdetiros = 0
+            score = 0
 
              # Loop principal.
 
@@ -182,17 +181,15 @@ def main():
                 
                 # Verifica se houve colisão com a moeda
                 hits = pygame.sprite.spritecollide(player, coin, True, False)
-                for hit in hits:
+                if hits:
                     moeda.play()
-                    score += 1
-                    a += 1
-                  
+                    score += 10
+
                 # Verifica se houve colisão com o misterybox
                 hits = pygame.sprite.spritecollide(player, box, True, False)
                 for hit in hits:
                     # Toca o som da colisão
                     Ta_Da.play()
-                    score += 1
                     contagemdetiros += 3
                     
                 # Verifica se houve colisão entre player e floco de neve
@@ -228,18 +225,9 @@ def main():
                     background_rect.y = 0
                     background_rect_cima.y = -HEIGHT
                     
-                # Desenha o score
-                text_surface = score_font.render("{:01d}".format(score), True, WHITE)
-                text_rect = text_surface.get_rect()
-                text_rect.midtop = (WIDTH-125,  10)
-                screen.blit(text_surface, text_rect)
-                
                 # Desenha o score, por tempo
                 timee+=1
-                # Run game
-                pont=timee//FPS 
-                if a > 0:
-                    pont += a
+                pont=(timee//FPS)+score
                 text_surface = score_font.render("{:01d}".format(pont), True, BLACK)
                 
                 text_rect = text_surface.get_rect()
