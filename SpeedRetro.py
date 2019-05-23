@@ -174,6 +174,7 @@ def main():
                 for hit in hits:
                     # Toca o som da colisão
                     Ta_Da.play()
+                    score += 5
                     contagemdetiros += 3
                     
                 # Verifica se houve colisão entre player e floco de neve
