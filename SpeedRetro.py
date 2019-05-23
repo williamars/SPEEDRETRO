@@ -9,14 +9,13 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
 
 # Importando todas as classes
-from classes import Player, Mob, Box, Bullet2, Coin, Nevasca, Floco, Laser
+from classes import Player, Mob, Box, Coin, Nevasca, Floco, Laser
         
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
-    assets["bullet2_img"] = pygame.image.load(path.join(img_dir, "laserBlue16.png")).convert()
     assets["laser_img"] = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
@@ -58,8 +57,7 @@ def init_screen(screen):
         pygame.display.flip()
 
     return a
-
-
+    
 # Função principal do jogo, onde tem todas as ações
 def main():    
             
@@ -110,20 +108,15 @@ def main():
                         # Dependendo da tecla, altera a velocidade.
                         fator = 0
                         if estanevando or estanevando_tempo > 0:
-                            fator = 1.5
+                            fator = 2
                         if event.key == pygame.K_LEFT:
                             speedx = -5 + fator
                         if event.key == pygame.K_RIGHT:
                             speedx = 5 + fator
-                        # Se for um espaço atira!
-                        if event.key == pygame.K_SPACE:
-                            bullet = Bullet2(assets['bullet2_img'], player.rect.centerx, player.rect.top)
-                            all_sprites.add(bullet)
-                            bullets.add(bullet)
-                            pew_sound.play()
-
+                        
+                        # Se for um espaço atira! (caso tenha)
                         if contagemdetiros > 0:    
-                            if event.key == pygame.K_LCTRL:
+                            if event.key == pygame.K_SPACE:
                                 laserr = Laser(assets['laser_img'], player.rect.centerx, player.rect.top)
                                 all_sprites.add(laserr)
                                 laser.add(laserr)
@@ -134,7 +127,7 @@ def main():
                     if event.type == pygame.KEYUP:
                         fator = 0
                         if estanevando or estanevando_tempo > 0:
-                            fator = 1
+                            fator = 2
                         # Dependendo da nevasca, altera a velocidade.
                         if event.key == pygame.K_LEFT:
                             speedx = fator
@@ -152,15 +145,6 @@ def main():
                 # Depois de processar os eventos.
                 # Atualiza a acao de cada sprite.
                 all_sprites.update()
-                
-                # Verifica se houve colisão entre tiro e carrinhos
-                hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
-                for hit in hits: # Pode haver mais de um
-                    # O carrinho é destruido e precisa ser recriado
-                    destroy_sound.play()
-                    m = Mob(assets['mob_img']) 
-                    all_sprites.add(m)
-                    mobs.add(m) 
                     
                 # Verifica se houve colisão entre Laser e carrinhos
                 hits = pygame.sprite.groupcollide(mobs, laser, True, True)
@@ -190,6 +174,7 @@ def main():
                 for hit in hits:
                     # Toca o som da colisão
                     Ta_Da.play()
+                    score += 5
                     contagemdetiros += 3
                     
                 # Verifica se houve colisão entre player e floco de neve
@@ -203,8 +188,6 @@ def main():
                         all_sprites.add(n)
                     chama_floco()
                     
-                # A cada loop, redesenha o fundo e os sprites
-                
                 velocidade += aceleracao
 
                 if velocidade < 18.5:
@@ -212,10 +195,9 @@ def main():
                 else:
                     velocidade = 18.5
 
+                # A cada loop, redesenha o fundo e os sprites 
                 screen.fill(BLACK)    
-
                 background_rect_cima.y += velocidade
-
                 background_rect.y += velocidade
                 screen.blit(background, background_rect_cima)
                 screen.blit(background, background_rect)
@@ -228,14 +210,13 @@ def main():
                 # Desenha o score, por tempo
                 timee+=1
                 pont=(timee//FPS)+score
-                text_surface = score_font.render("{:01d}".format(pont), True, BLACK)
-                
+                text_surface = score_font.render("{:01d}".format(pont), True, BLACK)           
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (WIDTH-300,  10)
                 screen.blit(text_surface, text_rect)
 
                 if contagemdetiros > 0:
-                    text_surface = score_font.render("CTRL:{:01d} especiais".format(contagemdetiros), True, YELLOW)
+                    text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
                     text_rect = text_surface.get_rect()
                     text_rect.midtop = (WIDTH/2,  HEIGHT-130)
                     screen.blit(text_surface, text_rect)
@@ -288,12 +269,6 @@ all_sprites.add(player)
 # Cria um grupo só dos carros inimigos
 mobs = pygame.sprite.Group()
 
-# Cria um grupo para tiros (vermelho)
-bullets = pygame.sprite.Group()
-# Grupo para o segundo tiro (azul)
-bullet2 = pygame.sprite.Group()
-bullets.add(bullet2)
-
 # Cria grupo para as moedas
 coin = pygame.sprite.Group()
 
@@ -341,7 +316,7 @@ chama_floco()
 # Comando para evitar travamentos.
 try:
      
-    começar_na_tela_inicial = init_screen(screen)
+    init_screen(screen)
         
 finally:
     
