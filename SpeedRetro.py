@@ -108,7 +108,7 @@ def main():
                         # Dependendo da tecla, altera a velocidade.
                         fator = 0
                         if estanevando or estanevando_tempo > 0:
-                            fator = 1.5
+                            fator = 2
                         if event.key == pygame.K_LEFT:
                             speedx = -5 + fator
                         if event.key == pygame.K_RIGHT:
@@ -127,7 +127,7 @@ def main():
                     if event.type == pygame.KEYUP:
                         fator = 0
                         if estanevando or estanevando_tempo > 0:
-                            fator = 1
+                            fator = 2
                         # Dependendo da nevasca, altera a velocidade.
                         if event.key == pygame.K_LEFT:
                             speedx = fator
