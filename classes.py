@@ -86,7 +86,7 @@ class Mob(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
         
-    # Metodo que atualiza a posição da navinha
+    # Metodo que atualiza a posição do carrinho
     def update(self):
         self.rect.x += 0
         self.rect.y += self.speedy
@@ -99,7 +99,7 @@ class Mob(pygame.sprite.Sprite):
         # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
 
-            i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
+            i=random.randrange(0,10)
             if i <=2:
                 self.rect.x = 100
             elif i <=4:
@@ -112,7 +112,10 @@ class Mob(pygame.sprite.Sprite):
                 self.rect.x = 455
 
             self.rect.y = random.randrange(-150, -100)
-            self.speedx = random.randrange(-3, 3)
+            if i % 2 == 0:
+                self.speedx = 50
+            else:
+                self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 15)
 
 class Floco(pygame.sprite.Sprite):

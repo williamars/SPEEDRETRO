@@ -24,12 +24,64 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["boom_sound"] = pygame.mixer.Sound(path.join(snd_dir, "crash.wav"))
     assets["moeda_sound"] = pygame.mixer.Sound(path.join(snd_dir, "m.wav"))
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
+    assets["box_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
-    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 35)
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     return assets
 
+def text_object(text, font):
+    textSurface = font.render(text, True, WHITE)
+    return textSurface, textSurface.get_rect()
+
+def maior_pontuacao(pont, RECORDE):
+    if pont > RECORDE:
+        RECORDE = pont
+    return RECORDE
+
 # Função que coloca a imagem no início do jogo
-def init_screen(screen):
+def init_screen(screen, RECORDE):
+
+    # Carrega o fundo da tela inicial
+    background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
+    background_rect = background.get_rect()
+
+    running = True
+    while running:
+        
+        # Processa os eventos (mouse, teclado, botão, etc).
+        for event in pygame.event.get():
+            # Verifica se foi fechado.
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                running = False
+
+            if event.type == pygame.KEYUP:
+                running = False
+
+        largeText = assets["score_font"]
+        textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
+        textRect.center = ((WIDTH/2) , (HEIGHT/2))
+        screen.blit(textSurf, textRect)
+
+        text, idk = text_object("A MAIOR PONTUAÇÃO:", largeText)
+        idk.center = ((WIDTH/2),(HEIGHT/2 + 50))
+        screen.blit(text, idk)
+
+        pontuation, thenew = text_object(f'{RECORDE}', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 + 100))
+        screen.blit(pontuation, thenew)
+
+        pygame.display.update()
+        clock.tick(15)           
+        # A cada loop, redesenha o fundo e os sprites
+        screen.fill(BLACK)
+        screen.blit(background, background_rect)
+
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+    
+# Função que coloca a imagem no início do jogo
+def end_screen(screen):
 
     # Carrega o fundo da tela inicial
     background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
@@ -57,10 +109,59 @@ def init_screen(screen):
         pygame.display.flip()
 
     return a
-    
+
 # Função principal do jogo, onde tem todas as ações
-def main():    
-            
+def main():
+    RECORDE = 0
+    game_roda = True   
+    while game_roda:
+            all_sprites = pygame.sprite.Group()
+            all_sprites.add(player)
+
+            # Cria um grupo só dos carrinhos
+            # Cria um grupo só dos carros inimigos
+            mobs = pygame.sprite.Group()
+
+            # Cria grupo para as moedas
+            coin = pygame.sprite.Group()
+
+            # Cria um grupo para as caixas
+            box = pygame.sprite.Group()
+
+            #Cria grupo para os flocos
+            flocos = pygame.sprite.Group()
+
+            #Cria um grupo para o laser
+            laser = pygame.sprite.Group()
+
+            # Cria carrinhos e adiciona no grupo mobs
+            for i in range(5):
+                m = Mob(assets['mob_img'])
+                all_sprites.add(m)
+                mobs.add(m)
+                
+            #Cria grupo das moedas
+            imagem_coin=[]
+            for i in range(9):
+                filename = 'Gold_0{}.png'.format(i)
+                Coin_img = pygame.image.load(path.join(img_dir, filename)).convert()
+                Coin_img = pygame.transform.scale(Coin_img, (35, 35))        
+                Coin_img.set_colorkey(WHITE)
+                imagem_coin.append(Coin_img)
+
+            # #Cria moedas
+            for i in range(1):
+                c = Coin(imagem_coin)
+                all_sprites.add(c)
+                coin.add(c)
+
+            # Cria o floco de neve  
+            def chama_floco():
+                for i in range(1):
+                    f = Floco(assets["flocos_img"])
+                    all_sprites.add(f)
+                    flocos.add(f)
+            chama_floco()   
             estanevando = False
             estanevando_tempo = 0
             speedx = 0
@@ -74,7 +175,7 @@ def main():
             score = 0
 
              # Loop principal.
-
+            init_screen(screen, RECORDE)
             while running:
 
             # Ajusta a velocidade do jogo.
@@ -187,8 +288,6 @@ def main():
                         n = Nevasca(assets["flocos2_img"])
                         all_sprites.add(n)
                     chama_floco()
-                    
-                velocidade += aceleracao
 
                 if velocidade < 18.5:
                     velocidade += aceleracao
@@ -210,19 +309,24 @@ def main():
                 # Desenha o score, por tempo
                 timee+=1
                 pont=(timee//FPS)+score
-                text_surface = score_font.render("{:01d}".format(pont), True, BLACK)           
+                text_surface = score_font.render("{:01d}".format(pont), True, WHITE)           
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (WIDTH-300,  10)
                 screen.blit(text_surface, text_rect)
+                RECORDE = maior_pontuacao(pont, RECORDE)
 
                 if contagemdetiros > 0:
                     text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
                     text_rect = text_surface.get_rect()
                     text_rect.midtop = (WIDTH/2,  HEIGHT-130)
                     screen.blit(text_surface, text_rect)
-                    
+
                 # Depois de desenhar tudo, inverte o display.
                 pygame.display.flip()
+
+    for mobs in all_sprites:
+        mobs.kill()
+        player.kill()
 
 # Inicialização do Pygame.
 pygame.init() 
@@ -252,7 +356,7 @@ pygame.mixer.music.set_volume(1) #Som da música de cima
 boom_sound = assets['boom_sound']
 destroy_sound = assets['destroy_sound']
 pew_sound = assets['pew_sound']
-Ta_Da = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
+Ta_Da = assets['box_sound']
 moeda = assets['moeda_sound']
 
 # Cria um carrinho. O construtor será chamado automaticamente.
@@ -260,6 +364,7 @@ player = Player(assets["player_img"])
 
 # Carrega a fonte para desenhar o score.
 score_font = assets["score_font"]
+
 
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
@@ -289,7 +394,16 @@ for i in range(5):
     m = Mob(assets['mob_img'])
     all_sprites.add(m)
     mobs.add(m)
-    
+    z=random.randrange(0,10)
+    if  m.rect.x== 195 and z>1: #or self.rect.x== 280 or self.rect.x== 365:
+        if player.rect.x >= 195:
+                m.speedx = 5
+    if  m.rect.x== 280 and z>1:
+        if player.rect.x >= 280:
+            m.speedx = 5
+    if  m.rect.x== 365 and z>1:
+        if player.rect.x >= 365:
+           m.speedx = 5
 #Cria grupo das moedas
 imagem_coin=[]
 for i in range(9):
@@ -314,10 +428,10 @@ def chama_floco():
 chama_floco()
 
 # Comando para evitar travamentos.
-try:
-     
-    init_screen(screen)
-        
+try: 
+    
+    main()
+
 finally:
     
     pygame.quit()
