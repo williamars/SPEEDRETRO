@@ -1,7 +1,7 @@
 import pygame
 import time
 from os import path
-import os
+import sys, os
 import random
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -194,7 +194,7 @@ def main():
                 speedx = 0
                 estanevando = False
     
-            if random.randrange(1, 600) == 1:
+            if random.randrange(1, 500) == 1:
                 b = Box(assets["box_img"])
                 all_sprites.add(b)
                 box.add(b)
@@ -348,6 +348,14 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
 pygame.display.set_caption("SpeedRetro")
+
+# Ícone do jogo
+i_icon = os.getcwd() + '\\img\\Finally.png'
+icon = pygame.image.load(i_icon).convert()
+pygame.display.set_icon(icon)
+import ctypes
+myappid = 'T' # arbitrary string
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
 assets = load_assets(img_dir, snd_dir, fnt_dir)
