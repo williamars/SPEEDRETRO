@@ -82,13 +82,56 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia uma velocidade inicial
         self.speedx = 0
         self.speedy = 9
+
+        self.direction = 0 # -1 0 +1
+        self.direction_count = 0
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
         
     # Metodo que atualiza a posição do carrinho
     def update(self):
-        self.rect.x += 0
+        if self.direction_count == 0:
+            self.direction = random.randrange(3)-1
+            self.direction_count=100
+        self.direction_count -= 1
+        
+        if self.rect.x <= 100 and self.direction < 0:
+            self.direction = 0
+        if self.rect.x >= 455 and self.direction > 0:
+            self.direction = 0
+
+        self.rect.x += self.direction * 5
+        # esquerda = -50
+        # direita = 50
+        # o=random.randrange(1,2)
+        # p=random.randrange(1,3)
+        # if self.rect.x == 100:
+        #     if o == 1:
+        #         self.rect.x +=0
+        #     else:
+        #         self.rect.x +=direita
+        #         if self.rect.x == 195:
+        #             self.rect.x=0
+        # if self.rect.x == 455:
+        #     if o == 1:
+        #         self.rect.x +=0
+        #     else:
+        #         self.rect.x +=esquerda
+        #         if self.rect.x==365:
+        #             self.rect.x+=0 
+        # if self.rect.x == 195:
+        #     if p == 1:
+        #         self.rect.x +=0
+        #     if p == 2:
+        #         self.rect.x +=direita
+        #         if self.rect.x == 280:
+        #             self.rect.x=0
+        #     if p == 3:
+        #         self.rect.x +=esquerda
+        #         if self.rect.x==100:
+        #             self.rect.x+=0 
+
         self.rect.y += self.speedy
         
         if self.rect.right > 520:
