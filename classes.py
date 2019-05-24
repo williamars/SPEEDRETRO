@@ -106,8 +106,8 @@ class Mob(pygame.sprite.Sprite):
         if abs(self.reference) >= 85:
             self.direction=0
 
-        self.rect.x += self.direction * 5
-        self.reference += self.direction * 5
+        self.rect.x += self.direction * 2
+        self.reference += self.direction * 2
         # esquerda = -50
         # direita = 50
         # o=random.randrange(1,2)

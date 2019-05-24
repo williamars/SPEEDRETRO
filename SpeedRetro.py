@@ -79,36 +79,6 @@ def init_screen(screen, RECORDE):
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
-    
-# Função que coloca a imagem no início do jogo
-def end_screen(screen):
-
-    # Carrega o fundo da tela inicial
-    background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
-    background_rect = background.get_rect()
-
-    running = True
-    while running:
-         
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                running = False
-
-            if event.type == pygame.KEYUP:
-                a = main()
-                running = False
-                    
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        screen.blit(background, background_rect)
-
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-
-    return a
 
 # Função principal do jogo, onde tem todas as ações
 def main():
