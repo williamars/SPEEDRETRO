@@ -26,15 +26,20 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
     assets["box_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
-    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 35)
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     return assets
 
 def text_object(text, font):
     textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
 
+def maior_pontuacao(pont, RECORDE):
+    if pont > RECORDE:
+        RECORDE = pont
+    return RECORDE
+
 # Função que coloca a imagem no início do jogo
-def init_screen(screen):
+def init_screen(screen, RECORDE):
 
     # Carrega o fundo da tela inicial
     background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
@@ -54,9 +59,17 @@ def init_screen(screen):
                 running = False
 
         largeText = assets["score_font"]
-        textSurf, textRect = text_object("COMECE RAPAZIADA !", largeText)
+        textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
         textRect.center = ((WIDTH/2) , (HEIGHT/2))
         screen.blit(textSurf, textRect)
+
+        text, idk = text_object("A MAIOR PONTUAÇÃO:", largeText)
+        idk.center = ((WIDTH/2),(HEIGHT/2 + 50))
+        screen.blit(text, idk)
+
+        pontuation, thenew = text_object(f'{RECORDE}', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 + 100))
+        screen.blit(pontuation, thenew)
 
         pygame.display.update()
         clock.tick(15)           
@@ -98,9 +111,10 @@ def end_screen(screen):
     return a
 
 # Função principal do jogo, onde tem todas as ações
-def main(): 
-    gameover=True   
-    while gameover:
+def main():
+    RECORDE = 0
+    game_roda = True   
+    while game_roda:
             all_sprites = pygame.sprite.Group()
             all_sprites.add(player)
 
@@ -119,9 +133,6 @@ def main():
 
             #Cria um grupo para o laser
             laser = pygame.sprite.Group()
-
-            # Cria um grupo para a nevasca
-            nevasca = pygame.sprite.Group()
 
             # Cria carrinhos e adiciona no grupo mobs
             for i in range(5):
@@ -164,12 +175,11 @@ def main():
             score = 0
 
              # Loop principal.
-            init_screen(screen)
+            init_screen(screen, RECORDE)
             while running:
 
             # Ajusta a velocidade do jogo.
                 clock.tick(FPS)
-                
 
                 estanevando_tempo -= 1
                 if estanevando_tempo == 1:
@@ -294,29 +304,31 @@ def main():
                 screen.blit(background, background_rect)
                 all_sprites.draw(screen)
         
-                if background_rect.y >= HEIGHT-125:
+                if background_rect.y >= HEIGHT-120:
                     background_rect.y = 0
                     background_rect_cima.y = -HEIGHT
                     
                 # Desenha o score, por tempo
                 timee+=1
                 pont=(timee//FPS)+score
-                text_surface = score_font.render("{:01d}".format(pont), True, BLACK)           
+                text_surface = score_font.render("{:01d}".format(pont), True, WHITE)           
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (WIDTH-300,  10)
                 screen.blit(text_surface, text_rect)
+                RECORDE = maior_pontuacao(pont, RECORDE)
 
                 if contagemdetiros > 0:
                     text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
                     text_rect = text_surface.get_rect()
                     text_rect.midtop = (WIDTH/2,  HEIGHT-130)
                     screen.blit(text_surface, text_rect)
-                    
+
                 # Depois de desenhar tudo, inverte o display.
                 pygame.display.flip()
+
     for mobs in all_sprites:
         mobs.kill()
-    player.kill()
+        player.kill()
 
 # Inicialização do Pygame.
 pygame.init() 
@@ -359,7 +371,7 @@ score_font = assets["score_font"]
 try: 
     
     main()
-        
+
 finally:
     
     pygame.quit()
