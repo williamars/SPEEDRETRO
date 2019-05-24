@@ -115,6 +115,12 @@ def main():
     RECORDE = 0
     game_roda = True   
     while game_roda:
+        # Cria um carrinho. O construtor será chamado automaticamente.
+        player = Player(assets["player_img"])
+        
+        # Carrega a fonte para desenhar o score.
+        score_font = assets["score_font"]
+        
         all_sprites = pygame.sprite.Group()
         all_sprites.add(player)
 
@@ -135,7 +141,7 @@ def main():
         laser = pygame.sprite.Group()
 
         # Cria carrinhos e adiciona no grupo mobs
-        for i in range(5):
+        for i in range(0):
             m = Mob(assets['mob_img'])
             all_sprites.add(m)
             mobs.add(m)
@@ -161,7 +167,8 @@ def main():
                 f = Floco(assets["flocos_img"])
                 all_sprites.add(f)
                 flocos.add(f)
-        chama_floco()   
+        chama_floco() 
+        
         estanevando = False
         estanevando_tempo = 0
         speedx = 0
@@ -169,8 +176,10 @@ def main():
         clock.tick(FPS)
         pygame.mixer.music.play(loops=-1)
         running = True
-        velocidade=0.75
-        aceleracao=0.045
+        velocidade=0
+        aceleracao=0.75
+        background_y_cima = -HEIGHT
+        background_y = 0
         contagemdetiros = 0
         score = 0
 
@@ -289,23 +298,27 @@ def main():
                     all_sprites.add(n)
                 chama_floco()
 
-            if velocidade < 18.5:
+            if velocidade < 18:
                 velocidade += aceleracao
             else:
-                velocidade = 18.5
+                velocidade = 18
 
             # A cada loop, redesenha o fundo e os sprites 
             screen.fill(BLACK)    
-            background_rect_cima.y += velocidade
-            background_rect.y += velocidade
+            background_y_cima += velocidade
+            background_y += velocidade
+    
+            if background_y >= HEIGHT :
+                background_y = 0
+                background_y_cima = -HEIGHT
+
+            background_rect_cima.y = background_y_cima
+            background_rect.y = background_y               
+
             screen.blit(background, background_rect_cima)
             screen.blit(background, background_rect)
             all_sprites.draw(screen)
-    
-            if background_rect.y >= HEIGHT :
-                background_rect.y = 0
-                background_rect_cima.y = -HEIGHT
-                
+
             # Desenha o score, por tempo
             timee+=1
             pont=(timee//FPS)+score
@@ -358,74 +371,6 @@ destroy_sound = assets['destroy_sound']
 pew_sound = assets['pew_sound']
 Ta_Da = assets['box_sound']
 moeda = assets['moeda_sound']
-
-# Cria um carrinho. O construtor será chamado automaticamente.
-player = Player(assets["player_img"])
-
-# Carrega a fonte para desenhar o score.
-score_font = assets["score_font"]
-
-
-# Cria um grupo de todos os sprites e adiciona a nave.
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
-
-# Cria um grupo só dos carrinhos
-# Cria um grupo só dos carros inimigos
-mobs = pygame.sprite.Group()
-
-# Cria grupo para as moedas
-coin = pygame.sprite.Group()
-
-# Cria um grupo para as caixas
-box = pygame.sprite.Group()
-
-#Cria grupo para os flocos
-flocos = pygame.sprite.Group()
-
-#Cria um grupo para o laser
-laser = pygame.sprite.Group()
-
-# Cria um grupo para a nevasca
-nevasca = pygame.sprite.Group()
-
-# Cria carrinhos e adiciona no grupo mobs
-for i in range(5):
-    m = Mob(assets['mob_img'])
-    all_sprites.add(m)
-    mobs.add(m)
-    z=random.randrange(0,10)
-    if  m.rect.x== 195 and z>1: #or self.rect.x== 280 or self.rect.x== 365:
-        if player.rect.x >= 195:
-                m.speedx = 5
-    if  m.rect.x== 280 and z>1:
-        if player.rect.x >= 280:
-            m.speedx = 5
-    if  m.rect.x== 365 and z>1:
-        if player.rect.x >= 365:
-           m.speedx = 5
-#Cria grupo das moedas
-imagem_coin=[]
-for i in range(9):
-    filename = 'Gold_0{}.png'.format(i)
-    Coin_img = pygame.image.load(path.join(img_dir, filename)).convert()
-    Coin_img = pygame.transform.scale(Coin_img, (35, 35))        
-    Coin_img.set_colorkey(WHITE)
-    imagem_coin.append(Coin_img)
-
-# #Cria moedas
-for i in range(1):
-    c = Coin(imagem_coin)
-    all_sprites.add(c)
-    coin.add(c)
-
-# Cria o floco de neve  
-def chama_floco():
-    for i in range(1):
-        f = Floco(assets["flocos_img"])
-        all_sprites.add(f)
-        flocos.add(f)
-chama_floco()
 
 # Comando para evitar travamentos.
 try: 
