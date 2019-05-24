@@ -85,6 +85,8 @@ class Mob(pygame.sprite.Sprite):
 
         self.direction = 0 # -1 0 +1
         self.direction_count = 0
+
+        self.reference = 0
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -101,7 +103,11 @@ class Mob(pygame.sprite.Sprite):
         if self.rect.x >= 455 and self.direction > 0:
             self.direction = 0
 
+        if abs(self.reference) >= 85:
+            self.direction=0
+
         self.rect.x += self.direction * 5
+        self.reference += self.direction * 5
         # esquerda = -50
         # direita = 50
         # o=random.randrange(1,2)
@@ -139,7 +145,7 @@ class Mob(pygame.sprite.Sprite):
         if self.rect.left < 90:
             self.rect.left = 90
         
-        # Se o meteoro passar do final da tela, volta para cima
+        # Se o carro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
 
             i=random.randrange(0,10)
@@ -160,6 +166,7 @@ class Mob(pygame.sprite.Sprite):
             else:
                 self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 15)
+            self.reference=0
 
 class Floco(pygame.sprite.Sprite):
     # Construtor da classe.
