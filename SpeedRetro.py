@@ -72,13 +72,17 @@ def init_screen(screen, RECORDE):
         screen.blit(pontuation, thenew)
 
         pygame.display.update()
-        clock.tick(15)           
-        # A cada loop, redesenha o fundo e os sprites
+        clock.tick(15)   
+
+        background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
+        background_rect = background.get_rect()
         screen.fill(BLACK)
         screen.blit(background, background_rect)
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
+        
+        time.sleep(0.0075)
 
 # Função principal do jogo, onde tem todas as ações
 def main():
@@ -320,12 +324,8 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SpeedRetro")
 
 # Ícone do jogo
-i_icon = os.getcwd() + '\\img\\Finally.png'
-icon = pygame.image.load(i_icon).convert()
+icon = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
 pygame.display.set_icon(icon)
-import ctypes
-myappid = 'T' # arbitrary string
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
 assets = load_assets(img_dir, snd_dir, fnt_dir)
