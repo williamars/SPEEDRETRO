@@ -86,7 +86,7 @@ class Mob(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
         
-    # Metodo que atualiza a posição da navinha
+    # Metodo que atualiza a posição do carrinho
     def update(self):
         self.rect.x += 0
         self.rect.y += self.speedy

@@ -289,7 +289,16 @@ for i in range(5):
     m = Mob(assets['mob_img'])
     all_sprites.add(m)
     mobs.add(m)
-    
+    z=random.randrange(0,10)
+    if  m.rect.x== 195 and z>1: #or self.rect.x== 280 or self.rect.x== 365:
+        if player.rect.x >= 195:
+                m.speedx = 5
+    if  m.rect.x== 280 and z>1:
+        if player.rect.x >= 280:
+            m.speedx = 5
+    if  m.rect.x== 365 and z>1:
+        if player.rect.x >= 365:
+           m.speedx = 5
 #Cria grupo das moedas
 imagem_coin=[]
 for i in range(9):
