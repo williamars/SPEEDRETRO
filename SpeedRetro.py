@@ -119,18 +119,16 @@ def main():
             Coin_img.set_colorkey(WHITE)
             imagem_coin.append(Coin_img)
 
-        # #Cria moedas
-        for i in range(1):
-            c = Coin(imagem_coin)
-            all_sprites.add(c)
-            coin.add(c)
+        # Cria moedas
+        c = Coin(imagem_coin)
+        all_sprites.add(c)
+        coin.add(c)
 
         # Cria o floco de neve  
         def chama_floco():
-            for i in range(1):
-                f = Floco(assets["flocos_img"])
-                all_sprites.add(f)
-                flocos.add(f)
+            f = Floco(assets["flocos_img"])
+            all_sprites.add(f)
+            flocos.add(f)
         chama_floco()   
         estanevando = False
         estanevando_tempo = 0
@@ -381,10 +379,9 @@ for i in range(9):
     imagem_coin.append(Coin_img)
 
 # Cria moedas
-for i in range(1):
-    c = Coin(imagem_coin)
-    all_sprites.add(c)
-    coin.add(c)
+c = Coin(imagem_coin)
+all_sprites.add(c)
+coin.add(c)
 
 # Cria o floco de neve  
 def chama_floco():
