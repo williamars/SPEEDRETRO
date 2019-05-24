@@ -37,7 +37,7 @@ def init_screen(screen):
 
     running = True
     while running:
-        
+         
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get():
             # Verifica se foi fechado.
