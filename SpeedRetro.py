@@ -288,8 +288,6 @@ def main():
                         n = Nevasca(assets["flocos2_img"])
                         all_sprites.add(n)
                     chama_floco()
-                    
-                velocidade += aceleracao
 
                 if velocidade < 18.5:
                     velocidade += aceleracao
@@ -304,7 +302,7 @@ def main():
                 screen.blit(background, background_rect)
                 all_sprites.draw(screen)
         
-                if background_rect.y >= HEIGHT-120:
+                if background_rect.y >= HEIGHT:
                     background_rect.y = 0
                     background_rect_cima.y = -HEIGHT
                     
