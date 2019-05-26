@@ -3,7 +3,7 @@ import time
 from os import path
 import sys, os
 import random
-#os.environ['SDL_VIDEO_CENTERED'] = '1'
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 # Importando as informações iniciais
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
@@ -152,7 +152,7 @@ def main():
         aceleracao=0.75
         background_y_cima = -HEIGHT
         background_y = 0
-        contagemdetiros = 0
+        contagemdetiros = 3
         score = 0
 
          # Loop principal.
@@ -327,8 +327,6 @@ pygame.display.set_caption("SpeedRetro")
 icon = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
 pygame.display.set_icon(icon)
 
-python pyinstaller.py 
-icon=icon.ico
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
 assets = load_assets(img_dir, snd_dir, fnt_dir)
