@@ -42,9 +42,11 @@ def maior_pontuacao(pont, RECORDE):
     return RECORDE
 
 def main(screen):
+    
+    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     font = pygame.font.Font(None, 32)
     clock = pygame.time.Clock()
-    input_box = pygame.Rect(200, 500, 150, 40)
+    input_box = pygame.Rect(200, 300, 150, 40)
     color_inactive = WHITE
     color_active = YELLOW
     color = color_inactive
@@ -76,10 +78,9 @@ def main(screen):
                     else:
                         text += event.unicode
 
+        # Coloca a imagem de fundo
         background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
         background_rect = background.get_rect()
-
-        # Define a cor do fundo
         screen.fill(BLACK)
         screen.blit(background, background_rect)
 
@@ -92,6 +93,10 @@ def main(screen):
         screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
         # Blit the input_box rect.
         pygame.draw.rect(screen, color, input_box, 2)
+
+        pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
+        screen.blit(pedenome, thenew)
 
         pygame.display.flip()
         clock.tick(30)
@@ -109,18 +114,13 @@ def main(screen):
             if event.type == pygame.KEYUP:
                 running = False
 
-        largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
         textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
-        textRect.center = ((WIDTH/2) , (HEIGHT/2))
+        textRect.center = ((WIDTH/2) , (HEIGHT/2 - 25))
         screen.blit(textSurf, textRect)
 
-        text, idk = text_object("A MAIOR PONTUAÇÃO:", largeText)
-        idk.center = ((WIDTH/2),(HEIGHT/2 + 50))
+        text, idk = text_object("MAIORES PONTUAÇÕES:", largeText)
+        idk.center = ((WIDTH/2),(HEIGHT/2 + 25))
         screen.blit(text, idk)
-
-        pontuation, thenew = text_object('0', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 + 100))
-        screen.blit(pontuation, thenew)
 
         pygame.display.update()
         clock.tick(15)
@@ -128,7 +128,7 @@ def main(screen):
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
         
-        time.sleep(2)
+        time.sleep(1.5)
 
 # Função principal do jogo, onde tem todas as ações
 def principal():
@@ -266,8 +266,10 @@ def principal():
                         
             # Verifica se jogador encostou a parede
             if player.rect.right > 519:
+                boom_sound.play()
                 running = False
-            if player.rect.left < 85:
+            if player.rect.left < 89:
+                boom_sound.play()
                 running = False    
             
             # Depois de processar os eventos.
