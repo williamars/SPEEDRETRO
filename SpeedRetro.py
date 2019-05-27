@@ -3,8 +3,10 @@ import time
 from os import path
 import sys, os
 import random
-os.environ['SDL_VIDEO_CENTERED'] = '1'
+import json
 
+# Rodar o jogo no centro da tela 
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 # Importando as informações iniciais
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
@@ -12,7 +14,14 @@ from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YE
 # Importando todas as classes
 from classes import Player, Mob, Box, Coin, Nevasca, Floco, Laser
         
+# Definindo o tamanho da tela
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# Função para ler o JSON
+def carregar_nomes():
+    with open("nomes.json", "r") as read_file:
+        nomes = json.load(read_file)
+    return nomes
 
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
@@ -64,13 +73,12 @@ def main(screen):
                     # Toggle the active variable.
                     active = not active
                 else:
-                    active = False
-                # Change the current color of the input box.
-                color = color_active if active else color_inactive
+                    # Change the current color of the input box.
+                    color = color_active if active else color_inactive
             if event.type == pygame.KEYDOWN:
                 if active:
                     if event.key == pygame.K_RETURN:
-                        print(text)
+                        guardar_para_json = text
                         text = ''
                         done = True
                     elif event.key == pygame.K_BACKSPACE:
@@ -132,7 +140,6 @@ def main(screen):
 
 # Função principal do jogo, onde tem todas as ações
 def principal():
-    RECORDE = 0
     game_roda = True   
     while game_roda:
         # Cria um carrinho. O construtor será chamado automaticamente.
@@ -186,6 +193,9 @@ def principal():
             all_sprites.add(f)
             flocos.add(f)
         chama_floco()   
+
+        with open('nomes.json', 'a') as arquivo:
+            arquivo.write([guardar_para_json] = score)
 
         estanevando = False
         estanevando_tempo = 0
@@ -365,16 +375,12 @@ def principal():
 pygame.init() 
 pygame.mixer.init()
 
-# Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
 # Nome do jogo
 pygame.display.set_caption("SpeedRetro")
 
 # Ícone do jogo
 icon = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
 pygame.display.set_icon(icon)
-
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
 assets = load_assets(img_dir, snd_dir, fnt_dir)
