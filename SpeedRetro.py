@@ -385,14 +385,6 @@ def principal(guardar_nome):
 
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()
-            
-        arquivo = open('nomes.txt', 'r') # Abra o arquivo (leitura)
-        recorde = arquivo.readline()
-        if score > int(recorde):
-            arquivo = open('nome.txt', 'w') # Abre novamente o arquivo (escrita)
-            arquivo.writelines(str(score))    # escreva o conteúdo criado anteriormente nele.
-            arquivo.close()
-            main(screen, guardar_nome, score)
 
         for mobs in all_sprites:
             mobs.kill()
