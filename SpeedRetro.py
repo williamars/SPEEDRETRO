@@ -41,6 +41,11 @@ def maior_pontuacao(pont, RECORDE):
 # Função que coloca a imagem no início do jogo
 def init_screen(screen, RECORDE):
 
+    color_inactive = WHITE
+    color_active = YELLOW
+    color = color_inactive
+    text = ''
+
     # Carrega o fundo da tela inicial
     background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
     background_rect = background.get_rect()
@@ -57,6 +62,22 @@ def init_screen(screen, RECORDE):
 
             if event.type == pygame.KEYUP:
                 running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if input_box.collidepoint(event.pos):
+                    active = not active
+                else:
+                    active= False
+                color = color_active if active else color_inactive
+                if event.type == pygame.KEYDOWN:
+                    if active:
+                        if event.key == pygame.K_RETURN:
+                            print(text)
+                            text = ''
+                        elif event.key == pygame.K_BACKSPACE:
+                            text = text[:-1]
+                        else:
+                            text += event.unicode
 
         largeText = assets["score_font"]
         textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
