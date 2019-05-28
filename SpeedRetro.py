@@ -1,8 +1,11 @@
 import pygame
 import time
 from os import path
-import os
+import sys, os
 import random
+import json
+
+# Rodar o jogo no centro da tela 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 # Importando as informações iniciais
@@ -11,6 +14,9 @@ from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YE
 # Importando todas as classes
 from classes import Player, Mob, Box, Coin, Nevasca, Floco, Laser
         
+# Definindo o tamanho da tela
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
@@ -38,13 +44,70 @@ def maior_pontuacao(pont, RECORDE):
         RECORDE = pont
     return RECORDE
 
-# Função que coloca a imagem no início do jogo
-def init_screen(screen, RECORDE):
+def main(screen, guardar_nome, score):
+    
+    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
+    font = pygame.font.Font(None, 32)
+    clock = pygame.time.Clock()
+    input_box = pygame.Rect(200, 300, 150, 40)
+    color_inactive = WHITE
+    color_active = YELLOW
+    color = color_inactive
+    active = False
+    text = ''
+    done = False
+
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # If the user clicked on the input_box rect.
+                if input_box.collidepoint(event.pos):
+                    # Toggle the active variable.
+                    active = not active
+                else:
+                    # Change the current color of the input box.
+                    color = color_active if active else color_inactive
+            if event.type == pygame.KEYDOWN:
+                if active:
+                    if event.key == pygame.K_RETURN:
+                        text = ''
+                        done = True
+
+                    elif event.key == pygame.K_BACKSPACE:
+                        text = text[:-1]
+                    else:
+                        text += event.unicode
+
+        # Coloca a imagem de fundo
+        background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
+        background_rect = background.get_rect()
+        screen.fill(BLACK)
+        screen.blit(background, background_rect)
+
+        # Render the current text.
+        txt_surface = font.render(text, True, color)
+        # Resize the box if the text is too long.
+        width = max(200, txt_surface.get_width()+10)
+        input_box.w = width
+        # Blit the text.
+        screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
+        # Blit the input_box rect.
+        pygame.draw.rect(screen, color, input_box, 2)
+
 
     # Carrega o fundo da tela inicial
     background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
     background_rect = background.get_rect()
 
+    pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
+    thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
+    screen.blit(pedenome, thenew)
+
+    pygame.display.flip()
+    clock.tick(30)
+    
     running = True
     while running:
         
@@ -58,61 +121,47 @@ def init_screen(screen, RECORDE):
             if event.type == pygame.KEYUP:
                 running = False
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if input_box.collidepoint(event.pos):
+                    active = not active
+                else:
+                    active= False
+                color = color_active if active else color_inactive
+                if event.type == pygame.KEYDOWN:
+                    if active:
+                        if event.key == pygame.K_RETURN:
+                            print(text)
+                            text = ''
+                        elif event.key == pygame.K_BACKSPACE:
+                            text = text[:-1]
+                        else:
+                            text += event.unicode
+
         largeText = assets["score_font"]
+
         textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
-        textRect.center = ((WIDTH/2) , (HEIGHT/2))
+        textRect.center = ((WIDTH/2) , (HEIGHT/2 - 25))
         screen.blit(textSurf, textRect)
 
-        text, idk = text_object("A MAIOR PONTUAÇÃO:", largeText)
-        idk.center = ((WIDTH/2),(HEIGHT/2 + 50))
+        text, idk = text_object("MAIOR PONTUAÇÕES:", largeText)
+        idk.center = ((WIDTH/2),(HEIGHT/2 + 25))
         screen.blit(text, idk)
 
-        pontuation, thenew = text_object(f'{RECORDE}', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 + 100))
-        screen.blit(pontuation, thenew)
+        texto, quadrado = text_object(f'{maior_pontuacao} = {score}', largeText)
+        quadrado.center = ((WIDTH/2, (HEIGHT/2 + 300)))
+        screen.blit(texto, quadrado)
 
         pygame.display.update()
-        clock.tick(15)           
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        screen.blit(background, background_rect)
+        clock.tick(15)
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
-    
-# Função que coloca a imagem no início do jogo
-def end_screen(screen):
+        
+        time.sleep(1.5)
 
-    # Carrega o fundo da tela inicial
-    background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
-    background_rect = background.get_rect()
-
-    running = True
-    while running:
-         
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                running = False
-
-            if event.type == pygame.KEYUP:
-                a = main()
-                running = False
-                    
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        screen.blit(background, background_rect)
-
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-
-    return a
 
 # Função principal do jogo, onde tem todas as ações
-def main():
-    RECORDE = 0
+def principal(guardar_nome):
     game_roda = True   
     while game_roda:
         # Cria um carrinho. O construtor será chamado automaticamente.
@@ -178,11 +227,12 @@ def main():
         aceleracao=0.75
         background_y_cima = -HEIGHT
         background_y = 0
-        contagemdetiros = 0
+        contagemdetiros = 3
         score = 0
 
          # Loop principal.
-        init_screen(screen, RECORDE)
+        main(screen, guardar_nome, score)
+
         while running:
 
         # Ajusta a velocidade do jogo.
@@ -194,7 +244,7 @@ def main():
                 speedx = 0
                 estanevando = False
     
-            if random.randrange(1, 600) == 1:
+            if random.randrange(1, 500) == 1:
                 b = Box(assets["box_img"])
                 all_sprites.add(b)
                 box.add(b)
@@ -246,8 +296,10 @@ def main():
                         
             # Verifica se jogador encostou a parede
             if player.rect.right > 519:
+                boom_sound.play()
                 running = False
-            if player.rect.left < 85:
+            if player.rect.left < 89:
+                boom_sound.play()
                 running = False    
             
             # Depois de processar os eventos.
@@ -324,7 +376,6 @@ def main():
             text_rect = text_surface.get_rect()
             text_rect.midtop = (WIDTH-300,  10)
             screen.blit(text_surface, text_rect)
-            RECORDE = maior_pontuacao(pont, RECORDE)
 
             if contagemdetiros > 0:
                 text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
@@ -334,6 +385,14 @@ def main():
 
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()
+            
+        arquivo = open('nomes.txt', 'r') # Abra o arquivo (leitura)
+        recorde = arquivo.readline()
+        if score > int(recorde):
+            arquivo = open('nome.txt', 'w') # Abre novamente o arquivo (escrita)
+            arquivo.writelines(str(score))    # escreva o conteúdo criado anteriormente nele.
+            arquivo.close()
+            main(screen, guardar_nome, score)
 
         for mobs in all_sprites:
             mobs.kill()
@@ -343,11 +402,12 @@ def main():
 pygame.init() 
 pygame.mixer.init()
 
-# Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
 # Nome do jogo
 pygame.display.set_caption("SpeedRetro")
+
+# Ícone do jogo
+icon = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
+pygame.display.set_icon(icon)
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
 assets = load_assets(img_dir, snd_dir, fnt_dir)
@@ -370,10 +430,12 @@ pew_sound = assets['pew_sound']
 Ta_Da = assets['box_sound']
 moeda = assets['moeda_sound']
 
+guardar_nome = ''
+
 # Comando para evitar travamentos.
 try: 
     
-    main()
+    principal(guardar_nome)
 
 finally:
     
