@@ -390,7 +390,7 @@ def principal(guardar_nome):
         recorde = arquivo.readline()
         if score > int(recorde):
             arquivo = open('nome.txt', 'w') # Abre novamente o arquivo (escrita)
-            arquivo.writelines(score)    # escreva o conteúdo criado anteriormente nele.
+            arquivo.writelines(str(score))    # escreva o conteúdo criado anteriormente nele.
             arquivo.close()
             main(screen, guardar_nome, score)
 
@@ -417,7 +417,7 @@ clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
 background = pygame.image.load(path.join(img_dir, 'screen-3.png')).convert()
-background_rect = background.get_rect()
+bac4kground_rect = background.get_rect()
 background_rect_cima = background.get_rect()
 background_rect_cima.y = -HEIGHT
 
