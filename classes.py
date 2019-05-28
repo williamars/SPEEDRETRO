@@ -67,11 +67,11 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em x
         i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
         if i <=2:
-            self.rect.x = 105
+            self.rect.x = 100
         elif i <=4:
             self.rect.x = 195
         elif i <=6:
-            self.rect.x = 275
+            self.rect.x = 280
         elif i <= 8:
             self.rect.x = 365
         elif i <=10:
@@ -85,8 +85,6 @@ class Mob(pygame.sprite.Sprite):
 
         self.direction = 0 # -1 0 +1
         self.direction_count = 0
-
-        self.reference = 0
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
@@ -103,11 +101,7 @@ class Mob(pygame.sprite.Sprite):
         if self.rect.x >= 455 and self.direction > 0:
             self.direction = 0
 
-        if abs(self.reference) >= 85:
-            self.direction=0
-
-        self.rect.x += self.direction * 2
-        self.reference += self.direction * 2
+        self.rect.x += self.direction * 5
         # esquerda = -50
         # direita = 50
         # o=random.randrange(1,2)
@@ -145,16 +139,16 @@ class Mob(pygame.sprite.Sprite):
         if self.rect.left < 90:
             self.rect.left = 90
         
-        # Se o carro passar do final da tela, volta para cima
+        # Se o meteoro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
 
             i=random.randrange(0,10)
             if i <=2:
-                self.rect.x = 105
+                self.rect.x = 100
             elif i <=4:
                 self.rect.x = 195
             elif i <=6:
-                self.rect.x = 275
+                self.rect.x = 280
             elif i <= 8:
                 self.rect.x = 365
             elif i <=10:
@@ -166,7 +160,6 @@ class Mob(pygame.sprite.Sprite):
             else:
                 self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(10, 15)
-            self.reference=0
 
 class Floco(pygame.sprite.Sprite):
     # Construtor da classe.
