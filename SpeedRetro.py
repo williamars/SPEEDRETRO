@@ -96,12 +96,17 @@ def main(screen, guardar_nome, score):
         # Blit the input_box rect.
         pygame.draw.rect(screen, color, input_box, 2)
 
-        pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
-        screen.blit(pedenome, thenew)
 
-        pygame.display.flip()
-        clock.tick(30)
+    # Carrega o fundo da tela inicial
+    background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
+    background_rect = background.get_rect()
+
+    pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
+    thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
+    screen.blit(pedenome, thenew)
+
+    pygame.display.flip()
+    clock.tick(30)
     
     running = True
     while running:
@@ -115,6 +120,24 @@ def main(screen, guardar_nome, score):
 
             if event.type == pygame.KEYUP:
                 running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if input_box.collidepoint(event.pos):
+                    active = not active
+                else:
+                    active= False
+                color = color_active if active else color_inactive
+                if event.type == pygame.KEYDOWN:
+                    if active:
+                        if event.key == pygame.K_RETURN:
+                            print(text)
+                            text = ''
+                        elif event.key == pygame.K_BACKSPACE:
+                            text = text[:-1]
+                        else:
+                            text += event.unicode
+
+        largeText = assets["score_font"]
 
         textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
         textRect.center = ((WIDTH/2) , (HEIGHT/2 - 25))
