@@ -36,12 +36,39 @@ def text_object(text, font):
     textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
 
-def maior_pontuacao(pont, RECORDE):
+def maior_pontuacao(pont, nomecolocado):
+    RECORDE = get_high_score()
     if pont > RECORDE:
-        RECORDE = pont
-    return RECORDE
-
-def main(screen):
+        save_high_score(pont)
+        with open("nome_high_score", 'w') as arquivo:
+            arquivo.writable = nomecolocado
+        
+def get_high_score():
+ 
+    # Try to read the high score from a file
+    try:
+        high_score_file = open("ponto_high_score.txt", "r")
+        high_score = int(high_score_file.read())
+        high_score_file.close()
+        print("The high score is") #tirar dps
+    except IOError:
+        # Error reading file, no high score
+        print("There is no high score yet.")
+ 
+    return high_score
+ 
+ 
+def save_high_score(new_high_score):
+    try:
+        # Write the file to disk
+        high_score_file = open("ponto_high_score.txt", "w")
+        high_score_file.write(str(new_high_score))
+        high_score_file.close()
+    except IOError:
+        # Hm, can't write it.
+        print("Unable to save the high score.")
+ 
+def tela_inicial(screen):
     
     largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     font = pygame.font.Font(None, 32)
@@ -70,6 +97,7 @@ def main(screen):
             if event.type == pygame.KEYDOWN:
                 if active:
                     if event.key == pygame.K_RETURN:
+                        nomecolocado = text
                         print(text)
                         text = ''
                         done = True
@@ -130,9 +158,10 @@ def main(screen):
         
         time.sleep(1.5)
 
+        return nomecolocado
+
 # Função principal do jogo, onde tem todas as ações
-def principal():
-    RECORDE = 0
+def principal(nomecolocado):
     game_roda = True   
     while game_roda:
         # Cria um carrinho. O construtor será chamado automaticamente.
@@ -161,7 +190,7 @@ def principal():
         laser = pygame.sprite.Group()
 
         # Cria carrinhos e adiciona no grupo mobs
-        for i in range(5):
+        for i in range(3):
             m = Mob(assets['mob_img'])
             all_sprites.add(m)
             mobs.add(m)
@@ -202,7 +231,7 @@ def principal():
         score = 0
 
          # Loop principal.
-        main(screen)
+        tela_inicial(screen)
         while running:
 
         # Ajusta a velocidade do jogo.
@@ -346,7 +375,7 @@ def principal():
             text_rect = text_surface.get_rect()
             text_rect.midtop = (WIDTH-300,  10)
             screen.blit(text_surface, text_rect)
-            RECORDE = maior_pontuacao(pont, RECORDE)
+            RECORDE = maior_pontuacao(pont, nomecolocado)
 
             if contagemdetiros > 0:
                 text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
@@ -397,10 +426,12 @@ pew_sound = assets['pew_sound']
 Ta_Da = assets['box_sound']
 moeda = assets['moeda_sound']
 
+nomecolocado = ''
+
 # Comando para evitar travamentos.
 try: 
     
-    principal()
+    principal(nomecolocado)
 
 finally:
     
