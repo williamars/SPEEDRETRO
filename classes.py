@@ -67,11 +67,11 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em x
         i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
         if i <=2:
-            self.rect.x = 100
+            self.rect.x = 105
         elif i <=4:
             self.rect.x = 195
         elif i <=6:
-            self.rect.x = 280
+            self.rect.x = 275
         elif i <= 8:
             self.rect.x = 365
         elif i <=10:
@@ -150,11 +150,11 @@ class Mob(pygame.sprite.Sprite):
 
             i=random.randrange(0,10)
             if i <=2:
-                self.rect.x = 100
+                self.rect.x = 105
             elif i <=4:
                 self.rect.x = 195
             elif i <=6:
-                self.rect.x = 280
+                self.rect.x = 275
             elif i <= 8:
                 self.rect.x = 365
             elif i <=10:
