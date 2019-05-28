@@ -417,7 +417,7 @@ clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
 background = pygame.image.load(path.join(img_dir, 'screen-3.png')).convert()
-background_rect = background.get_rect()
+bac4kground_rect = background.get_rect()
 background_rect_cima = background.get_rect()
 background_rect_cima.y = -HEIGHT
 
