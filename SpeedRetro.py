@@ -367,7 +367,7 @@ def principal(guardar_nome):
         recorde = arquivo.readline()
         if score > int(recorde):
             arquivo = open('nome.txt', 'w') # Abre novamente o arquivo (escrita)
-            arquivo.writelines(score)    # escreva o conteúdo criado anteriormente nele.
+            arquivo.writelines(str(score))    # escreva o conteúdo criado anteriormente nele.
             arquivo.close()
             main(screen, guardar_nome, score)
 
