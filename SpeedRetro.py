@@ -17,12 +17,6 @@ from classes import Player, Mob, Box, Coin, Nevasca, Floco, Laser
 # Definindo o tamanho da tela
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-# Função para ler o JSON
-def carregar_nomes():
-    with open("nomes.json", "r") as read_file:
-        nomes = json.load(read_file)
-    return nomes
-
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
@@ -50,7 +44,7 @@ def maior_pontuacao(pont, RECORDE):
         RECORDE = pont
     return RECORDE
 
-def main(screen):
+def main(screen, guardar_nome, score):
     
     largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     font = pygame.font.Font(None, 32)
@@ -78,9 +72,9 @@ def main(screen):
             if event.type == pygame.KEYDOWN:
                 if active:
                     if event.key == pygame.K_RETURN:
-                        guardar_para_json = text
                         text = ''
                         done = True
+
                     elif event.key == pygame.K_BACKSPACE:
                         text = text[:-1]
                     else:
@@ -126,9 +120,13 @@ def main(screen):
         textRect.center = ((WIDTH/2) , (HEIGHT/2 - 25))
         screen.blit(textSurf, textRect)
 
-        text, idk = text_object("MAIORES PONTUAÇÕES:", largeText)
+        text, idk = text_object("MAIOR PONTUAÇÕES:", largeText)
         idk.center = ((WIDTH/2),(HEIGHT/2 + 25))
         screen.blit(text, idk)
+
+        texto, quadrado = text_object(f'{maior_pontuacao} = {score}', largeText)
+        quadrado.center = ((WIDTH/2, (HEIGHT/2 + 300)))
+        screen.blit(texto, quadrado)
 
         pygame.display.update()
         clock.tick(15)
@@ -138,8 +136,9 @@ def main(screen):
         
         time.sleep(1.5)
 
+
 # Função principal do jogo, onde tem todas as ações
-def principal():
+def principal(guardar_nome):
     game_roda = True   
     while game_roda:
         # Cria um carrinho. O construtor será chamado automaticamente.
@@ -194,9 +193,6 @@ def principal():
             flocos.add(f)
         chama_floco()   
 
-        with open('nomes.json', 'a') as arquivo:
-            arquivo.write([guardar_para_json] = score)
-
         estanevando = False
         estanevando_tempo = 0
         speedx = 0
@@ -212,7 +208,8 @@ def principal():
         score = 0
 
          # Loop principal.
-        main(screen)
+        main(screen, guardar_nome, score)
+
         while running:
 
         # Ajusta a velocidade do jogo.
@@ -356,7 +353,6 @@ def principal():
             text_rect = text_surface.get_rect()
             text_rect.midtop = (WIDTH-300,  10)
             screen.blit(text_surface, text_rect)
-            RECORDE = maior_pontuacao(pont, RECORDE)
 
             if contagemdetiros > 0:
                 text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
@@ -366,6 +362,14 @@ def principal():
 
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()
+            
+        arquivo = open('nomes.txt', 'r') # Abra o arquivo (leitura)
+        recorde = arquivo.readline()
+        if score > int(recorde):
+            arquivo = open('nome.txt', 'w') # Abre novamente o arquivo (escrita)
+            arquivo.writelines(score)    # escreva o conteúdo criado anteriormente nele.
+            arquivo.close()
+            main(screen, guardar_nome, score)
 
         for mobs in all_sprites:
             mobs.kill()
@@ -403,10 +407,12 @@ pew_sound = assets['pew_sound']
 Ta_Da = assets['box_sound']
 moeda = assets['moeda_sound']
 
+guardar_nome = ''
+
 # Comando para evitar travamentos.
 try: 
     
-    principal()
+    principal(guardar_nome)
 
 finally:
     
