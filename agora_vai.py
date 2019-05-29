@@ -32,16 +32,39 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     return assets
 
+# Função para a cor e objeto da fonte
 def text_object(text, font):
     textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
 
-def maior_pontuacao(pont, RECORDE):
+# Função que vê qual foi o high score
+def maior_pontuacao(pont, nomecolocado):
+    RECORDE = get_high_score()
     if pont > RECORDE:
-        RECORDE = pont
-    return RECORDE
+        save_high_score(pont)
+        save_nome(nomecolocado)
 
-def main(screen):
+# Função que lê o high score no outro arquivo
+def get_high_score():
+    high_score_file = open("ponto_high_score.txt", "r")
+    high_score = int(high_score_file.read())
+    high_score_file.close()
+    return high_score
+ 
+# Função para salvar o novo high score, caso tenha
+def save_high_score(new_high_score):
+    high_score_file = open("ponto_high_score.txt", "w")
+    high_score_file.write(str(new_high_score))
+    high_score_file.close()
+
+# Função para salvar o nome do novo high score
+def save_nome(nomecolocado):
+    nome = open("nome_high_score.txt", "w")
+    nome.write(nomecolocado)
+    nome.close()
+ 
+# Função que faz tudo da tela inicial
+def tela_inicial(screen):
     
     largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     font = pygame.font.Font(None, 32)
@@ -52,8 +75,8 @@ def main(screen):
     color = color_inactive
     active = False
     text = ''
-    done = False
 
+    done = False
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -70,6 +93,7 @@ def main(screen):
             if event.type == pygame.KEYDOWN:
                 if active:
                     if event.key == pygame.K_RETURN:
+                        nomecolocado = text
                         print(text)
                         text = ''
                         done = True
@@ -84,16 +108,14 @@ def main(screen):
         screen.fill(BLACK)
         screen.blit(background, background_rect)
 
-        # Render the current text.
+        # Coloca a caixinha
         txt_surface = font.render(text, True, color)
-        # Resize the box if the text is too long.
         width = max(200, txt_surface.get_width()+10)
         input_box.w = width
-        # Blit the text.
         screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
-        # Blit the input_box rect.
         pygame.draw.rect(screen, color, input_box, 2)
 
+        # Coloca o "INSIRA SEU NOME" junto à caixinha
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
         screen.blit(pedenome, thenew)
@@ -130,9 +152,10 @@ def main(screen):
         
         time.sleep(1.5)
 
+        return nomecolocado
+
 # Função principal do jogo, onde tem todas as ações
-def principal():
-    RECORDE = 0
+def principal(nomecolocado):
     game_roda = True   
     while game_roda:
         # Cria um carrinho. O construtor será chamado automaticamente.
@@ -161,7 +184,7 @@ def principal():
         laser = pygame.sprite.Group()
 
         # Cria carrinhos e adiciona no grupo mobs
-        for i in range(5):
+        for i in range(3):
             m = Mob(assets['mob_img'])
             all_sprites.add(m)
             mobs.add(m)
@@ -180,11 +203,12 @@ def principal():
         all_sprites.add(c)
         coin.add(c)
 
-        # Cria o floco de neve  
+        # Função para criar o floco de neve
         def chama_floco():
             f = Floco(assets["flocos_img"])
             all_sprites.add(f)
-            flocos.add(f)
+            flocos.add(f) 
+        # Chama a função
         chama_floco()   
 
         estanevando = False
@@ -201,8 +225,8 @@ def principal():
         contagemdetiros = 3
         score = 0
 
-         # Loop principal.
-        main(screen)
+        # Loop principal.
+        nomecolocado = tela_inicial(screen)
         while running:
 
         # Ajusta a velocidade do jogo.
@@ -346,7 +370,7 @@ def principal():
             text_rect = text_surface.get_rect()
             text_rect.midtop = (WIDTH-300,  10)
             screen.blit(text_surface, text_rect)
-            RECORDE = maior_pontuacao(pont, RECORDE)
+            RECORDE = maior_pontuacao(pont, nomecolocado)
 
             if contagemdetiros > 0:
                 text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
@@ -397,10 +421,12 @@ pew_sound = assets['pew_sound']
 Ta_Da = assets['box_sound']
 moeda = assets['moeda_sound']
 
+nomecolocado = ''
+
 # Comando para evitar travamentos.
 try: 
     
-    principal()
+    principal(nomecolocado)
 
 finally:
     
