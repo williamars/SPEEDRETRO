@@ -32,42 +32,38 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     return assets
 
+# Função para a cor e objeto da fonte
 def text_object(text, font):
     textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
 
+# Função que vê qual foi o high score
 def maior_pontuacao(pont, nomecolocado):
     RECORDE = get_high_score()
     if pont > RECORDE:
         save_high_score(pont)
-        with open("nome_high_score", 'w') as arquivo:
-            arquivo.writable = nomecolocado
-        
+        save_nome(nomecolocado)
+
+# Função que lê o high score no outro arquivo
 def get_high_score():
- 
-    # Try to read the high score from a file
-    try:
-        high_score_file = open("ponto_high_score.txt", "r")
-        high_score = int(high_score_file.read())
-        high_score_file.close()
-        print("The high score is") #tirar dps
-    except IOError:
-        # Error reading file, no high score
-        print("There is no high score yet.")
- 
+    high_score_file = open("ponto_high_score.txt", "r")
+    high_score = int(high_score_file.read())
+    high_score_file.close()
     return high_score
  
- 
+# Função para salvar o novo high score, caso tenha
 def save_high_score(new_high_score):
-    try:
-        # Write the file to disk
-        high_score_file = open("ponto_high_score.txt", "w")
-        high_score_file.write(str(new_high_score))
-        high_score_file.close()
-    except IOError:
-        # Hm, can't write it.
-        print("Unable to save the high score.")
+    high_score_file = open("ponto_high_score.txt", "w")
+    high_score_file.write(str(new_high_score))
+    high_score_file.close()
+
+# Função para salvar o nome do novo high score
+def save_nome(nomecolocado):
+    nome = open("nome_high_score.txt", "w")
+    nome.write(nomecolocado)
+    nome.close()
  
+# Função que faz tudo da tela inicial
 def tela_inicial(screen):
     
     largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
@@ -79,8 +75,8 @@ def tela_inicial(screen):
     color = color_inactive
     active = False
     text = ''
-    done = False
 
+    done = False
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -112,16 +108,14 @@ def tela_inicial(screen):
         screen.fill(BLACK)
         screen.blit(background, background_rect)
 
-        # Render the current text.
+        # Coloca a caixinha
         txt_surface = font.render(text, True, color)
-        # Resize the box if the text is too long.
         width = max(200, txt_surface.get_width()+10)
         input_box.w = width
-        # Blit the text.
         screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
-        # Blit the input_box rect.
         pygame.draw.rect(screen, color, input_box, 2)
 
+        # Coloca o "INSIRA SEU NOME" junto à caixinha
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
         screen.blit(pedenome, thenew)
@@ -209,11 +203,12 @@ def principal(nomecolocado):
         all_sprites.add(c)
         coin.add(c)
 
-        # Cria o floco de neve  
+        # Função para criar o floco de neve
         def chama_floco():
             f = Floco(assets["flocos_img"])
             all_sprites.add(f)
-            flocos.add(f)
+            flocos.add(f) 
+        # Chama a função
         chama_floco()   
 
         estanevando = False
@@ -230,8 +225,8 @@ def principal(nomecolocado):
         contagemdetiros = 3
         score = 0
 
-         # Loop principal.
-        tela_inicial(screen)
+        # Loop principal.
+        nomecolocado = tela_inicial(screen)
         while running:
 
         # Ajusta a velocidade do jogo.
