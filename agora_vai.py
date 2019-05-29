@@ -103,7 +103,7 @@ def tela_inicial(screen):
                         text += event.unicode
 
         # Coloca a imagem de fundo
-        background = pygame.image.load(path.join(img_dir, 'Backgroundtime.png')).convert()
+        background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
         background_rect = background.get_rect()
         screen.fill(BLACK)
         screen.blit(background, background_rect)
