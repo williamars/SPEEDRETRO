@@ -164,12 +164,6 @@ def tela_inicial(screen):
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
         screen.blit(pedenome, thenew)
 
-        puentos=get_high_score()
-
-        pedenome, thenew = text_object(puentos, largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
-        screen.blit(pedenome, thenew)
-
         pygame.display.flip()
         clock.tick(30)
     
@@ -186,21 +180,13 @@ def tela_inicial(screen):
             if event.type == pygame.KEYUP:
                 running = False
 
-        textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
-        textRect.center = ((WIDTH/2) , (HEIGHT/2 - 25))
-        screen.blit(textSurf, textRect)
-
-        text, idk = text_object("MAIORES PONTUAÇÕES:", largeText)
-        idk.center = ((WIDTH/2),(HEIGHT/2 + 25))
-        screen.blit(text, idk)
-
         pygame.display.update()
         clock.tick(15)
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
         
-        time.sleep(1.5)
+        time.sleep(1)
 
         return nomecolocado
 
