@@ -18,7 +18,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
-    assets["mob_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
+    assets["mob_img"] = pygame.image.load(path.join(img_dir, "inimigo.png")).convert()
     assets["laser_img"] = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
