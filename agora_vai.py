@@ -34,7 +34,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
 
 # Função para a cor e objeto da fonte
 def text_object(text, font):
-    textSurface = font.render(text, True, WHITE)
+    textSurface = font.render(text, True, BLACK)
     return textSurface, textSurface.get_rect()
 
 # Função que vê qual foi o high score
@@ -50,6 +50,13 @@ def get_high_score():
     high_score = int(high_score_file.read())
     high_score_file.close()
     return high_score
+
+# Função para pegar o nome do recordista
+def get_name():
+    nome_recordista = open("nome_high_score.txt", "r")
+    nome_recorde = nome_recordista.read()
+    nome_recordista.close()
+    return nome_recorde
  
 # Função para salvar o novo high score, caso tenha
 def save_high_score(new_high_score):
@@ -66,7 +73,7 @@ def save_nome(nomecolocado):
 # Função que faz tudo da tela inicial
 def tela_inicial(screen):
     
-    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
+    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
     font = pygame.font.Font(None, 32)
     clock = pygame.time.Clock()
     input_box = pygame.Rect(200, 300, 150, 40)
@@ -118,6 +125,13 @@ def tela_inicial(screen):
         # Coloca o "INSIRA SEU NOME" junto à caixinha
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
+        screen.blit(pedenome, thenew)
+        
+        # Coloca a maior pontuação e o nome do recordista
+        puentos = get_high_score()
+        nuemes = get_name()
+        pedenome, thenew = text_object(f'{nuemes}: {puentos}', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
         screen.blit(pedenome, thenew)
 
         pygame.display.flip()
@@ -184,7 +198,7 @@ def principal(nomecolocado):
         laser = pygame.sprite.Group()
 
         # Cria carrinhos e adiciona no grupo mobs
-        for i in range(3):
+        for i in range(4):
             m = Mob(assets['mob_img'])
             all_sprites.add(m)
             mobs.add(m)
@@ -238,7 +252,7 @@ def principal(nomecolocado):
                 speedx = 0
                 estanevando = False
     
-            if random.randrange(1, 500) == 1:
+            if random.randrange(1, 700) == 1:
                 b = Box(assets["box_img"])
                 all_sprites.add(b)
                 box.add(b)
