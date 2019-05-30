@@ -119,7 +119,6 @@ def tela_inicial(screen):
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
         screen.blit(pedenome, thenew)
-<<<<<<< HEAD
         
         # Coloca a maior pontuação e o nome do recordista
         puentos = get_high_score()
@@ -127,9 +126,6 @@ def tela_inicial(screen):
         pedenome, thenew = text_object(f'{nuemes}: {puentos}', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
         screen.blit(pedenome, thenew)
-=======
->>>>>>> 9159aa05749534699363ddd2309c92a611e1ab00
-
         pygame.display.flip()
         clock.tick(30)
     
