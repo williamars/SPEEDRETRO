@@ -69,7 +69,12 @@ def save_nome(nomecolocado):
     nome = open("nome_high_score.txt", "w")
     nome.write(nomecolocado)
     nome.close()
- 
+
+#  def get_high_score():
+#     high_score_file = open("ponto_high_score.txt", "r")
+#     high_score = int(high_score_file.read())
+#     high_score_file.close()
+#     return high_score
 # Função que faz tudo da tela inicial
 def tela_inicial(screen):
     
@@ -109,9 +114,15 @@ def tela_inicial(screen):
                     else:
                         text += event.unicode
 
+        
         # Coloca a imagem de fundo
         velocidade=0
         aceleracao=0.75
+        if velocidade < 18:
+            velocidade += aceleracao
+        else:
+            velocidade = 18
+                
         background_y_cima = -HEIGHT
         background_y = 0
         background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
@@ -150,6 +161,12 @@ def tela_inicial(screen):
         puentos = get_high_score()
         nuemes = get_name()
         pedenome, thenew = text_object(f'{nuemes}: {puentos}', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
+        screen.blit(pedenome, thenew)
+
+        puentos=get_high_score()
+
+        pedenome, thenew = text_object(puentos, largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
         screen.blit(pedenome, thenew)
 
