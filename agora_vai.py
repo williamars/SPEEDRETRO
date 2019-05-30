@@ -114,9 +114,15 @@ def tela_inicial(screen):
                     else:
                         text += event.unicode
 
+        
         # Coloca a imagem de fundo
         velocidade=0
         aceleracao=0.75
+        if velocidade < 18:
+            velocidade += aceleracao
+        else:
+            velocidade = 18
+                
         background_y_cima = -HEIGHT
         background_y = 0
         background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()

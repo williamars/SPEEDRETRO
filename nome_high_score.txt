@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 fulano
+=======
+joao
+>>>>>>> 85223761b4a4e56fd43f06057b7f57c0a5b070eb
 =======
 <<<<<<< HEAD
 JOAO
