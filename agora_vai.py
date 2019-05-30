@@ -103,9 +103,28 @@ def tela_inicial(screen):
                         text += event.unicode
 
         # Coloca a imagem de fundo
+        velocidade=0
+        aceleracao=0.75
+        background_y_cima = -HEIGHT
+        background_y = 0
         background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
         background_rect = background.get_rect()
         screen.fill(BLACK)
+        screen.blit(background, background_rect)
+        background_rect_cima = background.get_rect()
+        background_rect_cima.y = -HEIGHT
+        screen.fill(BLACK)    
+        background_y_cima += velocidade
+        background_y += velocidade
+    
+        if background_y >= HEIGHT :
+            background_y = 0
+            background_y_cima = -HEIGHT
+
+        background_rect_cima.y = background_y_cima
+        background_rect.y = background_y               
+
+        screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
 
         # Coloca a caixinha
