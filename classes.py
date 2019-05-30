@@ -18,7 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(player_img, (58, 75))
         
         # Deixando transparente.
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(WHITE)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -59,7 +59,7 @@ class Mob(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(mob_img, (54, 70))
         
         # Deixando transparente.
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(WHITE)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
