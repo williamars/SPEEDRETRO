@@ -342,7 +342,7 @@ class Box(pygame.sprite.Sprite):
         
         # Se a caixa passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-           
+            posicao_inicial=[100,195,280,365,455]
             i=random.randrange(0,10)
 
             if i <= 2:
