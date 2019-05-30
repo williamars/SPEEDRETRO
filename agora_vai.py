@@ -34,7 +34,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
 
 # Função para a cor e objeto da fonte
 def text_object(text, font):
-    textSurface = font.render(text, True, WHITE)
+    textSurface = font.render(text, True, BLACK)
     return textSurface, textSurface.get_rect()
 
 # Função que vê qual foi o high score
@@ -62,11 +62,17 @@ def save_nome(nomecolocado):
     nome = open("nome_high_score.txt", "w")
     nome.write(nomecolocado)
     nome.close()
+
+def get_name():
+    nome = open("nome_high_score.txt", "r")
+    nomee = nome.read()
+    nome.close()
+    return nomee
  
 # Função que faz tudo da tela inicial
 def tela_inicial(screen):
     
-    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
+    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
     font = pygame.font.Font(None, 32)
     clock = pygame.time.Clock()
     input_box = pygame.Rect(200, 300, 150, 40)
@@ -119,16 +125,13 @@ def tela_inicial(screen):
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
         screen.blit(pedenome, thenew)
-<<<<<<< HEAD
-        
+
         # Coloca a maior pontuação e o nome do recordista
         puentos = get_high_score()
         nuemes = get_name()
         pedenome, thenew = text_object(f'{nuemes}: {puentos}', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
         screen.blit(pedenome, thenew)
-=======
->>>>>>> 9159aa05749534699363ddd2309c92a611e1ab00
 
         pygame.display.flip()
         clock.tick(30)
