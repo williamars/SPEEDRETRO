@@ -311,15 +311,15 @@ class Box(pygame.sprite.Sprite):
         posicao_inicial=[100,195,280,365,455] # Posições iniciais
         i=random.randrange(0,10)               # Sorteia uma faixa para aparecer
         if i <= 2:
-            self.rect.x = 100
+            self.rect.x = posicao_inicial[0]
         elif i <= 4:
-            self.rect.x = 195
+            self.rect.x = posicao_inicial[1]
         elif i <=6:
-            self.rect.x = 280
+            self.rect.x = posicao_inicial[2]
         elif i<=8:
-            self.rect.x = 365
+            self.rect.x = posicao_inicial[3]
         elif i <=10:
-            self.rect.x = 455
+            self.rect.x = posicao_inicial[4]
         
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
@@ -346,15 +346,15 @@ class Box(pygame.sprite.Sprite):
             i=random.randrange(0,10)
 
             if i <= 2:
-                self.rect.x = 100
+                self.rect.x = posicao_inicial[0]
             elif i <= 4:
-                self.rect.x = 195
+                self.rect.x = posicao_inicial[1]
             elif i <=6:
-                self.rect.x = 280
+                self.rect.x = posicao_inicial[2]
             elif i<=8:
-                self.rect.x = 365
+                self.rect.x = posicao_inicial[3]
             elif i <=10:
-                self.rect.x = 455
+                self.rect.x = posicao_inicial[4]
                 
             self.rect.y = random.randrange(-100, -40)
             self.speedx = 0
