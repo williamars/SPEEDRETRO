@@ -34,7 +34,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
 
 # Função para a cor e objeto da fonte
 def text_object(text, font):
-    textSurface = font.render(text, True, BLACK)
+    textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
 
 # Função que vê qual foi o high score
@@ -50,13 +50,6 @@ def get_high_score():
     high_score = int(high_score_file.read())
     high_score_file.close()
     return high_score
-
-# Função para pegar o nome do recordista
-def get_name():
-    nome_recordista = open("nome_high_score.txt", "r")
-    nome_recorde = nome_recordista.read()
-    nome_recordista.close()
-    return nome_recorde
  
 # Função para salvar o novo high score, caso tenha
 def save_high_score(new_high_score):
@@ -69,16 +62,11 @@ def save_nome(nomecolocado):
     nome = open("nome_high_score.txt", "w")
     nome.write(nomecolocado)
     nome.close()
-
-#  def get_high_score():
-#     high_score_file = open("ponto_high_score.txt", "r")
-#     high_score = int(high_score_file.read())
-#     high_score_file.close()
-#     return high_score
+ 
 # Função que faz tudo da tela inicial
 def tela_inicial(screen):
     
-    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
+    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     font = pygame.font.Font(None, 32)
     clock = pygame.time.Clock()
     input_box = pygame.Rect(200, 300, 150, 40)
@@ -114,35 +102,10 @@ def tela_inicial(screen):
                     else:
                         text += event.unicode
 
-        
         # Coloca a imagem de fundo
-        velocidade=0
-        aceleracao=0.75
-        if velocidade < 18:
-            velocidade += aceleracao
-        else:
-            velocidade = 18
-                
-        background_y_cima = -HEIGHT
-        background_y = 0
         background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
         background_rect = background.get_rect()
         screen.fill(BLACK)
-        screen.blit(background, background_rect)
-        background_rect_cima = background.get_rect()
-        background_rect_cima.y = -HEIGHT
-        screen.fill(BLACK)    
-        background_y_cima += velocidade
-        background_y += velocidade
-    
-        if background_y >= HEIGHT :
-            background_y = 0
-            background_y_cima = -HEIGHT
-
-        background_rect_cima.y = background_y_cima
-        background_rect.y = background_y               
-
-        screen.blit(background, background_rect_cima)
         screen.blit(background, background_rect)
 
         # Coloca a caixinha
@@ -156,6 +119,7 @@ def tela_inicial(screen):
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
         screen.blit(pedenome, thenew)
+<<<<<<< HEAD
         
         # Coloca a maior pontuação e o nome do recordista
         puentos = get_high_score()
@@ -163,6 +127,8 @@ def tela_inicial(screen):
         pedenome, thenew = text_object(f'{nuemes}: {puentos}', largeText)
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
         screen.blit(pedenome, thenew)
+=======
+>>>>>>> 9159aa05749534699363ddd2309c92a611e1ab00
 
         pygame.display.flip()
         clock.tick(30)
@@ -220,7 +186,7 @@ def principal(nomecolocado):
         laser = pygame.sprite.Group()
 
         # Cria carrinhos e adiciona no grupo mobs
-        for i in range(4):
+        for i in range(3):
             m = Mob(assets['mob_img'])
             all_sprites.add(m)
             mobs.add(m)
@@ -274,7 +240,7 @@ def principal(nomecolocado):
                 speedx = 0
                 estanevando = False
     
-            if random.randrange(1, 700) == 1:
+            if random.randrange(1, 500) == 1:
                 b = Box(assets["box_img"])
                 all_sprites.add(b)
                 box.add(b)
