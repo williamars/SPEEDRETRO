@@ -5,7 +5,6 @@ import sys, os
 import random
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-
 # Importando as informações iniciais
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
 
@@ -29,7 +28,7 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
     assets["box_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
-    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 25)
     return assets
 
 # Função para a cor e objeto da fonte
@@ -63,6 +62,7 @@ def save_nome(nomecolocado):
     nome.write(nomecolocado)
     nome.close()
 
+# Função para ler o nome high score
 def get_name():
     nome = open("nome_high_score.txt", "r")
     nomee = nome.read()
@@ -72,10 +72,14 @@ def get_name():
 # Função que faz tudo da tela inicial
 def tela_inicial(screen):
     
+    def tamanho_box(x, y, z, w):
+        input_box = pygame.Rect(x, y, z, w)
+        return input_box
+
     largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
     font = pygame.font.Font(None, 32)
     clock = pygame.time.Clock()
-    input_box = pygame.Rect(200, 300, 150, 40)
+    input_box = tamanho_box(200, 250, 150, 40)
     color_inactive = WHITE
     color_active = YELLOW
     color = color_inactive
@@ -123,14 +127,22 @@ def tela_inicial(screen):
 
         # Coloca o "INSIRA SEU NOME" junto à caixinha
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 170))
         screen.blit(pedenome, thenew)
+
+        # Coloca o "E APERTE ENTER" abaixo da caixinha
+        ENTER, thenew = text_object('APERTE ENTER', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 80))
+        screen.blit(ENTER, thenew)
 
         # Coloca a maior pontuação e o nome do recordista
         puentos = get_high_score()
         nuemes = get_name()
+        poemaior, poe = text_object('RECORDISTA', largeText)
+        poe.center = ((WIDTH/2),(HEIGHT/2 - 360))
+        screen.blit(poemaior, poe)
         pedenome, thenew = text_object(f'{nuemes}: {puentos}', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 - 200))
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 330))
         screen.blit(pedenome, thenew)
 
         pygame.display.flip()
@@ -243,12 +255,14 @@ def principal(nomecolocado):
                 speedx = 0
                 estanevando = False
     
-            if random.randrange(1, 500) == 1:
+            # Probabilidade de sortear caixinha
+            if random.randrange(1, 700) == 1:
                 b = Box(assets["box_img"])
                 all_sprites.add(b)
                 box.add(b)
             
-            if random.randrange(1,500) == 5:
+            # Probabilidade de sortear moeda
+            if random.randrange(1,500) == 1:
                 c = Coin(imagem_coin)
                 all_sprites.add(c)
                 coin.add(c)
@@ -271,7 +285,7 @@ def principal(nomecolocado):
                     if event.key == pygame.K_RIGHT:
                         speedx = 5 + fator
                     
-                    # Se for um espaço atira! (caso tenha)
+                    # Se for um espaço, atira! (caso tenha tiro)
                     if contagemdetiros > 0:    
                         if event.key == pygame.K_SPACE:
                             laserr = Laser(assets['laser_img'], player.rect.centerx, player.rect.top)
@@ -293,7 +307,7 @@ def principal(nomecolocado):
                         
             player.speedx = speedx
                         
-            # Verifica se jogador encostou a parede
+            # Verifica se jogador encostou a parede. Se encostar, morre.
             if player.rect.right > 519:
                 boom_sound.play()
                 running = False
@@ -301,13 +315,12 @@ def principal(nomecolocado):
                 boom_sound.play()
                 running = False    
             
-            # Depois de processar os eventos.
             # Atualiza a acao de cada sprite.
             all_sprites.update()
                 
             # Verifica se houve colisão entre Laser e carrinhos
             hits = pygame.sprite.groupcollide(mobs, laser, True, True)
-            for hit in hits: # Pode haver mais de um
+            for hit in hits:
                 # O carrinho é destruido e precisa ser recriado
                 destroy_sound.play()
                 m = Mob(assets['mob_img']) 
@@ -319,7 +332,7 @@ def principal(nomecolocado):
             if hits:
                 # Toca o som da colisão
                 boom_sound.play()
-                time.sleep(1) # Precisa esperar senão fecha
+                time.sleep(0.5) # Precisa esperar senão fecha
                 running = False
             
             # Verifica se houve colisão com a moeda
@@ -376,7 +389,6 @@ def principal(nomecolocado):
             text_rect.midtop = (WIDTH-300,  10)
             screen.blit(text_surface, text_rect)
 
-
             if contagemdetiros > 0:
                 text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
                 text_rect = text_surface.get_rect()
@@ -386,6 +398,10 @@ def principal(nomecolocado):
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()
 
+        # Chamando a função para ver se a pessoa fez a maior pontuação
+        maior_pontuacao(pont, nomecolocado)
+
+        # Matando os mobs e o player para fazê-lo novamente quando voltar o loop
         for mobs in all_sprites:
             mobs.kill()
             player.kill()
@@ -403,7 +419,6 @@ pygame.display.set_caption("SpeedRetro")
 # Ícone do jogo
 icon = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
 pygame.display.set_icon(icon)
-
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
 assets = load_assets(img_dir, snd_dir, fnt_dir)
