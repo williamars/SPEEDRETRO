@@ -85,6 +85,11 @@ def tela_inicial(screen):
     active = False
     text = ''
 
+    background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
+    background_rect_1 = background.get_rect()
+    background_rect_2 = background.get_rect()
+    background_rect_2.y = -HEIGHT
+
     done = False
     while not done:
         for event in pygame.event.get():
@@ -112,9 +117,18 @@ def tela_inicial(screen):
                         text += event.unicode
 
         # Coloca a imagem de fundo
-        background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
-        background_rect = background.get_rect()
-        screen.blit(background, background_rect)
+   
+        background_rect_2.y += 5
+        background_rect_1.y += 5
+
+        if background_rect_1.y >= HEIGHT :
+            background_rect_1.y = 0
+            background_rect_2.y = -HEIGHT
+
+        # background_rect_cima.y = background_y_cima
+        # background_rect.y = background_y           
+        screen.blit(background, background_rect_1)
+        screen.blit(background, background_rect_2)
 
         # Coloca a caixinha
         txt_surface = font.render(text, True, color)
@@ -145,31 +159,9 @@ def tela_inicial(screen):
 
         pygame.display.flip()
         clock.tick(30)
-    
-    running = True
-    while running:
-        
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                running = False
 
-            if event.type == pygame.KEYUP:
-                running = False
-
-        pygame.display.update()
-        clock.tick(15)
-
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-        
-        # Espera um tempo para começar o jogo
-        time.sleep(1)
-
-        # Retorna o nome para utilizar no High Score, caso necessário
-        return nomecolocado
+    # Retorna o nome para utilizar no High Score, caso necessário
+    return nomecolocado
 
 # Função da tela final do jogo, após a batida do carro 
 def tela_mostra_pontuacao(screen, nomecolocado, pont):
@@ -246,7 +238,7 @@ def principal(nomecolocado):
         laser = pygame.sprite.Group()
 
         # Cria carrinhos e adiciona no grupo mobs
-        for i in range(3):
+        for i in range(4):
             m = Mob(assets['mob_img'])
             all_sprites.add(m)
             mobs.add(m)
