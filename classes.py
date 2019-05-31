@@ -77,19 +77,17 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self, mob_img):
+    def __init__(self, inimigo):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
-        # Carregando a imagem.
-        self.image = mob_img
+        # Carrega a animação do mob
+        self.inimigo = inimigo        
         
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(mob_img, (54, 70))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        # Inicia o processo de animação colocando a primeira imagem na tela.
+        self.frame = 0
+        self.image = self.inimigo[self.frame]
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -120,6 +118,12 @@ class Mob(pygame.sprite.Sprite):
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * .85 / 2)
+
+        # Guarda o tick da primeira imagem
+        self.last_update = pygame.time.get_ticks()
+
+        # Controle de ticks de animação: troca de imagem a cada self.frame_ticks milissegundos.
+        self.frame_ticks = 80
         
     # Metodo que atualiza a posição do carrinho
     def update(self):
@@ -169,6 +173,31 @@ class Mob(pygame.sprite.Sprite):
         #             self.rect.x+=0 
 
         self.rect.y += self.speedy
+
+        # Verifica o tick atual.
+        now = pygame.time.get_ticks()
+
+        # Verifica quantos ticks se passaram desde a ultima mudança de frame.
+        elapsed_ticks = now - self.last_update
+
+        # Se já está na hora de mudar de imagem...
+        if elapsed_ticks > self.frame_ticks:
+
+            # Marca o tick da nova imagem.
+            self.last_update = now
+
+            # Avança um quadro.
+            self.frame += 1
+            if self.frame == len(self.inimigo):
+                self.frame = 0
+            
+            center = self.rect.center
+            self.image = self.inimigo[self.frame]
+            self.rect = self.image.get_rect()
+            self.rect.center = center
+              
+        
+            
         
         if self.rect.right > 520:
             self.rect.right = 520
