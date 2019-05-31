@@ -171,11 +171,26 @@ def tela_inicial(screen):
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 330))
         screen.blit(pedenome, thenew)
 
+        instruction= True
+        while instruction:
+            instrucao = pygame.image.load(path.join(img_dir, 'instrucao.png')).convert()
+            background_rect = background.get_rect()
+            screen.blit(instrucao, background_rect)
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        instruction = False
+
+
         pygame.display.flip()
         clock.tick(30)
 
     # Retorna o nome para utilizar no High Score, caso necessário
     return nomecolocado
+
+    
+    
+
 
 # Função da tela final do jogo, após a batida do carro 
 def tela_mostra_pontuacao(screen, nomecolocado, pont):
@@ -223,6 +238,8 @@ def tela_mostra_pontuacao(screen, nomecolocado, pont):
 def principal(nomecolocado):
     game_roda = True   
     while game_roda:
+        #instrução
+        
 
         # Carrega a fonte para desenhar o score.
         score_font = assets["score_font"]
