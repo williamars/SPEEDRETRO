@@ -77,6 +77,9 @@ def button(msg, x, y, w, h, inactive, active, action=None):
 
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(screen, active, (x, y, w, h))
+        # if click[0] == 1 and action != None:
+        #     if action == "restart":
+                
 
     else:
         pygame.draw.rect(screen, inactive, (x, y, w, h))    
@@ -171,15 +174,15 @@ def tela_inicial(screen):
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 330))
         screen.blit(pedenome, thenew)
 
-        instruction= True
-        while instruction:
-            instrucao = pygame.image.load(path.join(img_dir, 'instrucao.png')).convert()
-            background_rect = background.get_rect()
-            screen.blit(instrucao, background_rect)
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        instruction = False
+        # instruction= True
+        # while instruction:
+        #     instrucao = pygame.image.load(path.join(img_dir, 'instrucao.png')).convert()
+        #     background_rect = background.get_rect()
+        #     screen.blit(instrucao, background_rect)
+        #     for event in pygame.event.get():
+        #         if event.type == pygame.KEYDOWN:
+        #             if event.key == pygame.K_RETURN:
+        #                 instruction = False
 
 
         pygame.display.flip()
@@ -187,10 +190,6 @@ def tela_inicial(screen):
 
     # Retorna o nome para utilizar no High Score, caso necessário
     return nomecolocado
-
-    
-    
-
 
 # Função da tela final do jogo, após a batida do carro 
 def tela_mostra_pontuacao(screen, nomecolocado, pont):
@@ -237,9 +236,7 @@ def tela_mostra_pontuacao(screen, nomecolocado, pont):
 # Função principal do jogo, onde tem todas as ações
 def principal(nomecolocado):
     game_roda = True   
-    while game_roda:
-        #instrução
-        
+    while game_roda:        
 
         # Carrega a fonte para desenhar o score.
         score_font = assets["score_font"]
