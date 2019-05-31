@@ -175,29 +175,25 @@ def tela_mostra_pontuacao(screen, nomecolocado, pont):
     background_rect = background.get_rect()
     screen.blit(background, background_rect)
 
-    poetexto, thenew = text_object(f'{nomecolocado},', maiortext)
+    poetexto, thenew = text_object(f'{nomecolocado}', maiortext)
     thenew.center = ((WIDTH/2),(HEIGHT/2-360))
     screen.blit(poetexto, thenew)
 
-    poetexto, thenew = text_object('VOCÊ BATEU :(', largeText)
-    thenew.center = ((WIDTH/2),(HEIGHT/2 - 300))
-    screen.blit(poetexto, thenew)
-
     poetexto2, thenew = text_object('SUA PONTUAÇÃO:', largeText)
-    thenew.center = ((WIDTH/2),(HEIGHT/2 - 260))
+    thenew.center = ((WIDTH/2),(HEIGHT/2 - 300))
     screen.blit(poetexto2, thenew)
 
     poenome, thenew = text_object(f'{pont}', maiortext)
-    thenew.center = ((WIDTH/2),(HEIGHT/2 - 190))
+    thenew.center = ((WIDTH/2),(HEIGHT/2 - 250))
     screen.blit(poenome, thenew)
 
     maior_pontuacao = get_high_score()
     if pont > maior_pontuacao:
-            poenome, thenew = text_object('O MAIS NOVO', mediotext)
-            thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
+            poenome, thenew = text_object('O MAIS NOVO', largeText)
+            thenew.center = ((WIDTH/2),(HEIGHT/2 - 100))
             screen.blit(poenome, thenew)
-            poenome, thenew = text_object('RECORDISTA', mediotext)
-            thenew.center = ((WIDTH/2),(HEIGHT/2 - 70))
+            poenome, thenew = text_object('RECORDISTA!', largeText)
+            thenew.center = ((WIDTH/2),(HEIGHT/2 - 40))
             screen.blit(poenome, thenew)
 
     pygame.display.flip()
@@ -439,10 +435,10 @@ def principal(nomecolocado):
             screen.blit(text_surface, text_rect)
 
             if contagemdetiros > 0:
-                text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
+                text_surface = score_font.render("SPACE:{:01d} ESPECIAIS".format(contagemdetiros), True, BLACK)
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (WIDTH/2,  HEIGHT-130)
-                screen.blit(text_surface, text_rect)
+                screen.blit(text_surface, text_rect)                
 
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()
