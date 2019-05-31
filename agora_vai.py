@@ -3,9 +3,8 @@ import time
 from os import path
 import sys, os
 import random
-
-# O que deixa a tela centralizada quando rodar
 os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 
 # Importando as informações iniciais
 from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
@@ -13,14 +12,13 @@ from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YE
 # Importando todas as classes
 from classes import Player, Mob, Box, Coin, Nevasca, Floco, Laser
         
-# Definindo o tamanho da tela
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
-    assets["mob_img"] = pygame.image.load(path.join(img_dir, "inimigo.png")).convert()
+    assets["mob_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
     assets["laser_img"] = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
@@ -31,15 +29,15 @@ def load_assets(img_dir, snd_dir, fnt_dir):
     assets["destroy_sound"] = pygame.mixer.Sound(path.join(snd_dir, "expl6.wav"))
     assets["box_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'ta_da.wav'))
     assets["pew_sound"] = pygame.mixer.Sound(path.join(snd_dir, "pew.wav"))
-    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 25)
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     return assets
 
-# Função para a cor e objeto da fonte que é utilizada muitas vezes
+# Função para a cor e objeto da fonte
 def text_object(text, font):
-    textSurface = font.render(text, True, BLACK)
+    textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
 
-# Função que vê qual foi o high score no outro arquivo
+# Função que vê qual foi o high score
 def maior_pontuacao(pont, nomecolocado):
     RECORDE = get_high_score()
     if pont > RECORDE:
@@ -53,32 +51,25 @@ def get_high_score():
     high_score_file.close()
     return high_score
  
-# Função para salvar o novo high score, caso seja maior
+# Função para salvar o novo high score, caso tenha
 def save_high_score(new_high_score):
     high_score_file = open("ponto_high_score.txt", "w")
     high_score_file.write(str(new_high_score))
     high_score_file.close()
 
-# Função para salvar o nome da pessoa do novo high score
+# Função para salvar o nome do novo high score
 def save_nome(nomecolocado):
     nome = open("nome_high_score.txt", "w")
     nome.write(nomecolocado)
     nome.close()
-
-# Função para ler o nome da pessoa do high score
-def get_name():
-    nome = open("nome_high_score.txt", "r")
-    nomee = nome.read()
-    nome.close()
-    return nomee
-
-# Função que faz tudo da tela inicial do jogo
+ 
+# Função que faz tudo da tela inicial
 def tela_inicial(screen):
-
-    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
+    
+    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 30)
     font = pygame.font.Font(None, 32)
     clock = pygame.time.Clock()
-    input_box = pygame.Rect(200, 250, 150, 40)
+    input_box = pygame.Rect(200, 300, 150, 40)
     color_inactive = WHITE
     color_active = YELLOW
     color = color_inactive
@@ -114,6 +105,7 @@ def tela_inicial(screen):
         # Coloca a imagem de fundo
         background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
         background_rect = background.get_rect()
+        screen.fill(BLACK)
         screen.blit(background, background_rect)
 
         # Coloca a caixinha
@@ -125,22 +117,7 @@ def tela_inicial(screen):
 
         # Coloca o "INSIRA SEU NOME" junto à caixinha
         pedenome, thenew = text_object('INSIRA SEU NOME', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 - 170))
-        screen.blit(pedenome, thenew)
-
-        # Coloca o "E APERTE ENTER" abaixo da caixinha
-        ENTER, thenew = text_object('APERTE ENTER', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 - 80))
-        screen.blit(ENTER, thenew)
-
-        # Coloca a maior pontuação e o nome do recordista
-        puentos = get_high_score()
-        nuemes = get_name()
-        poemaior, poe = text_object('RECORDISTA', largeText)
-        poe.center = ((WIDTH/2),(HEIGHT/2 - 360))
-        screen.blit(poemaior, poe)
-        pedenome, thenew = text_object(f'{nuemes}: {puentos}', largeText)
-        thenew.center = ((WIDTH/2),(HEIGHT/2 - 330))
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
         screen.blit(pedenome, thenew)
 
         pygame.display.flip()
@@ -159,68 +136,39 @@ def tela_inicial(screen):
             if event.type == pygame.KEYUP:
                 running = False
 
+        textSurf, textRect = text_object('VAMO RAPAZIADA!', largeText)
+        textRect.center = ((WIDTH/2) , (HEIGHT/2 - 25))
+        screen.blit(textSurf, textRect)
+
+        text, idk = text_object("MAIORES PONTUAÇÕES:", largeText)
+        idk.center = ((WIDTH/2),(HEIGHT/2 + 25))
+        screen.blit(text, idk)
+
         pygame.display.update()
         clock.tick(15)
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
         
-        # Espera um tempo para começar o jogo
-        time.sleep(1)
+        time.sleep(1.5)
 
-        # Retorna o nome para utilizar no High Score, caso necessário
         return nomecolocado
-
-# Função da tela final do jogo, após a batida do carro 
-def tela_mostra_pontuacao(screen, nomecolocado, pont):
-
-    largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
-    maiortext = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 40)
-    clock = pygame.time.Clock()
-
-    # Printando todas as informações na tela, junto com a imagem de fundo
-    background = pygame.image.load(path.join(img_dir, 'tela_inicial.png')).convert()
-    background_rect = background.get_rect()
-    screen.blit(background, background_rect)
-
-    poetexto, thenew = text_object(f'{nomecolocado},', maiortext)
-    thenew.center = ((WIDTH/2),(HEIGHT/2-360))
-    screen.blit(poetexto, thenew)
-
-    poetexto, thenew = text_object('VOCÊ BATEU :(', largeText)
-    thenew.center = ((WIDTH/2),(HEIGHT/2 - 300))
-    screen.blit(poetexto, thenew)
-
-    poetexto2, thenew = text_object('SUA PONTUAÇÃO:', largeText)
-    thenew.center = ((WIDTH/2),(HEIGHT/2 - 260))
-    screen.blit(poetexto2, thenew)
-
-    poenome, thenew = text_object(f'{pont}', maiortext)
-    thenew.center = ((WIDTH/2),(HEIGHT/2 - 190))
-    screen.blit(poenome, thenew)
-
-    pygame.display.flip()
-    clock.tick(30)
-
-    # Esperar alguns segundos para a pessoa poder ler a informação
-    time.sleep(5)
 
 # Função principal do jogo, onde tem todas as ações
 def principal(nomecolocado):
     game_roda = True   
     while game_roda:
-
-        # Carrega a fonte para desenhar o score.
-        score_font = assets["score_font"]
-
         # Cria um carrinho. O construtor será chamado automaticamente.
         player = Player(assets["player_img"])
         
-        # Cria todos os sprites e adiciona o player em tal
+        # Carrega a fonte para desenhar o score.
+        score_font = assets["score_font"]
+        
         all_sprites = pygame.sprite.Group()
         all_sprites.add(player)
 
-        # Cria um grupo só dos carrinhos inimigos
+        # Cria um grupo só dos carrinhos
+        # Cria um grupo só dos carros inimigos
         mobs = pygame.sprite.Group()
 
         # Cria grupo para as moedas
@@ -255,7 +203,7 @@ def principal(nomecolocado):
         all_sprites.add(c)
         coin.add(c)
 
-        # Função para criar o floco de neve (FUNÇÃO POIS SÓ QUER UM POR VEZ)
+        # Função para criar o floco de neve
         def chama_floco():
             f = Floco(assets["flocos_img"])
             all_sprites.add(f)
@@ -269,6 +217,7 @@ def principal(nomecolocado):
         timee=0
         clock.tick(FPS)
         pygame.mixer.music.play(loops=-1)
+        running = True
         velocidade=0
         aceleracao=0.75
         background_y_cima = -HEIGHT
@@ -276,30 +225,25 @@ def principal(nomecolocado):
         contagemdetiros = 3
         score = 0
 
-        # Pegar o nome colocado pela pessoa na tela inicial
-        nomecolocado = tela_inicial(screen)
-
         # Loop principal.
-        running = True
+        nomecolocado = tela_inicial(screen)
         while running:
+
         # Ajusta a velocidade do jogo.
             clock.tick(FPS)
 
-            # Para o x parar de acelerar quando se pega a neve em algum momento
             estanevando_tempo -= 1
             if estanevando_tempo == 1:
                 estanevando_tempo = 0
                 speedx = 0
                 estanevando = False
     
-            # Probabilidade de sortear caixinha
-            if random.randrange(1, 700) == 1:
+            if random.randrange(1, 500) == 1:
                 b = Box(assets["box_img"])
                 all_sprites.add(b)
                 box.add(b)
             
-            # Probabilidade de sortear moeda
-            if random.randrange(1,500) == 1:
+            if random.randrange(1,500) == 5:
                 c = Coin(imagem_coin)
                 all_sprites.add(c)
                 coin.add(c)
@@ -322,7 +266,7 @@ def principal(nomecolocado):
                     if event.key == pygame.K_RIGHT:
                         speedx = 5 + fator
                     
-                    # Se for um espaço, atira! (caso tenha tiro)
+                    # Se for um espaço atira! (caso tenha)
                     if contagemdetiros > 0:    
                         if event.key == pygame.K_SPACE:
                             laserr = Laser(assets['laser_img'], player.rect.centerx, player.rect.top)
@@ -341,11 +285,10 @@ def principal(nomecolocado):
                         speedx = fator
                     if event.key  == pygame.K_RIGHT:
                         speedx = fator
-            
-            # Aponta a velocidade em x do player (carro)
+                        
             player.speedx = speedx
                         
-            # Verifica se jogador encostou a parede. Se encostar, morre.
+            # Verifica se jogador encostou a parede
             if player.rect.right > 519:
                 boom_sound.play()
                 running = False
@@ -353,12 +296,13 @@ def principal(nomecolocado):
                 boom_sound.play()
                 running = False    
             
+            # Depois de processar os eventos.
             # Atualiza a acao de cada sprite.
             all_sprites.update()
                 
             # Verifica se houve colisão entre Laser e carrinhos
             hits = pygame.sprite.groupcollide(mobs, laser, True, True)
-            for hit in hits:
+            for hit in hits: # Pode haver mais de um
                 # O carrinho é destruido e precisa ser recriado
                 destroy_sound.play()
                 m = Mob(assets['mob_img']) 
@@ -368,20 +312,21 @@ def principal(nomecolocado):
             # Verifica se houve colisão entre os carrinhos
             hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
             if hits:
+                # Toca o som da colisão
                 boom_sound.play()
-                # Precisa esperar senão fecha duma vez
-                time.sleep(0.5)
+                time.sleep(1) # Precisa esperar senão fecha
                 running = False
             
-            # Verifica se houve colisão com a moeda. Se houve, soma pontos.
+            # Verifica se houve colisão com a moeda
             hits = pygame.sprite.spritecollide(player, coin, True, False)
             if hits:
                 moeda.play()
                 score += 10
 
-            # Verifica se houve colisão com o misterybox. Se houve, soma pontos e ativa laser (ou soma)
+            # Verifica se houve colisão com o misterybox
             hits = pygame.sprite.spritecollide(player, box, True, False)
             for hit in hits:
+                # Toca o som da colisão
                 Ta_Da.play()
                 score += 5
                 contagemdetiros += 3
@@ -389,7 +334,6 @@ def principal(nomecolocado):
             # Verifica se houve colisão entre player e floco de neve
             hits = pygame.sprite.spritecollide(player, flocos, True, False)
             if hits:
-                # Ativa o modo nevasca
                 estanevando = True
                 estanevando_tempo = 120
                 speedx = 1
@@ -422,10 +366,11 @@ def principal(nomecolocado):
             # Desenha o score, por tempo
             timee+=1
             pont=(timee//FPS)+score
-            text_surface = score_font.render("{:01d}".format(pont), True, BLACK)           
+            text_surface = score_font.render("{:01d}".format(pont), True, WHITE)           
             text_rect = text_surface.get_rect()
             text_rect.midtop = (WIDTH-300,  10)
             screen.blit(text_surface, text_rect)
+            RECORDE = maior_pontuacao(pont, nomecolocado)
 
             if contagemdetiros > 0:
                 text_surface = score_font.render("SPACE:{:01d} specials".format(contagemdetiros), True, YELLOW)
@@ -436,12 +381,6 @@ def principal(nomecolocado):
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()
 
-        tela_mostra_pontuacao(screen, nomecolocado, pont)
-
-        # Chamando a função para ver se a pessoa fez a maior pontuação
-        maior_pontuacao(pont, nomecolocado)
-
-        # Matando os mobs e o player para fazê-lo novamente quando voltar o loop
         for mobs in all_sprites:
             mobs.kill()
             player.kill()
@@ -459,6 +398,7 @@ pygame.display.set_caption("SpeedRetro")
 # Ícone do jogo
 icon = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
 pygame.display.set_icon(icon)
+
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
 assets = load_assets(img_dir, snd_dir, fnt_dir)
