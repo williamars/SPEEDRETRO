@@ -19,7 +19,6 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
-    assets["player_img"] = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
     assets["mob_img"] = pygame.image.load(path.join(img_dir, "inimigo.png")).convert()
     assets["laser_img"] = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
@@ -224,8 +223,15 @@ def principal(nomecolocado):
         score_font = assets["score_font"]
 
         # Cria um carrinho. O construtor será chamado automaticamente.
-        player = Player(assets["player_img"])
+        carro=[]
+        for i in range(4):
+            carrinho = 'finally{}.png'.format(i)
+            player_img = pygame.image.load(path.join(img_dir, carrinho)).convert()
+            player_img = pygame.transform.scale(player_img, (58, 75))
+            player_img.set_colorkey(WHITE)
+            carro.append(player_img)
         
+        player = Player(carro)
         # Cria todos os sprites e adiciona o player em tal
         all_sprites = pygame.sprite.Group()
         all_sprites.add(player)
@@ -256,7 +262,8 @@ def principal(nomecolocado):
         for i in range(9):
             filename = 'Gold_0{}.png'.format(i)
             Coin_img = pygame.image.load(path.join(img_dir, filename)).convert()
-            Coin_img = pygame.transform.scale(Coin_img, (35, 35))        
+            Coin_img = pygame.transform.scale(Coin_img, (35, 35))
+                   
             Coin_img.set_colorkey(WHITE)
             imagem_coin.append(Coin_img)
 
@@ -307,6 +314,8 @@ def principal(nomecolocado):
                 b = Box(assets["box_img"])
                 all_sprites.add(b)
                 box.add(b)
+            
+
             
             # Probabilidade de sortear moeda
             if random.randrange(1,500) == 1:
@@ -467,7 +476,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SpeedRetro")
 
 # Ícone do jogo
-icon = pygame.image.load(path.join(img_dir, "Finally.png")).convert()
+icon = pygame.image.load(path.join(img_dir, "Finally0.png")).convert()
 pygame.display.set_icon(icon)
 
 # Carrega todos os assets uma vez só e guarda em um dicionário
