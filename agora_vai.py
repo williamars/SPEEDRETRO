@@ -175,6 +175,7 @@ def tela_inicial(screen):
 def tela_mostra_pontuacao(screen, nomecolocado, pont):
 
     largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
+    mediotext = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 34)
     maiortext = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 40)
     clock = pygame.time.Clock()
 
@@ -198,6 +199,15 @@ def tela_mostra_pontuacao(screen, nomecolocado, pont):
     poenome, thenew = text_object(f'{pont}', maiortext)
     thenew.center = ((WIDTH/2),(HEIGHT/2 - 190))
     screen.blit(poenome, thenew)
+
+    maior_pontuacao = get_high_score()
+    if pont > maior_pontuacao:
+            poenome, thenew = text_object('O MAIS NOVO', mediotext)
+            thenew.center = ((WIDTH/2),(HEIGHT/2 - 120))
+            screen.blit(poenome, thenew)
+            poenome, thenew = text_object('RECORDISTA', mediotext)
+            thenew.center = ((WIDTH/2),(HEIGHT/2 - 70))
+            screen.blit(poenome, thenew)
 
     pygame.display.flip()
     clock.tick(30)
