@@ -377,7 +377,7 @@ def principal(nomecolocado):
             for hit in hits:
                 # O carrinho é destruido e precisa ser recriado
                 destroy_sound.play()
-                m = Mob(assets['mob_img']) 
+                m = Mob(inimigo) 
                 all_sprites.add(m)
                 mobs.add(m) 
             
