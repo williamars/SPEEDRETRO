@@ -8,7 +8,7 @@ import random
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 # Importando as informações iniciais
-from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW
+from init import img_dir, snd_dir, fnt_dir, BLACK, WIDTH, HEIGHT, FPS, WHITE, YELLOW, bright_YELLOW
 
 # Importando todas as classes
 from classes import Player, Mob, Box, Coin, Nevasca, Floco, Laser
@@ -69,6 +69,22 @@ def get_name():
     nomee = nome.read()
     nome.close()
     return nomee
+
+def button(msg, x, y, w, h, inactive, active, action=None):
+
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(screen, active, (x, y, w, h))
+
+    else:
+        pygame.draw.rect(screen, inactive, (x, y, w, h))    
+
+    smalltext = pygame.font.Font("freesansbold.ttf", 12)
+    textSurf, textRect = text_object(msg, smalltext)
+    textRect.center = ((x+(w/2)), (y+(h/2)))
+    screen.blit(textSurf, textRect)
 
 # Função que faz tudo da tela inicial do jogo
 def tela_inicial(screen):
@@ -165,7 +181,6 @@ def tela_inicial(screen):
 def tela_mostra_pontuacao(screen, nomecolocado, pont):
 
     largeText = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 27)
-    mediotext = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 34)
     maiortext = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 40)
     clock = pygame.time.Clock()
 
@@ -185,6 +200,9 @@ def tela_mostra_pontuacao(screen, nomecolocado, pont):
     poenome, thenew = text_object(f'{pont}', maiortext)
     thenew.center = ((WIDTH/2),(HEIGHT/2 - 250))
     screen.blit(poenome, thenew)
+
+    button("RESTART", 180, 540, 75, 50, YELLOW, bright_YELLOW, "restart")
+    button("QUIT", 345, 540, 75, 50, WHITE, WHITE, "quit")
 
     maior_pontuacao = get_high_score()
     if pont > maior_pontuacao:
