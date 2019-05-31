@@ -19,7 +19,6 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # Carrega todos os assets de uma vez só
 def load_assets(img_dir, snd_dir, fnt_dir):
     assets = {}
-    assets["mob_img"] = pygame.image.load(path.join(img_dir, "inimigo.png")).convert()
     assets["laser_img"] = pygame.image.load(path.join(img_dir, "redlaser.png")).convert()
     assets["flocos_img"] = pygame.image.load(path.join(img_dir, "floco_de_neve.png")).convert()
     assets["flocos2_img"] = pygame.image.load(path.join(img_dir, "neve.png")).convert()
@@ -231,6 +230,16 @@ def principal(nomecolocado):
         # Cria um grupo só dos carrinhos inimigos
         mobs = pygame.sprite.Group()
 
+
+        inimigo=[]
+        for i in range(4):
+            filename = 'inimigo{}.png'.format(i)
+            inimigo_img = pygame.image.load(path.join(img_dir, filename)).convert()
+            inimigo_img = pygame.transform.scale(inimigo_img, (58, 75))  
+            inimigo_img.set_colorkey(WHITE)
+            inimigo.append(inimigo_img)
+        
+
         # Cria grupo para as moedas
         coin = pygame.sprite.Group()
 
@@ -245,7 +254,7 @@ def principal(nomecolocado):
 
         # Cria carrinhos e adiciona no grupo mobs
         for i in range(4):
-            m = Mob(assets['mob_img'])
+            m = Mob(inimigo)
             all_sprites.add(m)
             mobs.add(m)
             
