@@ -2,13 +2,13 @@ import pygame
 from init import BLACK, WIDTH, HEIGHT, img_dir, snd_dir, fnt_dir, WHITE, path
 import random
 
-# Classe Jogador que representa o carrinho
+# Classe Player que representa o carrinho
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
     def __init__(self, carro):
         
-         # Construtor da classe pai (Sprite).
+         # Construtor da classe (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carrega a animação da carro
@@ -55,34 +55,27 @@ class Player(pygame.sprite.Sprite):
 
         # Se já está na hora de mudar de imagem...
         if elapsed_ticks > self.frame_ticks:
-
             # Marca o tick da nova imagem.
             self.last_update = now
-
             # Avança um quadro.
             self.frame += 1
             if self.frame == len(self.carro):
                 self.frame = 0
-            
             center = self.rect.center
             self.image = self.carro[self.frame]
             self.rect = self.image.get_rect()
             self.rect.center = center
-              
-        
-    
-    
 
-# Classe Mob que representa os carrinhos
+# Classe Mob que representa os carrinhos inimigos
 class Mob(pygame.sprite.Sprite):
     
     # Construtor da classe.
     def __init__(self, inimigo):
         
-        # Construtor da classe pai (Sprite).
+        # Construtor da classe (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
-        # Carrega a animação do mob
+        # Carrega a animação do MOB
         self.inimigo = inimigo        
         
         # Inicia o processo de animação colocando a primeira imagem na tela.
@@ -93,16 +86,16 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        i=random.randrange(0,10)               # Sorteia uma faixa para aparecer carrinhos
-        if i <=2:
+        i = random.randrange(0,10)
+        if i <= 2:
             self.rect.x = 105
-        elif i <=4:
+        elif i <= 4:
             self.rect.x = 195
-        elif i <=6:
+        elif i <= 6:
             self.rect.x = 275
         elif i <= 8:
             self.rect.x = 365
-        elif i <=10:
+        elif i <= 10:
             self.rect.x = 455
         
         # Sorteia um lugar inicial em y
@@ -111,9 +104,9 @@ class Mob(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 9
 
+        # Define acerca do movimento aos lados do carrinho
         self.direction = 0 # -1 0 +1
         self.direction_count = 0
-
         self.reference = 0
         
         # Melhora a colisão estabelecendo um raio de um circulo
@@ -127,6 +120,8 @@ class Mob(pygame.sprite.Sprite):
         
     # Metodo que atualiza a posição do carrinho
     def update(self):
+
+        # Acerca do movimento para os lados
         if self.direction_count == 0:
             self.direction = random.randrange(3)-1
             self.direction_count=100
@@ -142,35 +137,6 @@ class Mob(pygame.sprite.Sprite):
 
         self.rect.x += self.direction * 2
         self.reference += self.direction * 2
-        # esquerda = -50
-        # direita = 50
-        # o=random.randrange(1,2)
-        # p=random.randrange(1,3)
-        # if self.rect.x == 100:
-        #     if o == 1:
-        #         self.rect.x +=0
-        #     else:
-        #         self.rect.x +=direita
-        #         if self.rect.x == 195:
-        #             self.rect.x=0
-        # if self.rect.x == 455:
-        #     if o == 1:
-        #         self.rect.x +=0
-        #     else:
-        #         self.rect.x +=esquerda
-        #         if self.rect.x==365:
-        #             self.rect.x+=0 
-        # if self.rect.x == 195:
-        #     if p == 1:
-        #         self.rect.x +=0
-        #     if p == 2:
-        #         self.rect.x +=direita
-        #         if self.rect.x == 280:
-        #             self.rect.x=0
-        #     if p == 3:
-        #         self.rect.x +=esquerda
-        #         if self.rect.x==100:
-        #             self.rect.x+=0 
 
         self.rect.y += self.speedy
 
@@ -182,29 +148,24 @@ class Mob(pygame.sprite.Sprite):
 
         # Se já está na hora de mudar de imagem...
         if elapsed_ticks > self.frame_ticks:
-
             # Marca o tick da nova imagem.
             self.last_update = now
-
             # Avança um quadro.
             self.frame += 1
             if self.frame == len(self.inimigo):
                 self.frame = 0
-            
             center = self.rect.center
             self.image = self.inimigo[self.frame]
             self.rect = self.image.get_rect()
             self.rect.center = center
-              
-        
-            
-        
+
+        # Não deixa sair da pista
         if self.rect.right > 520:
             self.rect.right = 520
         if self.rect.left < 90:
             self.rect.left = 90
         
-        # Se o carro passar do final da tela, volta para cima
+        # Quando o carro passar do final da tela, volta para cima e é sorteada uma posição novamente
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
 
             i=random.randrange(0,10)
@@ -227,6 +188,7 @@ class Mob(pygame.sprite.Sprite):
             self.speedy = random.randrange(10, 15)
             self.reference=0
 
+# Classe que representa os flocos de neve
 class Floco(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self, flocos_img):
@@ -247,8 +209,9 @@ class Floco(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        posicao_inicial=[195,280,365] # Posições iniciais dos flocos
-        i=random.randrange(0,3)               # Sorteia uma faixa para aparecer os flocos
+        posicao_inicial=[195,280,365] 
+        i=random.randrange(0,3)
+
         self.rect.x = posicao_inicial[i]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
@@ -258,7 +221,8 @@ class Floco(pygame.sprite.Sprite):
         
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = int(self.rect.width * 85 / 2)
-            
+
+    # Atualização da posição do floco      
     def update(self):
         
         self.rect.x += 0
@@ -292,8 +256,8 @@ class Coin(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais das moedas
-        i=random.randrange(0,5)               # Sorteia uma faixa para aparecer moedas
+        posicao_inicial=[100,195,280,365,455]
+        i=random.randrange(0,5)
         self.rect.x = posicao_inicial[i]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-100, -40)
@@ -345,13 +309,13 @@ class Coin(pygame.sprite.Sprite):
             self.speedx = random.randrange(-3, 3)
             self.speedy = 3
 
-# Classe Mob que representa os carrinhos
+# Classe BOX que representa as caixinhas
 class Box(pygame.sprite.Sprite):
     
     # Construtor da classe.
     def __init__(self, box_img):
         
-        # Construtor da classe pai (Sprite).
+        # Construtor da classe (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem.
@@ -367,8 +331,8 @@ class Box(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Sorteia um lugar inicial em x
-        posicao_inicial=[100,195,280,365,455] # Posições iniciais
-        i=random.randrange(0,10)               # Sorteia uma faixa para aparecer
+        posicao_inicial=[100,195,280,365,455]
+        i=random.randrange(0,10)
         if i <= 2:
             self.rect.x = posicao_inicial[0]
         elif i <= 4:
@@ -401,9 +365,9 @@ class Box(pygame.sprite.Sprite):
         
         # Se a caixa passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
+            
             posicao_inicial=[100,195,280,365,455]
             i=random.randrange(0,10)
-
             if i <= 2:
                 self.rect.x = posicao_inicial[0]
             elif i <= 4:
@@ -419,11 +383,12 @@ class Box(pygame.sprite.Sprite):
             self.speedx = 0
             self.speedy = 2
 
+# Classe que representa a nevasca (quando se tem contato com a neve)
 class Nevasca(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self, flocos2_img):
         
-        # Construtor da classe pai (Sprite).
+        # Construtor da classe (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Diminuindo o tamanho da imagem.
@@ -454,12 +419,13 @@ class Nevasca(pygame.sprite.Sprite):
         self.rect.x += random.randrange(0,5)
         self.rect.y += random.randrange(10,20)
         
+# Classe que representa os tiros
 class Laser(pygame.sprite.Sprite):
     
-    # Construtor da classe.
+    # Construtor da classe
     def __init__(self, laser_img, x, y):
         
-        # Construtor da classe pai (Sprite).
+        # Construtor da classe (Sprite).
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
@@ -476,7 +442,7 @@ class Laser(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.speedy = -10
 
-    # Metodo que atualiza a posição da navinha
+    # Metodo que atualiza a posição do laser
     def update(self):
         self.rect.y += self.speedy
         
