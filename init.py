@@ -14,3 +14,4 @@ FPS = 65 # Frames por segundo
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
+bright_YELLOW = (225, 255, 0)
