@@ -155,15 +155,15 @@ def tela_inicial(screen):
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 330))
         screen.blit(pedenome, thenew)
 
-        instruction= True
-        while instruction:
-            instrucao = pygame.image.load(path.join(img_dir, 'instrucao.png')).convert()
-            background_rect = background.get_rect()
-            screen.blit(instrucao, background_rect)
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        instruction = False
+        # instruction= True
+        # while instruction:
+        #     instrucao = pygame.image.load(path.join(img_dir, 'instrucao.png')).convert()
+        #     background_rect = background.get_rect()
+        #     screen.blit(instrucao, background_rect)
+        #     for event in pygame.event.get():
+        #         if event.type == pygame.KEYDOWN:
+        #             if event.key == pygame.K_RETURN:
+        #                 instruction = False
 
 
         pygame.display.flip()
