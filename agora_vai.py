@@ -294,7 +294,7 @@ def principal(nomecolocado):
         laser = pygame.sprite.Group()
 
         # Cria carrinhos e adiciona no grupo mobs
-        for i in range(3):
+        for i in range(4):
             m = Mob(inimigo)
             all_sprites.add(m)
             mobs.add(m)
@@ -425,7 +425,8 @@ def principal(nomecolocado):
                 destroy_sound.play()
                 m = Mob(inimigo) 
                 all_sprites.add(m)
-                mobs.add(m) 
+                mobs.add(m)
+                score += 5
             
             # Verifica se houve colisão entre os carrinhos
             hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)

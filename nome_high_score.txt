@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-VRAU
-=======
-NINGUEM
->>>>>>> 3aaecf79fb73b6a35c247ef09f5ba3dcadd01e5b
+a
