@@ -70,10 +70,9 @@ def get_name():
     return nomee
 
 # Função para os botões no final do jogo
-def button(msg, x, y, w, h, inactive, active, action=None):
+def button(msg, x, y, w, h, inactive, active):
 
     mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
 
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(screen, active, (x, y, w, h))
@@ -213,30 +212,47 @@ def tela_mostra_pontuacao(screen, nomecolocado, pont):
     screen.blit(poenome, thenew)
 
     # Colocando os botões 
-    button("RESTART", 180, 540, 75, 50, YELLOW, bright_YELLOW, "restart")
-    button("QUIT", 345, 540, 75, 50, WHITE, WHITE, "quit")
+    button("RESTART (R)", 180, 540, 75, 50, YELLOW, bright_YELLOW)
+    button("QUIT (Q )", 345, 540, 75, 50, WHITE, WHITE)
 
     # Vendo se a pessoa foi recordista ou não
     maior_pontuacao = get_high_score()
-    if pont > maior_pontuacao:
-            poenome, thenew = text_object('O MAIS NOVO', largeText)
-            thenew.center = ((WIDTH/2),(HEIGHT/2 - 100))
-            screen.blit(poenome, thenew)
-            poenome, thenew = text_object('RECORDISTA!', largeText)
-            thenew.center = ((WIDTH/2),(HEIGHT/2 - 40))
-            screen.blit(poenome, thenew)
+    if pont >= maior_pontuacao:
+        poenome, thenew = text_object('O MAIS NOVO', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 100))
+        screen.blit(poenome, thenew)
+        poenome, thenew = text_object('RECORDISTA!', largeText)
+        thenew.center = ((WIDTH/2),(HEIGHT/2 - 40))
+        screen.blit(poenome, thenew)
 
     pygame.display.flip()
     clock.tick(30)
 
-    # Esperar alguns segundos para a pessoa poder ler a informação
-    time.sleep(3)
+    done = False
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_q:
+                    principal("")
+                    done = True
+                if event.key == pygame.K_r:
+                    principal(nomecolocado) 
+                    done = True
 
 # Função principal do jogo, onde todas as ações estão
 def principal(nomecolocado):
 
     game_roda = True   
     while game_roda:        
+
+        a = random.randint(0, 10)
+        if a % 2 == 0:
+            pygame.mixer.music.load(path.join(snd_dir, 'top_gear.wav'))
+            pygame.mixer.music.set_volume(1) 
+        else:
+            pygame.mixer.music.load(path.join(snd_dir, 'top_gear0.wav'))
+            pygame.mixer.music.set_volume(1) 
 
         # Carrega a fonte para desenhar o score.
         score_font = assets["score_font"]
@@ -320,8 +336,9 @@ def principal(nomecolocado):
         contagemdetiros = 3
         score = 0
 
-        # Pegar o nome colocado pela pessoa chamando a função da tela inicial
-        nomecolocado = tela_inicial(screen)
+        if nomecolocado == "":
+            # Pegar o nome colocado pela pessoa chamando a função da tela inicial
+            nomecolocado = tela_inicial(screen)
 
         # Loop principal
         running = True
@@ -479,11 +496,14 @@ def principal(nomecolocado):
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()
 
+            # Chamando a função para ver se a pessoa fez a maior pontuação
+            maior_pontuacao(pont, nomecolocado)
+
+        # Chamando para aparecer na tela se for o maior pontuador
+        maior_pontuacao(pont, nomecolocado)
+
         # Chama a tela final para mostrar a pontuação da pessoa
         tela_mostra_pontuacao(screen, nomecolocado, pont)
-
-        # Chamando a função para ver se a pessoa fez a maior pontuação
-        maior_pontuacao(pont, nomecolocado)
 
         # Matando os mobs e o player para fazê-lo novamente quando voltar o loop
         for mobs in all_sprites:
@@ -514,7 +534,7 @@ background_rect_cima = background.get_rect()
 background_rect_cima.y = -HEIGHT
 
 # Carrega os sons do jogo. O principal e seu som
-pygame.mixer.music.load(path.join(snd_dir, 'joguito.mp3'))
+pygame.mixer.music.load(path.join(snd_dir, 'top_gear.wav'))
 pygame.mixer.music.set_volume(1) 
 
 boom_sound = assets['boom_sound']
