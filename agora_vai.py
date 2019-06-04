@@ -171,7 +171,6 @@ def tela_inicial(screen):
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 330))
         screen.blit(pedenome, thenew)
 
-<<<<<<< HEAD
         # instruction= True
         # while instruction:
         #     instrucao = pygame.image.load(path.join(img_dir, 'instrucao.png')).convert()
@@ -182,9 +181,6 @@ def tela_inicial(screen):
         #             if event.key == pygame.K_RETURN:
         #                 instruction = False
 
-
-=======
->>>>>>> 1eadb42582089a953816cc63f15384dfd34a9cdd
         pygame.display.flip()
         clock.tick(30)
 
