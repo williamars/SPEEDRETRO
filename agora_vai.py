@@ -69,7 +69,7 @@ def get_name():
     nome.close()
     return nomee
 
-# Função para os botões no final do jogo
+# Função para os "botões" no final do jogo
 def button(msg, x, y, w, h, inactive, active):
 
     mouse = pygame.mouse.get_pos()
@@ -170,16 +170,6 @@ def tela_inicial(screen):
         thenew.center = ((WIDTH/2),(HEIGHT/2 - 330))
         screen.blit(pedenome, thenew)
 
-        # instruction= True
-        # while instruction:
-        #     instrucao = pygame.image.load(path.join(img_dir, 'instrucao.png')).convert()
-        #     background_rect = background.get_rect()
-        #     screen.blit(instrucao, background_rect)
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.KEYDOWN:
-        #             if event.key == pygame.K_RETURN:
-        #                 instruction = False
-
         pygame.display.flip()
         clock.tick(30)
 
@@ -228,11 +218,11 @@ def tela_mostra_pontuacao(screen, nomecolocado, pont):
     pygame.display.flip()
     clock.tick(30)
 
+    # Coloca ações para os "botões" do final do jogo
     done = False
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-
                 if event.key == pygame.K_q:
                     principal("")
                     done = True
@@ -246,6 +236,7 @@ def principal(nomecolocado):
     game_roda = True   
     while game_roda:        
 
+        # Sorteia uma música para o jogo
         a = random.randint(0, 10)
         if a % 2 == 0:
             pygame.mixer.music.load(path.join(snd_dir, 'top_gear.wav'))
@@ -336,6 +327,7 @@ def principal(nomecolocado):
         contagemdetiros = 3
         score = 0
 
+        # Um if para caso a pessoa aperte RESTART não precise colocar o nome novamente
         if nomecolocado == "":
             # Pegar o nome colocado pela pessoa chamando a função da tela inicial
             nomecolocado = tela_inicial(screen)
@@ -534,23 +526,17 @@ background_rect = background.get_rect()
 background_rect_cima = background.get_rect()
 background_rect_cima.y = -HEIGHT
 
-# Carrega os sons do jogo. O principal e seu som
-pygame.mixer.music.load(path.join(snd_dir, 'top_gear.wav'))
-pygame.mixer.music.set_volume(1) 
-
+# Carrega os sons do jogo
 boom_sound = assets['boom_sound']
 destroy_sound = assets['destroy_sound']
 pew_sound = assets['pew_sound']
 Ta_Da = assets['box_sound']
 moeda = assets['moeda_sound']
 
-# Definindo o nome da pessoa como uma string vazia apenas para chamar a função
-nomecolocado = ''
-
 # Comando para evitar travamentos.
 try: 
     
-    principal(nomecolocado)
+    principal('')
 
 finally:
     
