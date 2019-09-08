@@ -5,7 +5,7 @@ img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
 fnt_dir = path.join(path.dirname(__file__), 'font')
 
-# Dados gerais do jogo.
+# Dados gerais do jogo
 WIDTH = 600 # Largura da tela
 HEIGHT = 800 # Altura da tela
 FPS = 65 # Frames por segundo

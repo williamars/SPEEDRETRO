@@ -5,7 +5,7 @@ import random
 # Classe Player que representa o carrinho
 class Player(pygame.sprite.Sprite):
     
-    # Construtor da classe.
+    # Construtor da classe
     def __init__(self, carro):
         
          # Construtor da classe (Sprite).
