@@ -1,7 +1,7 @@
     
 # SPEEDRETRO
 
-SpeedRetro é um jogo Arcade desenvolvido no Python 3.7, através do módulo Pygame, pelos alunos de engenharia do Insper [Marcelo Cesário Miguel](), [João Guilherme Cintra de Freitas Almeida]() e [William Augusto Reis da Silva](), cursando a disciplina Design de Software e foi inspirado no game Retro Speed 2. 
+SpeedRetro é um jogo Arcade desenvolvido no Python 3.7, através do módulo Pygame, pelos alunos de engenharia do Insper [Marcelo Cesário Miguel](https://github.com/Marcelo-Cesario-Miguel), [João Guilherme Cintra de Freitas Almeida](https://github.com/joaogcfa) e [William Augusto Reis da Silva](https://github.com/williamars), cursando a disciplina Design de Software e foi inspirado no game Retro Speed 2. 
 
 Single player, no qual o jogador controla um carro, numa visão de cima para baixo, o jogo tem como objetivo o desvio dos carros que aparecem na pista, além de ficar sem bater no canto delas. Ademais, é necessário sobreviver a adversidades que aparecerem em meio ao jogo. 
 
