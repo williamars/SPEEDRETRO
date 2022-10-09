@@ -1,5 +1,5 @@
 import pygame
-from init import BLACK, WIDTH, HEIGHT, img_dir, snd_dir, fnt_dir, WHITE, path
+from init import BLACK, WIDTH, HEIGHT, WHITE
 import random
 
 # Classe Player que representa o carrinho
